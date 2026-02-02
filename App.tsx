@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, createContext, useContext } from 'react';
+import ReactDOM from 'react-dom/client';
 import { HashRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, X, LayoutDashboard, User as UserIcon, Loader2 } from 'lucide-react';
@@ -214,5 +215,16 @@ const App = () => {
     </AuthContext.Provider>
   );
 };
+
+// Root Mounting Logic (Merged from index.tsx)
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+}
 
 export default App;
