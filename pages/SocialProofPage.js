@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MOCK_REVIEWS } from '../constants';
+import { MOCK_REVIEWS } from '../constants.js';
 import { Star, MessageCircle, ThumbsUp, Share2, Play } from 'lucide-react';
 
 const SocialProofPage = () => {
@@ -31,7 +31,7 @@ const SocialProofPage = () => {
             </p>
 
             <div className="relative aspect-video bg-slate-900">
-              <img src={`https://picsum.photos/seed/fb${i}/800/450`} className="w-full h-full object-cover" />
+              <img src={`https://picsum.photos/seed/fb${i}/800/450`} className="w-full h-full object-cover" alt="Post" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center">
                    <Play fill="white" className="text-white ml-1" />
@@ -68,7 +68,7 @@ const SocialProofPage = () => {
       <section className="px-6">
         <h2 className="text-2xl font-black text-slate-900 tracking-tighter uppercase mb-6">Customer Reviews</h2>
         <div className="space-y-4">
-          {MOCK_REVIEWS.map((review, i) => (
+          {MOCK_REVIEWS.map((review) => (
             <motion.div 
               key={review.id}
               initial={{ opacity: 0, y: 20 }}
@@ -76,7 +76,7 @@ const SocialProofPage = () => {
               className="bg-slate-50 p-6 rounded-3xl border border-slate-100"
             >
               <div className="flex items-center gap-4 mb-4">
-                <img src={review.photo} className="w-12 h-12 rounded-2xl object-cover" />
+                <img src={review.photo} className="w-12 h-12 rounded-2xl object-cover" alt={review.name} />
                 <div>
                   <h4 className="font-bold text-slate-900">{review.name}</h4>
                   <div className="flex text-yellow-400 gap-0.5">

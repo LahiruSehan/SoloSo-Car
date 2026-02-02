@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOCK_STORIES } from '../constants';
+import { MOCK_STORIES } from '../constants.js';
 import { Play, Volume2, Share2, Heart } from 'lucide-react';
 
 const MediaPage = () => {

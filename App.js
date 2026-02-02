@@ -103,7 +103,7 @@ const AppContent = () => {
                 </button>
               </div>
 
-              <nav className="flex flex-col gap-8 text-3xl font-black text-slate-900 uppercase tracking-tighter">
+              <nav className="flex flex-col gap-8 text-3xl font-black text-slate-900 uppercase tracking-tighter text-left">
                 <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
                 <Link to="/inventory" onClick={() => setIsMenuOpen(false)}>Stock</Link>
                 <Link to="/about" onClick={() => setIsMenuOpen(false)}>Our Story</Link>

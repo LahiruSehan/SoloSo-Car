@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>SOLO-SO CAR SALE | Premium Vehicle Imports</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Babel standalone allows JSX in .js files directly in the browser -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Use a specific stable version of Babel to avoid the esmodules error -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.18.10/babel.min.js"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -42,15 +44,14 @@
     "react-router-dom": "https://esm.sh/react-router-dom@7.1.3?deps=react@19.0.0",
     "lucide-react": "https://esm.sh/lucide-react@0.469.0?deps=react@19.0.0",
     "framer-motion": "https://esm.sh/framer-motion@11.15.0?deps=react@19.0.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.93.3"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>
   </head>
   <body>
     <div id="root"></div>
-    <!-- type="text/babel" and data-type="module" are key for browser-side JSX -->
-    <script type="text/babel" data-type="module" src="./index.js"></script>
+    <!-- Explicitly set presets to avoid auto-config issues -->
+    <script type="text/babel" data-presets="react" data-type="module" src="./index.js"></script>
   </body>
 </html>

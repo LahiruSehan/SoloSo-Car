@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MOCK_CARS } from '../constants';
-import CarCard from '../components/CarCard';
+import { MOCK_CARS } from '../constants.js';
+import CarCard from '../components/CarCard.js';
 import { Search, SlidersHorizontal } from 'lucide-react';
 
 const InventoryPage = () => {
