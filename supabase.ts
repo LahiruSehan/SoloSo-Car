@@ -20,23 +20,27 @@ const createMockSupabase = () => ({
   auth: {
     getSession: async () => ({ data: { session: null }, error: null }),
     onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
-    // Fixed: Mock auth methods should return data with user and session as null instead of an empty object
-    // to match Supabase's AuthResponse structure and fix TypeScript errors during property access.
-    signInWithPassword: async (_credentials?: any) => ({ 
+    signInWithPassword: async () => ({ 
       data: { user: null, session: null }, 
-      error: { message: 'Supabase not configured' } 
+      error: { message: 'Supabase URL not configured' } 
     }),
-    signUp: async (_credentials?: any) => ({ 
+    signUp: async () => ({ 
       data: { user: null, session: null }, 
-      error: { message: 'Supabase not configured' } 
+      error: { message: 'Supabase URL not configured' } 
     }),
     signOut: async () => ({ error: null })
   },
   from: () => ({
-    select: () => ({ order: () => Promise.resolve({ data: [], error: null }) }),
-    update: () => ({ eq: () => Promise.resolve({ error: { message: 'Supabase not configured' } }) }),
-    insert: () => Promise.resolve({ error: { message: 'Supabase not configured' } }),
-    delete: () => ({ eq: () => Promise.resolve({ error: { message: 'Supabase not configured' } }) })
+    select: () => ({ 
+      order: () => Promise.resolve({ data: [], error: null }) 
+    }),
+    update: () => ({ 
+      eq: () => Promise.resolve({ error: { message: 'Offline Mode' } }) 
+    }),
+    insert: () => Promise.resolve({ error: { message: 'Offline Mode' } }),
+    delete: () => ({ 
+      eq: () => Promise.resolve({ error: { message: 'Offline Mode' } }) 
+    })
   })
 });
 
@@ -45,5 +49,5 @@ export const supabase = isValidUrl(supabaseUrl) && supabaseAnonKey
   : createMockSupabase();
 
 if (!isValidUrl(supabaseUrl)) {
-  console.warn('Supabase URL is missing or invalid. Check environment variables.');
+  console.warn('SOLO-SO: Supabase environment variables are missing. Running in demonstration mode.');
 }

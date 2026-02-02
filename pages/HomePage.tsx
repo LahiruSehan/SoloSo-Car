@@ -6,8 +6,14 @@ import { ArrowUpRight, ShieldCheck, Globe, Clock, MessageCircle } from 'lucide-r
 import { TRUST_STATS } from '../constants';
 
 const HERO_IMAGES = [
-  "https://i.ibb.co/zhWCY3t3/Best-Cars.png",
-  "https://i.ibb.co/gMwFSm5d/Best-Cars2.png"
+  "https://i.ibb.co/GfLm2Pv5/Best-Cars8.png",
+  "https://i.ibb.co/gM0CFQbX/Best-Cars7.png",
+  "https://i.ibb.co/0j5Rb2x7/Best-Cars6.png",
+  "https://i.ibb.co/spVbdMxC/Best-Cars5.png",
+  "https://i.ibb.co/tw4zzZRf/Best-Cars4.png",
+  "https://i.ibb.co/kgFs37Jw/Best-Cars3.png",
+  "https://i.ibb.co/gMwFSm5d/Best-Cars2.png",
+  "https://i.ibb.co/zhWCY3t3/Best-Cars.png"
 ];
 
 const HomePage = () => {
@@ -17,7 +23,7 @@ const HomePage = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setBgIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 5000);
+    }, 3000); // 3 seconds interval
     return () => clearInterval(timer);
   }, []);
 
@@ -35,17 +41,16 @@ const HomePage = () => {
               key={HERO_IMAGES[bgIndex]}
               src={HERO_IMAGES[bgIndex]} 
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.8 }}
+              animate={{ opacity: 0.85 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
               className="absolute inset-0 w-full h-full object-cover"
-              alt="Best Cars Hero"
+              alt="Solo So Premium Car"
             />
           </AnimatePresence>
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/50"></div>
         </div>
 
-        {/* Content block moved up by 30px (from pb-[66px] to pb-[96px]) */}
         <div className="relative z-10 p-8 pb-[96px] space-y-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -156,7 +161,7 @@ const HomePage = () => {
 
       {/* Footer Branding */}
       <footer className="px-8 py-16 border-t border-slate-50 flex flex-col items-center gap-6">
-        <img src="https://i.ibb.co/ZRgLvTJ9/Best-Cars.png" alt="Solo So" className="h-12" />
+        <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" className="h-12" />
         <p className="text-slate-300 text-[10px] font-black uppercase tracking-widest text-center">
           © 2024 Solo-So Car Sale Pvt Ltd. <br /> Marawila, Sri Lanka.
         </p>

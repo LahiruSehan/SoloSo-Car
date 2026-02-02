@@ -1,10 +1,8 @@
 
-import React, { useState, useEffect, createContext, useContext } from 'react';
-import { HashRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, X, LayoutDashboard, User as UserIcon, Loader2 } from 'lucide-react';
-import { User } from './types';
-import { supabase } from './supabase';
+import { Phone, X, MessageCircle } from 'lucide-react';
 
 // Components
 import Header from './components/Header';
@@ -16,17 +14,8 @@ import HomePage from './pages/HomePage';
 import InventoryPage from './pages/InventoryPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
-import AuthPage from './pages/AuthPage';
-import AdminDashboard from './pages/AdminDashboard';
-
-// Auth Context
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  logout: () => Promise<void>;
-}
-const AuthContext = createContext<AuthContextType>({ user: null, loading: true, logout: async () => {} });
-export const useAuth = () => useContext(AuthContext);
+import MediaPage from './pages/MediaPage';
+import SocialProofPage from './pages/SocialProofPage';
 
 const PageTransition = ({ children }: { children?: React.ReactNode }) => {
   const location = useLocation();
@@ -45,21 +34,8 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const ProtectedRoute = ({ children }: { children?: React.ReactNode }) => {
-  const { user, loading } = useAuth();
-  if (loading) return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-      <Loader2 className="animate-spin text-[#0A5CFF] mb-4" size={40} />
-      <p className="text-slate-400 font-black text-[10px] uppercase tracking-widest">Verifying Session...</p>
-    </div>
-  );
-  if (!user || user.role !== 'admin') return <Navigate to="/auth" />;
-  return <>{children}</>;
-};
-
 const AppContent = () => {
   const location = useLocation();
-  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showFloating, setShowFloating] = useState(false);
 
@@ -87,12 +63,8 @@ const AppContent = () => {
             <Route path="/inventory" element={<PageTransition><InventoryPage /></PageTransition>} />
             <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
             <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
-            <Route path="/auth" element={<PageTransition><AuthPage /></PageTransition>} />
-            <Route path="/admin" element={
-              <ProtectedRoute>
-                <PageTransition><AdminDashboard /></PageTransition>
-              </ProtectedRoute>
-            } />
+            <Route path="/media" element={<PageTransition><MediaPage /></PageTransition>} />
+            <Route path="/reviews" element={<PageTransition><SocialProofPage /></PageTransition>} />
           </Routes>
         </AnimatePresence>
 
@@ -138,14 +110,17 @@ const AppContent = () => {
                 <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
                 <Link to="/inventory" onClick={() => setIsMenuOpen(false)}>Stock</Link>
                 <Link to="/about" onClick={() => setIsMenuOpen(false)}>Our Story</Link>
+                <Link to="/reviews" onClick={() => setIsMenuOpen(false)}>Reviews</Link>
                 <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
                 <div className="h-px bg-slate-100 my-4" />
-                {user?.role === 'admin' && <Link to="/admin" onClick={() => setIsMenuOpen(false)} className="text-[#0A5CFF]">Admin Console</Link>}
-                {user ? (
-                  <button onClick={() => { logout(); setIsMenuOpen(false); }} className="text-red-500 text-left">Logout</button>
-                ) : (
-                  <Link to="/auth" onClick={() => setIsMenuOpen(false)} className="bg-[#0A5CFF] text-white px-8 py-4 rounded-2xl text-center shadow-xl shadow-blue-500/20">Login</Link>
-                )}
+                <a 
+                  href="https://wa.me/94701999999" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="bg-[#25D366] text-white px-8 py-4 rounded-2xl text-center shadow-xl flex items-center justify-center gap-2 text-xl"
+                >
+                  <MessageCircle size={24} fill="currentColor" /> WhatsApp
+                </a>
               </nav>
             </motion.div>
           )}
@@ -156,57 +131,10 @@ const AppContent = () => {
 };
 
 const App = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            role: session.user.email?.endsWith('@solo.so') ? 'admin' : 'user'
-          });
-        }
-      } catch (err) {
-        console.error('Auth initialization error:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    initializeAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email || '',
-          role: session.user.email?.endsWith('@solo.so') ? 'admin' : 'user'
-        });
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
-    return () => subscription?.unsubscribe();
-  }, []);
-
-  const logout = async () => {
-    try {
-      await supabase.auth.signOut();
-    } catch (err) {
-      console.error('Logout error:', err);
-    }
-  };
-
   return (
-    <AuthContext.Provider value={{ user, loading, logout }}>
+    <Router>
       <AppContent />
-    </AuthContext.Provider>
+    </Router>
   );
 };
 

@@ -1,37 +1,16 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { supabase } from '../supabase';
+import { MOCK_CARS } from '../constants';
 import { Car } from '../types';
 import CarCard from '../components/CarCard';
 import { Search, SlidersHorizontal } from 'lucide-react';
 
 const InventoryPage = () => {
-  const [cars, setCars] = useState<Car[]>([]);
-  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('All');
   const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    fetchCars();
-  }, []);
-
-  const fetchCars = async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from('cars')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
-    if (error) {
-      console.error('Error fetching cars:', error);
-    } else {
-      setCars(data || []);
-    }
-    setLoading(false);
-  };
-
-  const filteredCars = cars.filter(car => {
+  const filteredCars = MOCK_CARS.filter(car => {
     const matchesFilter = filter === 'All' || car.condition === filter;
     const matchesSearch = car.brand.toLowerCase().includes(search.toLowerCase()) || 
                           car.model.toLowerCase().includes(search.toLowerCase());
@@ -74,11 +53,7 @@ const InventoryPage = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-        {loading ? (
-          [1, 2, 3].map(i => (
-            <div key={i} className="h-[400px] w-full bg-slate-100 animate-pulse rounded-[32px]"></div>
-          ))
-        ) : filteredCars.length > 0 ? (
+        {filteredCars.length > 0 ? (
           filteredCars.map((car, idx) => (
             <motion.div
               key={car.id}
