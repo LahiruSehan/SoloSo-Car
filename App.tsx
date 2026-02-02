@@ -2,7 +2,7 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, X, LayoutDashboard, User as UserIcon } from 'lucide-react';
+import { Phone, X, LayoutDashboard, User as UserIcon, Loader2 } from 'lucide-react';
 import { User } from './types';
 import { supabase } from './supabase';
 
@@ -47,7 +47,12 @@ const PageTransition = ({ children }: { children?: React.ReactNode }) => {
 
 const ProtectedRoute = ({ children }: { children?: React.ReactNode }) => {
   const { user, loading } = useAuth();
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (loading) return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+      <Loader2 className="animate-spin text-[#0A5CFF] mb-4" size={40} />
+      <p className="text-slate-400 font-black text-[10px] uppercase tracking-widest">Verifying Session...</p>
+    </div>
+  );
   if (!user || user.role !== 'admin') return <Navigate to="/auth" />;
   return <>{children}</>;
 };
@@ -157,19 +162,26 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email || '',
-          role: session.user.email?.endsWith('@solo.so') ? 'admin' : 'user'
-        });
+    // Initializing Supabase state
+    const initializeAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          setUser({
+            id: session.user.id,
+            email: session.user.email || '',
+            role: session.user.email?.endsWith('@solo.so') ? 'admin' : 'user'
+          });
+        }
+      } catch (err) {
+        console.error('Auth initialization error:', err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    });
+    };
 
-    // Listen for auth changes
+    initializeAuth();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
         setUser({
@@ -183,11 +195,15 @@ const App = () => {
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => subscription?.unsubscribe();
   }, []);
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
   };
 
   return (
