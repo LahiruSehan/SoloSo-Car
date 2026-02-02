@@ -2,15 +2,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Home, Car, MessageCircle, Info } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const Navigation = () => {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-[100] bg-white/80 backdrop-blur-xl border-t border-slate-100 px-6 pt-4 pb-8 flex justify-between items-center max-w-full md:max-w-md lg:max-w-lg mx-auto shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
-      <NavItem to="/" icon={React.createElement(Home, { size: 22 })} label="Home" />
-      <NavItem to="/inventory" icon={React.createElement(Car, { size: 22 })} label="Stock" />
-      <NavItem to="/about" icon={React.createElement(Info, { size: 22 })} label="Story" />
-      <NavItem to="/contact" icon={React.createElement(MessageCircle, { size: 22 })} label="Inquiry" />
+      <NavItem to="/" icon={<Home size={22} />} label="Home" />
+      <NavItem to="/inventory" icon={<Car size={22} />} label="Stock" />
+      <NavItem to="/about" icon={<Info size={22} />} label="Story" />
+      <NavItem to="/contact" icon={<MessageCircle size={22} />} label="Inquiry" />
     </nav>
   );
 };

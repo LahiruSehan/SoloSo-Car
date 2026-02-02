@@ -4,18 +4,15 @@ import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-ro
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, X, MessageCircle } from 'lucide-react';
 
-// Components
-import Header from './components/Header';
-import WhatsAppButton from './components/WhatsAppButton';
-import Navigation from './components/Navigation';
-
-// Pages
-import HomePage from './pages/HomePage';
-import InventoryPage from './pages/InventoryPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import MediaPage from './pages/MediaPage';
-import SocialProofPage from './pages/SocialProofPage';
+import Header from './components/Header.js';
+import WhatsAppButton from './components/WhatsAppButton.js';
+import Navigation from './components/Navigation.js';
+import HomePage from './pages/HomePage.js';
+import InventoryPage from './pages/InventoryPage.js';
+import AboutPage from './pages/AboutPage.js';
+import ContactPage from './pages/ContactPage.js';
+import MediaPage from './pages/MediaPage.js';
+import SocialProofPage from './pages/SocialProofPage.js';
 
 const PageTransition = ({ children }) => {
   const location = useLocation();

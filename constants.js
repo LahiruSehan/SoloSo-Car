@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Ship, FileText, Tag, Truck, ShieldCheck, Globe, Clock, BadgeCheck } from 'lucide-react';
+import { Ship, Globe, ShieldCheck, Truck } from 'lucide-react';
 
 export const BRAND_COLORS = {
   primary: '#0A5CFF',
@@ -52,31 +52,31 @@ export const MOCK_CARS = [
 ];
 
 export const TRUST_STATS = [
-  { label: 'Cars Delivered', value: 1250, icon: '🚗', color: '#0A5CFF' },
-  { label: 'Years Experience', value: 12, icon: '🏆', color: '#6366F1' },
-  { label: 'Custom Success', value: 100, icon: '✅', suffix: '%', color: '#25D366' },
-  { label: 'Global Partners', value: 45, icon: '🌐', color: '#F59E0B' }
+  { label: 'Cars Delivered', value: 1250, icon: '🚗' },
+  { label: 'Years Experience', value: 12, icon: '🏆' },
+  { label: 'Custom Success', value: 100, icon: '✅', suffix: '%' },
+  { label: 'Global Partners', value: 45, icon: '🌐' }
 ];
 
 export const OUR_PROCESS = [
   {
     title: 'Source & Select',
-    icon: React.createElement(Globe, { size: 24 }),
+    icon: <Globe size={24} />,
     desc: 'We source only grade 4.5+ vehicles from premium Japanese and European auctions.'
   },
   {
     title: 'Legal Clearance',
-    icon: React.createElement(ShieldCheck, { size: 24 }),
+    icon: <ShieldCheck size={24} />,
     desc: 'Every document is strictly verified for 100% Sri Lankan customs compliance.'
   },
   {
     title: 'Shipping & Log',
-    icon: React.createElement(Ship, { size: 24 }),
+    icon: <Ship size={24} />,
     desc: 'Fast tracking and safe RO-RO shipping directly to Colombo or Hambantota port.'
   },
   {
     title: 'Home Delivery',
-    icon: React.createElement(Truck, { size: 24 }),
+    icon: <Truck size={24} />,
     desc: 'Registered and delivered right to your doorstep with full detailing service.'
   }
 ];
@@ -87,7 +87,7 @@ export const MOCK_REVIEWS = [
     name: 'Dilshan Perera',
     rating: 5,
     date: 'OCT 2023',
-    comment: 'Exceptional service. The Toyota Land Cruiser I imported through Solo-So was exactly as described in the auction report. Highly recommended for direct imports.',
+    comment: 'Exceptional service. Highly recommended.',
     photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop'
   },
   {
@@ -95,7 +95,7 @@ export const MOCK_REVIEWS = [
     name: 'Sanduni Jayawardena',
     rating: 5,
     date: 'SEP 2023',
-    comment: 'The team at Solo-So made the entire import process so easy. From bidding to clearing, they handled everything. Very transparent pricing.',
+    comment: 'The team at Solo-So made the entire import process so easy.',
     photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop'
   }
 ];
@@ -112,11 +112,5 @@ export const MOCK_STORIES = [
     type: 'video',
     url: 'https://assets.mixkit.co/videos/preview/mixkit-fast-car-moving-on-a-highway-34538-large.mp4',
     title: 'Port Clearance in Progress'
-  },
-  {
-    id: '3',
-    type: 'image',
-    url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800&auto=format&fit=crop',
-    title: 'Customer Delivery: Chevrolet Camaro'
   }
 ];

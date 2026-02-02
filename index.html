@@ -6,40 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>SOLO-SO CAR SALE | Premium Vehicle Imports</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Babel standalone allows JSX in .js files directly in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-      /* Absolute removal of scrollbars for a premium mobile app feel */
       html, body {
         scrollbar-width: none !important;
         -ms-overflow-style: none !important;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
       }
-      ::-webkit-scrollbar {
-        display: none !important;
-        width: 0 !important;
-        height: 0 !important;
-      }
+      ::-webkit-scrollbar { display: none !important; }
       body {
         font-family: 'Inter', sans-serif;
         background-color: #F6F8FC;
-        overflow-x: hidden;
-        margin: 0;
-        padding: 0;
+        margin: 0; padding: 0;
         -webkit-tap-highlight-color: transparent;
       }
-      #root {
-        min-height: 100vh;
+      #root { min-height: 100vh; }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      @keyframes heartbeat {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
       }
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
+      .heartbeat { animation: heartbeat 2s infinite ease-in-out; }
     </style>
     <script type="importmap">
 {
@@ -50,14 +42,15 @@
     "react-router-dom": "https://esm.sh/react-router-dom@7.1.3?deps=react@19.0.0",
     "lucide-react": "https://esm.sh/lucide-react@0.469.0?deps=react@19.0.0",
     "framer-motion": "https://esm.sh/framer-motion@11.15.0?deps=react@19.0.0",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.47.10",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.93.3"
   }
 }
 </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./index.js"></script>
+    <!-- type="text/babel" and data-type="module" are key for browser-side JSX -->
+    <script type="text/babel" data-type="module" src="./index.js"></script>
   </body>
 </html>
