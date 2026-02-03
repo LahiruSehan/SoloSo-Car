@@ -1,8 +1,0 @@
-{
-  "name": "SOLO-SO CAR SALE",
-  "description": "Premium mobile-only vehicle import platform for Sri Lanka. Trust-driven, modern, and built for conversion via WhatsApp.",
-  "requestFramePermissions": [
-    "camera",
-    "microphone"
-  ]
-}
