@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solo So Auto | Marawila</title>
+    <title>Solo So Auto | The Gold Standard in Mobility</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +33,6 @@
                         'spin-slow': 'spin 12s linear infinite',
                         'float': 'float 6s ease-in-out infinite',
                         'pulse-glow': 'pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'marquee': 'marquee 25s linear infinite',
                     },
                     keyframes: {
                         float: {
@@ -43,10 +42,6 @@
                         'pulse-glow': {
                             '0%, 100%': { opacity: '1', transform: 'scale(1)' },
                             '50%': { opacity: '.5', transform: 'scale(0.95)' },
-                        },
-                        marquee: {
-                            '0%': { transform: 'translateX(0)' },
-                            '100%': { transform: 'translateX(-100%)' },
                         }
                     }
                 }
@@ -131,7 +126,8 @@
             transition: opacity 1.5s ease-in-out, transform 8s ease-out;
             transform: scale(1.05);
             background-size: cover;
-            background-position: center;
+            /* CHANGED: Align to top for 9:16 images */
+            background-position: top center;
         }
         .hero-slide.active {
             opacity: 1;
@@ -163,12 +159,15 @@
         }
         .loaded .loader-content { opacity: 0; pointer-events: none; }
 
-        /* Navigation Glass */
+        /* Navigation Styles */
+        /* Default Glass (Home Top) */
         .nav-glass {
-            background: rgba(255, 255, 255, 0.01);
-            backdrop-filter: blur(12px);
+            background: rgba(2, 6, 23, 0.2); /* Slight dark tint for white text readability */
+            backdrop-filter: blur(8px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
+        
+        /* Scrolled / Inner Page State */
         .nav-solid {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
@@ -191,36 +190,19 @@
             overflow: hidden;
         }
 
-        /* Mobile Auto Scroll */
+        /* Mobile Scroll Snap */
+        .snap-x {
+            scroll-snap-type: x mandatory;
+        }
+        .snap-center {
+            scroll-snap-align: center;
+        }
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
-        }
-        .scroller-inner {
-            display: flex;
-            gap: 1rem;
-            animation: scroll 20s linear infinite;
-        }
-        /* Only apply animation on mobile/tablet via standard breakpoint if needed, 
-           or use JS for better control. We will use CSS animation here. */
-        @media (max-width: 768px) {
-            .mobile-marquee-container {
-                overflow: hidden;
-                width: 100%;
-                position: relative;
-            }
-            .mobile-marquee-track {
-                display: flex;
-                gap: 2rem;
-                width: max-content;
-                animation: marquee 30s linear infinite;
-            }
-            .mobile-marquee-track:hover {
-                animation-play-state: paused;
-            }
         }
     </style>
 </head>
@@ -237,11 +219,13 @@
     </div>
 
     <!-- --- NAVIGATION --- -->
-    <header id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-500 h-24 flex items-center nav-glass">
+    <!-- Height reduced from h-24 to h-20 by default -->
+    <header id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-500 h-20 flex items-center nav-glass">
         <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
             <!-- Logo -->
             <a href="#" onclick="navigateTo('home')" class="group relative z-10 block">
-                <img id="nav-logo" src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-12 w-auto object-contain transition-all duration-300 filter brightness-0 invert">
+                <!-- Starts White (invert brightness-0) -->
+                <img id="nav-logo" src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-10 w-auto object-contain transition-all duration-300 filter brightness-0 invert">
             </a>
 
             <!-- Desktop Menu -->
@@ -259,8 +243,8 @@
 
             <!-- Mobile Burger -->
             <button onclick="toggleMenu()" class="lg:hidden relative z-50 w-10 h-10 flex flex-col justify-center items-end gap-1.5 group">
-                <span class="w-6 h-0.5 bg-white transition-all group-hover:w-8 menu-line"></span>
-                <span class="w-4 h-0.5 bg-white transition-all group-hover:w-8 menu-line"></span>
+                <span id="burger-line-1" class="w-6 h-0.5 bg-white transition-all group-hover:w-8 menu-line"></span>
+                <span id="burger-line-2" class="w-4 h-0.5 bg-white transition-all group-hover:w-8 menu-line"></span>
             </button>
         </div>
     </header>
@@ -299,7 +283,7 @@
                 </div>
                 <div class="flex flex-col gap-2 text-right">
                     <p class="text-white font-heading font-bold text-2xl">+94 77 123 4567</p>
-                    <p class="text-slate-500 text-xs font-medium uppercase tracking-widest">Kurunegala, Sri Lanka</p>
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-widest">Marawila, Sri Lanka</p>
                     <div class="flex justify-end gap-4 mt-4">
                         <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white hover:text-black transition-all text-xs">FB</a>
                         <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white hover:text-black transition-all text-xs">IG</a>
@@ -384,7 +368,7 @@
         // --- COMPONENTS ---
         const Components = {
             hero: () => `
-                <section class="relative h-[110vh] w-full overflow-hidden bg-lux-900 -mt-24">
+                <section class="relative h-[110vh] w-full overflow-hidden bg-lux-900 -mt-20">
                     <!-- Background Slideshow -->
                     <div id="hero-slider" class="absolute inset-0 z-0">
                         ${DB.heroImages.map((img, i) => `
@@ -398,7 +382,7 @@
                     <div class="absolute bottom-0 left-0 w-full z-20 pb-24 md:pb-32 px-6 md:px-12">
                         <div class="max-w-4xl">
                             <div class="reveal-text overflow-hidden mb-4">
-                                <span class="inline-block px-4 py-1.5 border border-white/20 rounded-full bg-white/5 backdrop-blur-md text-[9px] font-bold uppercase tracking-ultra text-white mb-2">Since 2010 • Kurunegala</span>
+                                <span class="inline-block px-4 py-1.5 border border-white/20 rounded-full bg-white/5 backdrop-blur-md text-[9px] font-bold uppercase tracking-ultra text-white mb-2">Since 2010 • Marawila</span>
                             </div>
                             <h1 class="font-heading font-black text-white text-6xl md:text-8xl lg:text-9xl tracking-tighter leading-[0.9] mb-8 reveal-fade delay-100">
                                 PURE <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">MOTION</span><br>
@@ -408,8 +392,8 @@
                                 Curating Sri Lanka's finest collection of premium automobiles. We don't just sell cars; we engineer lifestyle upgrades.
                             </p>
                             <div class="flex gap-4 reveal-fade delay-300">
-                                <button onclick="navigateTo('stock')" class="btn-magnetic bg-white text-lux-900 px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-slate-200"><span>View Collection</span></button>
-                                <button onclick="scrollToSection('curator')" class="btn-magnetic bg-transparent border border-white/20 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-white/10"><span>The Curator</span></button>
+                                <button onclick="window.open('https://wa.me/94771234567', '_blank')" class="btn-magnetic bg-white text-lux-900 px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-slate-200"><span>Whatsapp</span></button>
+                                <button onclick="navigateTo('stock')" class="btn-magnetic bg-transparent border border-white/20 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-white/10"><span>View Inventory</span></button>
                             </div>
                         </div>
                     </div>
@@ -441,16 +425,16 @@
                 </section>
             `,
 
-            // NEW SECTION: OWNER DETAILS
+            // UPDATED SECTION: OWNER DETAILS
             curator: () => `
                 <section id="curator" class="py-32 bg-slate-50 relative overflow-hidden">
                     <div class="container mx-auto px-6 md:px-12">
                         <div class="flex flex-col lg:flex-row items-center gap-16">
                             <div class="w-full lg:w-1/2 relative reveal-fade">
-                                <div class="aspect-[3/4] rounded-[2rem] overflow-hidden bg-slate-200">
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000" alt="Founder" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                                <div class="aspect-[3/4] rounded-[2rem] overflow-hidden bg-slate-200 relative">
+                                    <img src="https://i.ibb.co/QF5LV7SW/Person.png" alt="Mr. Saman Wijesinghe" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
                                 </div>
-                                <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-white rounded-full flex items-center justify-center p-4 shadow-xl">
+                                <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-white rounded-full flex items-center justify-center p-4 shadow-xl z-10">
                                     <div class="text-center">
                                         <p class="font-heading font-black text-4xl text-lux-900">15+</p>
                                         <p class="text-[9px] uppercase tracking-widest text-slate-500">Years Experience</p>
@@ -471,7 +455,7 @@
                                 <div class="flex items-center gap-4">
                                     <div class="h-px w-12 bg-lux-900"></div>
                                     <div>
-                                        <h4 class="font-heading font-bold text-xl text-lux-900">Mr. Solo So</h4>
+                                        <h4 class="font-heading font-bold text-xl text-lux-900">Mr. Saman Wijesinghe</h4>
                                         <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Founder & Managing Director</p>
                                     </div>
                                 </div>
@@ -501,12 +485,11 @@
                         ${DB.cars.slice(0, 3).map((car, i) => Pages.renderCarCard(car, i)).join('')}
                     </div>
 
-                    <!-- Mobile Auto Carousel (Visible Mobile) -->
-                    <div class="md:hidden w-full mobile-marquee-container">
-                        <div class="mobile-marquee-track pl-6">
-                            ${/* Double the array for seamless loop */ ''}
-                            ${[...DB.cars, ...DB.cars].map((car) => `
-                                <div class="w-[85vw] flex-shrink-0">
+                    <!-- Mobile Carousel (One by One Auto Scroll) -->
+                    <div class="md:hidden w-full overflow-hidden">
+                        <div id="mobile-carousel" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-6 px-6 gap-4">
+                            ${DB.cars.map((car) => `
+                                <div class="w-full min-w-[100%] flex-shrink-0 snap-center">
                                     ${Pages.renderCarCard(car, 0)}
                                 </div>
                             `).join('')}
@@ -764,7 +747,7 @@
                                 <div class="space-y-8 mb-12">
                                     <div>
                                         <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Address</h4>
-                                        <p class="text-xl font-heading font-medium">No. 245, Colombo Road,<br>Kurunegala, Sri Lanka</p>
+                                        <p class="text-xl font-heading font-medium">No. 245, Colombo Road,<br>Marawila, Sri Lanka</p>
                                     </div>
                                     <div>
                                         <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Contact</h4>
@@ -781,7 +764,7 @@
                             </div>
                             
                             <div class="h-[600px] bg-slate-200 rounded-[3rem] overflow-hidden reveal-fade delay-200 grayscale contrast-125">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63320.43002235258!2d80.3328224!3d7.4817684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae33a1e09153835%3A0x7d653770d10a623c!2sKurunegala%2C%20Sri%20Lanka!5e0!3m2!1sen!2sus!4v1709400000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31674.34682025816!2d79.8433303!3d7.4298155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2c8eb1622b31d%3A0xc356450f7574b6e5!2sMarawila!5e0!3m2!1sen!2slk!4v1709400000000!5m2!1sen!2slk" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                             </div>
                         </div>
                     </div>
@@ -817,8 +800,12 @@
         };
 
         // --- CORE FUNCTIONS ---
+        let currentPage = 'home';
+        let carouselInterval;
 
         function navigateTo(pageId) {
+            currentPage = pageId;
+            
             // Scroll top
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
@@ -840,13 +827,19 @@
                 initObservers();
                 
                 // Start Hero Slider if home
-                if(pageId === 'home') startHeroSlider();
+                if(pageId === 'home') {
+                    startHeroSlider();
+                    startMobileCarousel();
+                } else {
+                    stopMobileCarousel();
+                }
                 
                 // Specific logic for finance calculator
                 if(pageId === 'finance') updateCalculator();
 
-                // Update Nav State
-                updateActiveNav(pageId);
+                // Force update nav state immediately for non-home pages
+                updateNavState();
+
             }, 300);
         }
 
@@ -873,10 +866,6 @@
 
         function handleMobileNav(page) {
             navigateTo(page);
-        }
-
-        function updateActiveNav(pageId) {
-            // Reset styling could be done here, for now relying on onclick state
         }
 
         // --- FILTER LOGIC ---
@@ -933,7 +922,7 @@
             monthlyDisplay.innerText = fmt(Math.round(monthly));
         }
 
-        // --- SLIDER LOGIC ---
+        // --- HERO SLIDER ---
         let sliderInterval;
         function startHeroSlider() {
             const slides = document.querySelectorAll('.hero-slide');
@@ -949,6 +938,38 @@
             }, 5000);
         }
 
+        // --- MOBILE CAROUSEL (Auto Scroll) ---
+        function startMobileCarousel() {
+            const container = document.getElementById('mobile-carousel');
+            if (!container) return;
+            
+            if(carouselInterval) clearInterval(carouselInterval);
+            
+            carouselInterval = setInterval(() => {
+                // Ensure container still exists (might have navigated away)
+                if(!document.getElementById('mobile-carousel')) {
+                    clearInterval(carouselInterval);
+                    return;
+                }
+
+                // Scroll to next snap point
+                const itemWidth = container.offsetWidth;
+                const scrollPos = container.scrollLeft;
+                const scrollMax = container.scrollWidth - container.clientWidth;
+                
+                // If we are near the end, loop back to start, else scroll one width
+                if (scrollPos >= scrollMax - 10) {
+                    container.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    container.scrollBy({ left: itemWidth, behavior: 'smooth' });
+                }
+            }, 2000); // 2 Seconds
+        }
+
+        function stopMobileCarousel() {
+            if(carouselInterval) clearInterval(carouselInterval);
+        }
+
         // --- ANIMATION OBSERVERS ---
         function initObservers() {
             const observer = new IntersectionObserver((entries) => {
@@ -962,46 +983,61 @@
             document.querySelectorAll('.reveal-fade, .reveal-text').forEach(el => observer.observe(el));
         }
 
-        // --- SCROLL EFFECTS ---
-        window.addEventListener('scroll', () => {
+        // --- SCROLL / NAV LOGIC ---
+        function updateNavState() {
             const nav = document.getElementById('main-nav');
             const pill = document.getElementById('nav-pill');
             const navLogo = document.getElementById('nav-logo');
+            const burgerLines = document.querySelectorAll('.menu-line');
 
-            if (window.scrollY > 50) {
-                nav.classList.add('nav-solid');
-                nav.classList.remove('nav-glass', 'h-24');
-                nav.classList.add('h-20');
+            const isHome = currentPage === 'home';
+            const scrolled = window.scrollY > 50;
+
+            if (isHome && !scrolled) {
+                // HERO STATE (Transparent, White Logo)
+                nav.classList.remove('nav-solid', 'h-16');
+                nav.classList.add('nav-glass', 'h-20');
                 
                 if(navLogo) {
-                    navLogo.classList.remove('filter', 'brightness-0', 'invert');
-                }
-                
-                pill.classList.remove('bg-white/5', 'text-white/70');
-                pill.classList.add('bg-slate-100', 'text-slate-600');
-                
-                // Darken text inside pill
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                   btn.classList.remove('text-white/70', 'hover:text-white', 'hover:bg-white/10'); 
-                   btn.classList.add('text-slate-500', 'hover:text-lux-900', 'hover:bg-slate-200');
-                });
-            } else {
-                nav.classList.remove('nav-solid', 'h-20');
-                nav.classList.add('nav-glass', 'h-24');
-                
-                if(navLogo) {
-                    navLogo.classList.add('filter', 'brightness-0', 'invert');
+                    navLogo.classList.add('filter', 'brightness-0', 'invert'); // Make White
                 }
                 
                 pill.classList.remove('bg-slate-100', 'text-slate-600');
                 pill.classList.add('bg-white/5', 'text-white/70');
 
+                // White Burger
+                burgerLines.forEach(l => l.classList.add('bg-white'));
+                burgerLines.forEach(l => l.classList.remove('bg-slate-900'));
+
                  document.querySelectorAll('.nav-btn').forEach(btn => {
                    btn.classList.add('text-white/70', 'hover:text-white', 'hover:bg-white/10'); 
                    btn.classList.remove('text-slate-500', 'hover:text-lux-900', 'hover:bg-slate-200');
                 });
+            } else {
+                // SCROLLED OR INNER PAGE STATE (Solid/Blurred, Colored Logo)
+                nav.classList.add('nav-solid');
+                nav.classList.remove('nav-glass', 'h-20');
+                nav.classList.add('h-16'); // Shrink on scroll
+                
+                if(navLogo) {
+                    navLogo.classList.remove('filter', 'brightness-0', 'invert'); // Restore Color
+                }
+                
+                pill.classList.remove('bg-white/5', 'text-white/70');
+                pill.classList.add('bg-slate-100', 'text-slate-600');
+
+                // Dark Burger
+                burgerLines.forEach(l => l.classList.remove('bg-white'));
+                burgerLines.forEach(l => l.classList.add('bg-slate-900'));
+                
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                   btn.classList.remove('text-white/70', 'hover:text-white', 'hover:bg-white/10'); 
+                   btn.classList.add('text-slate-500', 'hover:text-lux-900', 'hover:bg-slate-200');
+                });
             }
-        });
+        }
+
+        window.addEventListener('scroll', updateNavState);
 
         // --- INIT ---
         window.addEventListener('load', () => {
