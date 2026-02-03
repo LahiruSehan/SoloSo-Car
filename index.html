@@ -1,535 +1,1017 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth antialiased selection:bg-blue-600 selection:text-white">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solo So Auto | Premium Showroom Experience</title>
+    <title>Solo So Auto | Marawila</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        lux: {
+                            900: '#020617', // Richer dark
+                            800: '#0f172a',
+                            100: '#f1f5f9',
+                            50: '#f8fafc',
+                            accent: '#2563eb', // Royal Blue
+                        }
+                    },
+                    letterSpacing: {
+                        'ultra': '0.35em',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'marquee': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+                            '50%': { opacity: '.5', transform: 'scale(0.95)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        :root {
-            --primary: #2563eb;
-            --accent: #0ea5e9;
-            --dark: #0f172a;
-            --light: #f8fafc;
+        /* --- CORE VISUALS --- */
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            overflow-x: hidden;
         }
 
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            overflow-x: hidden; 
-            background-color: var(--light); 
-        }
+        /* Typography Refinement */
+        .text-balance { text-wrap: balance; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
-        /* Responsive Container */
-        .app-shell {
-            max-width: 100%;
-            margin: 0 auto;
-            background: white;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        @media (min-width: 1024px) {
-            .desktop-content-max { max-width: 1200px; margin: 0 auto; }
-        }
-
-        /* Premium Scroll Animations */
-        .reveal {
+        /* --- ADVANCED ANIMATIONS --- */
+        
+        /* Reveal System */
+        .reveal-text span {
+            display: inline-block;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: translateY(100%);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .reveal.active {
+        .reveal-text.active span {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Hero Image Fading */
-        .hero-bg {
+        .reveal-fade {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal-fade.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Stagger Delays */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+
+        /* Button Animations */
+        .btn-magnetic {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .btn-magnetic::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.1);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s cubic-bezier(0.8, 0, 0.2, 1);
+            z-index: 0;
+        }
+        .btn-magnetic:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        .btn-magnetic span { position: relative; z-index: 1; }
+
+        /* Hero Slideshow */
+        .hero-slide {
             position: absolute;
             inset: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 8s ease-out;
+            transform: scale(1.05);
             background-size: cover;
             background-position: center;
-            transition: opacity 1.5s ease-in-out, transform 3s ease-in-out;
-            opacity: 0;
-            transform: scale(1.15);
         }
-        .hero-bg.active {
+        .hero-slide.active {
             opacity: 1;
             transform: scale(1);
         }
-
-        /* Infinite Auto-Scroll Animation */
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .auto-scroll-container {
-            display: flex;
-            width: max-content;
-            animation: scroll 40s linear infinite;
+        .hero-overlay {
+            background: linear-gradient(to top, rgba(2,6,23,0.9) 0%, rgba(2,6,23,0.4) 40%, rgba(2,6,23,0.1) 100%);
         }
 
-        /* Magnetic Button Feel */
-        .btn-premium {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
+        /* Loader */
+        .loader-shutter {
+            position: fixed;
+            top: 0; width: 50%; height: 100%;
+            background: #020617;
+            z-index: 9999;
+            transition: transform 1s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+        .loader-left { left: 0; transform-origin: left; }
+        .loader-right { right: 0; transform-origin: right; }
+        .loaded .loader-left { transform: scaleX(0); }
+        .loaded .loader-right { transform: scaleX(0); }
+        
+        .loader-content {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+        .loaded .loader-content { opacity: 0; pointer-events: none; }
+
+        /* Navigation Glass */
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .nav-solid {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        /* Image Hovers */
+        .img-zoom-container { overflow: hidden; }
+        .img-zoom-hover {
+            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .group:hover .img-zoom-hover { transform: scale(1.08); }
+        
+        /* Line Clamps */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
         }
-        .btn-premium:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.2);
+
+        /* Mobile Auto Scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-
-        /* Glassmorphism */
-        .glass-header {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-
-        /* Hide Scrollbars */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Custom Shapes */
-        .blob-shape {
-            border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+        .scroller-inner {
+            display: flex;
+            gap: 1rem;
+            animation: scroll 20s linear infinite;
         }
-
-        .car-card:hover .car-img {
-            transform: scale(1.08);
+        /* Only apply animation on mobile/tablet via standard breakpoint if needed, 
+           or use JS for better control. We will use CSS animation here. */
+        @media (max-width: 768px) {
+            .mobile-marquee-container {
+                overflow: hidden;
+                width: 100%;
+                position: relative;
+            }
+            .mobile-marquee-track {
+                display: flex;
+                gap: 2rem;
+                width: max-content;
+                animation: marquee 30s linear infinite;
+            }
+            .mobile-marquee-track:hover {
+                animation-play-state: paused;
+            }
         }
     </style>
 </head>
-<body class="bg-slate-100 selection:bg-blue-100 selection:text-blue-700">
+<body class="loading">
 
-    <!-- Header -->
-    <header id="main-header" class="fixed top-0 left-0 right-0 h-20 z-50 transition-all duration-500">
-        <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-            <a href="#" onclick="navigateTo('home')" class="relative z-10">
-                <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" id="logo-img" alt="Solo So" class="h-8 md:h-10 w-auto transition-all brightness-0 invert">
+    <!-- --- PRELOADER --- -->
+    <div class="loader-shutter loader-left"></div>
+    <div class="loader-shutter loader-right"></div>
+    <div class="loader-content flex flex-col items-center justify-center gap-6">
+        <div class="w-px h-16 bg-blue-600/30 overflow-hidden relative">
+            <div class="absolute top-0 left-0 w-full h-full bg-blue-600 animate-[float_2s_ease-in-out_infinite]"></div>
+        </div>
+        <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-12 w-auto invert brightness-0">
+    </div>
+
+    <!-- --- NAVIGATION --- -->
+    <header id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-500 h-24 flex items-center nav-glass">
+        <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" onclick="navigateTo('home')" class="group relative z-10 block">
+                <img id="nav-logo" src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-12 w-auto object-contain transition-all duration-300 filter brightness-0 invert">
             </a>
-            
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex items-center gap-10">
-                <button onclick="navigateTo('home')" class="text-sm font-bold uppercase tracking-widest hover:text-blue-600 transition-colors">Home</button>
-                <button onclick="navigateTo('stock')" class="text-sm font-bold uppercase tracking-widest hover:text-blue-600 transition-colors">Showroom</button>
-                <button onclick="navigateTo('reviews')" class="text-sm font-bold uppercase tracking-widest hover:text-blue-600 transition-colors">Testimonials</button>
-                <button onclick="navigateTo('contact')" class="px-6 py-2.5 bg-blue-600 text-white rounded-full text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all">Contact Us</button>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden lg:flex items-center gap-1">
+                <div class="flex bg-white/5 backdrop-blur-md rounded-full p-1 border border-white/5 mr-4 transition-all" id="nav-pill">
+                    <button onclick="navigateTo('home')" class="nav-btn px-6 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/10 transition-all">Atelier</button>
+                    <button onclick="navigateTo('stock')" class="nav-btn px-6 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/10 transition-all">Inventory</button>
+                    <button onclick="navigateTo('finance')" class="nav-btn px-6 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/10 transition-all">Finance</button>
+                    <button onclick="navigateTo('reviews')" class="nav-btn px-6 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/10 transition-all">Journal</button>
+                </div>
+                <button onclick="navigateTo('contact')" class="btn-magnetic bg-blue-600 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
+                    <span>Inquire</span>
+                </button>
             </nav>
 
-            <!-- Mobile Menu Trigger -->
-            <button onclick="toggleMenu(true)" class="md:hidden w-11 h-11 rounded-full flex items-center justify-center bg-white shadow-xl text-blue-600 border border-slate-100 active:scale-90 transition-transform">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            <!-- Mobile Burger -->
+            <button onclick="toggleMenu()" class="lg:hidden relative z-50 w-10 h-10 flex flex-col justify-center items-end gap-1.5 group">
+                <span class="w-6 h-0.5 bg-white transition-all group-hover:w-8 menu-line"></span>
+                <span class="w-4 h-0.5 bg-white transition-all group-hover:w-8 menu-line"></span>
             </button>
         </div>
     </header>
 
-    <main id="app-shell" class="app-shell">
-        <div id="page-render" class="transition-opacity duration-500"></div>
-        
-        <!-- Bottom Nav (Mobile Only) -->
-        <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-header border-t border-slate-100 px-8 py-3 pb-8 z-40 flex justify-between items-center">
-            <button onclick="navigateTo('home')" class="nav-link text-blue-600" data-page="home"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button>
-            <button onclick="navigateTo('stock')" class="nav-link text-slate-400" data-page="stock"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg></button>
-            <button onclick="navigateTo('reviews')" class="nav-link text-slate-400" data-page="reviews"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
-            <button onclick="navigateTo('contact')" class="nav-link text-slate-400" data-page="contact"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></button>
-        </nav>
-    </main>
-
-    <!-- Side Menu Modal -->
-    <div id="side-menu" class="fixed inset-0 z-[100] bg-white p-8 flex flex-col translate-x-full transition-transform duration-500">
-        <div class="flex justify-between items-center mb-16">
-            <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" class="h-8" alt="Logo">
-            <button onclick="toggleMenu(false)" class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <!-- --- MOBILE MENU OVERLAY --- -->
+    <div id="mobile-menu" class="fixed inset-0 bg-lux-900 z-40 translate-x-full transition-transform duration-700 cubic-[0.22, 1, 0.36, 1]">
+        <div class="h-full flex flex-col justify-center px-12 gap-8">
+            <a href="#" onclick="handleMobileNav('home')" class="text-4xl font-heading font-bold text-white/30 hover:text-white hover:translate-x-4 transition-all">Home</a>
+            <a href="#" onclick="handleMobileNav('stock')" class="text-4xl font-heading font-bold text-white/30 hover:text-white hover:translate-x-4 transition-all">Inventory</a>
+            <a href="#" onclick="handleMobileNav('finance')" class="text-4xl font-heading font-bold text-white/30 hover:text-white hover:translate-x-4 transition-all">Finance</a>
+            <a href="#" onclick="handleMobileNav('reviews')" class="text-4xl font-heading font-bold text-white/30 hover:text-white hover:translate-x-4 transition-all">Journal</a>
+            <div class="w-full h-px bg-white/10 my-4"></div>
+            <a href="#" onclick="handleMobileNav('contact')" class="text-lg font-bold uppercase tracking-widest text-blue-500">Contact Sales -></a>
         </div>
-        <nav class="flex flex-col gap-8 text-4xl font-black italic uppercase tracking-tighter text-slate-800">
-            <a href="#" onclick="navigateTo('home'); toggleMenu(false)">Home</a>
-            <a href="#" onclick="navigateTo('stock'); toggleMenu(false)">Showroom</a>
-            <a href="#" onclick="navigateTo('reviews'); toggleMenu(false)">Reviews</a>
-            <a href="#" onclick="navigateTo('contact'); toggleMenu(false)">Contact</a>
-        </nav>
     </div>
 
+    <!-- --- MAIN APP CONTENT --- -->
+    <main id="app" class="min-h-screen"></main>
+
+    <!-- --- REDESIGNED MASSIVE FOOTER --- -->
+    <footer class="bg-lux-900 pt-32 pb-12 rounded-t-[3rem] relative overflow-hidden mt-12">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-blue-900/50 to-transparent"></div>
+        <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 md:px-12 relative z-10">
+            <!-- Top Section: CTA -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-24 border-b border-white/5 pb-12">
+                <div class="max-w-xl">
+                    <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Join the Inner Circle.</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Receive priority access to new arrivals, off-market opportunities, and exclusive automotive insights before the general public.</p>
+                    <div class="flex gap-0 border-b border-white/20 focus-within:border-blue-500 transition-colors pb-2 max-w-sm">
+                        <input type="email" placeholder="Email Address" class="bg-transparent text-white placeholder-slate-600 text-sm w-full focus:outline-none font-medium">
+                        <button class="text-xs font-bold uppercase tracking-widest text-blue-500 hover:text-white transition-colors">Subscribe</button>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 text-right">
+                    <p class="text-white font-heading font-bold text-2xl">+94 77 123 4567</p>
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-widest">Kurunegala, Sri Lanka</p>
+                    <div class="flex justify-end gap-4 mt-4">
+                        <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white hover:text-black transition-all text-xs">FB</a>
+                        <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white hover:text-black transition-all text-xs">IG</a>
+                        <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white hover:text-black transition-all text-xs">LK</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Section: Links -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-24">
+                <div>
+                    <h4 class="text-white text-[10px] font-bold uppercase tracking-ultra mb-8">Inventory</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" onclick="navigateTo('stock')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">All Vehicles</a></li>
+                        <li><a href="#" onclick="filterFromFooter('SUV')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">SUVs & 4x4</a></li>
+                        <li><a href="#" onclick="filterFromFooter('Sedan')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Executive Sedans</a></li>
+                        <li><a href="#" onclick="filterFromFooter('Sport')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Performance</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-[10px] font-bold uppercase tracking-ultra mb-8">Services</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" onclick="navigateTo('finance')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Financing</a></li>
+                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Trade-In Valuations</a></li>
+                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Global Sourcing</a></li>
+                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Aftercare & Warranty</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-[10px] font-bold uppercase tracking-ultra mb-8">Company</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" onclick="navigateTo('reviews')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Client Stories</a></li>
+                        <li><a href="#" onclick="navigateTo('about')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Our Heritage</a></li>
+                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Careers</a></li>
+                        <li><a href="#" onclick="navigateTo('contact')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Showroom Map</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-[10px] font-bold uppercase tracking-ultra mb-8">Legal</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Section: Brand -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
+                <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-24 w-auto opacity-10 filter grayscale brightness-0 invert pointer-events-none">
+                <div class="text-right">
+                    <p class="text-slate-600 text-[10px] uppercase tracking-widest mb-1">© 2024 Solo So Auto. All Rights Reserved.</p>
+                    <p class="text-slate-700 text-[9px] uppercase tracking-widest">Designed & Engineered in Sri Lanka</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- --- JAVASCRIPT APP LOGIC --- -->
     <script>
-        const HERO_IMAGES = [
-            "https://i.ibb.co/GfLm2Pv5/Best-Cars8.png",
-            "https://i.ibb.co/gM0CFQbX/Best-Cars7.png",
-            "https://i.ibb.co/0j5Rb2x7/Best-Cars6.png"
-        ];
+        // --- DATA STORE ---
+        const DB = {
+            cars: [
+                { id: 1, name: "Toyota Land Cruiser 300", type: "SUV", year: "2023", price: 85000000, image: "https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&q=80&w=1000", specs: ["3.3L Twin Turbo", "ZX Grade", "0km"], status: "In Stock" },
+                { id: 2, name: "Range Rover Autobiography", type: "SUV", year: "2024", price: 125000000, image: "https://images.unsplash.com/photo-1606220838315-056192d5e927?auto=format&fit=crop&q=80&w=1000", specs: ["P530 V8", "LWB", "Brand New"], status: "En Route" },
+                { id: 3, name: "Mercedes-Benz S500", type: "Sedan", year: "2022", price: 68000000, image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1000", specs: ["AMG Line", "Premium Plus", "5000km"], status: "In Stock" },
+                { id: 4, name: "Porsche Taycan 4S", type: "Sport", year: "2023", price: 55000000, image: "https://images.unsplash.com/photo-1570375267158-4509e53004e9?auto=format&fit=crop&q=80&w=1000", specs: ["Electric", "Performance Battery", "2000km"], status: "Sold" },
+                { id: 5, name: "BMW X5 M-Sport", type: "SUV", year: "2021", price: 42000000, image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=1000", specs: ["xDrive40i", "Laser Light", "18000km"], status: "In Stock" },
+                { id: 6, name: "Toyota Harrier Z", type: "SUV", year: "2021", price: 21500000, image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1000", specs: ["Leather Package", "JBL", "12000km"], status: "In Stock" },
+            ],
+            heroImages: [
+                "https://i.ibb.co/zhWCY3t3/Best-Cars.png",
+                "https://i.ibb.co/gMwFSm5d/Best-Cars2.png",
+                "https://i.ibb.co/gM0CFQbX/Best-Cars7.png",
+                "https://i.ibb.co/GfLm2Pv5/Best-Cars8.png",
+                "https://i.ibb.co/0j5Rb2x7/Best-Cars6.png",
+                "https://i.ibb.co/tw4zzZRf/Best-Cars4.png",
+                "https://i.ibb.co/kgFs37Jw/Best-Cars3.png"
+            ]
+        };
 
-        const INVENTORY = [
-            { id: 1, name: "Toyota Vitz KSP130", year: "2019", price: "7,800,000 LKR", fuel: "Petrol", image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80&w=800", status: "Available", mileage: "22k km" },
-            { id: 2, name: "Suzuki Wagon R", year: "2018", price: "5,200,000 LKR", fuel: "Hybrid", image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800", status: "Sold", mileage: "45k km" },
-            { id: 3, name: "Honda Vezel RS", year: "2017", price: "9,200,000 LKR", fuel: "Hybrid", image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800", status: "Available", mileage: "51k km" },
-            { id: 4, name: "Toyota Prado J150", year: "2015", price: "28,500,000 LKR", fuel: "Diesel", image: "https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&q=80&w=800", status: "Available", mileage: "82k km" },
-            { id: 5, name: "Toyota Premio G", year: "2016", price: "11,500,000 LKR", fuel: "Petrol", image: "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?auto=format&fit=crop&q=80&w=800", status: "Available", mileage: "64k km" },
-            { id: 6, name: "Mitsubishi Montero", year: "2012", price: "15,800,000 LKR", fuel: "Petrol", image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=800", status: "Available", mileage: "110k km" }
-        ];
-
-        const PAGES = {
-            home: () => `
-                <!-- Hero Section -->
-                <section class="relative h-screen bg-slate-100 overflow-hidden flex flex-col justify-center">
-                    <div id="hero-slider" class="absolute inset-0"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-slate-950/20 to-transparent z-[1]"></div>
-                    <div class="max-w-7xl mx-auto px-6 w-full relative z-10">
-                        <div class="max-w-2xl reveal">
-                            <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-white mb-6 shadow-xl">
-                                <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                                Now Live: New Stock 2024
-                            </span>
-                            <h1 class="text-6xl lg:text-8xl font-black italic tracking-tighter leading-[0.9] text-white mb-8 uppercase">
-                                DRIVE THE <br> <span class="text-blue-500">EXCEPTIONAL.</span>
+        // --- COMPONENTS ---
+        const Components = {
+            hero: () => `
+                <section class="relative h-[110vh] w-full overflow-hidden bg-lux-900 -mt-24">
+                    <!-- Background Slideshow -->
+                    <div id="hero-slider" class="absolute inset-0 z-0">
+                        ${DB.heroImages.map((img, i) => `
+                            <div class="hero-slide ${i === 0 ? 'active' : ''}" style="background-image: url('${img}');"></div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="absolute inset-0 hero-overlay z-10"></div>
+                    
+                    <!-- Content Bottom Left -->
+                    <div class="absolute bottom-0 left-0 w-full z-20 pb-24 md:pb-32 px-6 md:px-12">
+                        <div class="max-w-4xl">
+                            <div class="reveal-text overflow-hidden mb-4">
+                                <span class="inline-block px-4 py-1.5 border border-white/20 rounded-full bg-white/5 backdrop-blur-md text-[9px] font-bold uppercase tracking-ultra text-white mb-2">Since 2010 • Kurunegala</span>
+                            </div>
+                            <h1 class="font-heading font-black text-white text-6xl md:text-8xl lg:text-9xl tracking-tighter leading-[0.9] mb-8 reveal-fade delay-100">
+                                PURE <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">MOTION</span><br>
+                                ARTISTRY
                             </h1>
-                            <p class="text-slate-200 text-lg md:text-xl font-medium max-w-lg mb-12 leading-relaxed opacity-90">
-                                Discover Kurunegala's premier collection of certified hand-picked vehicles. Quality guaranteed, performance defined.
+                            <p class="text-slate-300 text-sm md:text-base max-w-lg leading-relaxed mb-10 reveal-fade delay-200">
+                                Curating Sri Lanka's finest collection of premium automobiles. We don't just sell cars; we engineer lifestyle upgrades.
                             </p>
-                            <div class="flex flex-col md:flex-row gap-5">
-                                <button onclick="navigateTo('stock')" class="btn-premium px-10 py-5 bg-white text-slate-900 rounded-2xl font-black uppercase text-sm tracking-widest flex items-center justify-center gap-3">
-                                    Browse Inventory <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                                </button>
-                                <a href="https://wa.me/94701999999" class="btn-premium px-10 py-5 bg-blue-600 text-white rounded-2xl font-black uppercase text-sm tracking-widest flex items-center justify-center gap-3 shadow-lg shadow-blue-600/30">
-                                    WhatsApp Sales 📲
-                                </a>
+                            <div class="flex gap-4 reveal-fade delay-300">
+                                <button onclick="navigateTo('stock')" class="btn-magnetic bg-white text-lux-900 px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-slate-200"><span>View Collection</span></button>
+                                <button onclick="scrollToSection('curator')" class="btn-magnetic bg-transparent border border-white/20 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-white/10"><span>The Curator</span></button>
                             </div>
                         </div>
                     </div>
                 </section>
+            `,
 
-                <!-- 150-Point Standard (Unique Detail Section) -->
-                <section class="py-24 bg-white overflow-hidden">
-                    <div class="max-w-7xl mx-auto px-6">
-                        <div class="grid lg:grid-cols-2 gap-20 items-center">
-                            <div class="relative reveal">
-                                <div class="absolute -top-10 -left-10 w-64 h-64 bg-blue-50 blob-shape z-0 opacity-50"></div>
-                                <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&q=80" class="rounded-[2.5rem] relative z-10 shadow-2xl grayscale hover:grayscale-0 transition-all duration-700" alt="Inspection">
-                                <div class="absolute -bottom-8 -right-8 bg-blue-600 p-8 rounded-[2rem] text-white shadow-2xl z-20">
-                                    <div class="text-5xl font-black italic mb-1">150+</div>
-                                    <div class="text-[10px] uppercase font-black tracking-widest opacity-80">Points Inspected</div>
+            stats: () => `
+                <section class="py-24 bg-white relative z-20">
+                    <div class="container mx-auto px-6 md:px-12">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 border-y border-slate-100 py-12">
+                            <div class="text-center reveal-fade">
+                                <h3 class="text-4xl font-heading font-bold text-lux-900 mb-2">1,200+</h3>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-ultra">Vehicles Delivered</p>
+                            </div>
+                            <div class="text-center reveal-fade delay-100">
+                                <h3 class="text-4xl font-heading font-bold text-lux-900 mb-2">100%</h3>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-ultra">Auction Transparency</p>
+                            </div>
+                            <div class="text-center reveal-fade delay-200">
+                                <h3 class="text-4xl font-heading font-bold text-lux-900 mb-2">02</h3>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-ultra">Year Premium Warranty</p>
+                            </div>
+                            <div class="text-center reveal-fade delay-300">
+                                <h3 class="text-4xl font-heading font-bold text-lux-900 mb-2">24/7</h3>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-ultra">Roadside Support</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            // NEW SECTION: OWNER DETAILS
+            curator: () => `
+                <section id="curator" class="py-32 bg-slate-50 relative overflow-hidden">
+                    <div class="container mx-auto px-6 md:px-12">
+                        <div class="flex flex-col lg:flex-row items-center gap-16">
+                            <div class="w-full lg:w-1/2 relative reveal-fade">
+                                <div class="aspect-[3/4] rounded-[2rem] overflow-hidden bg-slate-200">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000" alt="Founder" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                                </div>
+                                <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-white rounded-full flex items-center justify-center p-4 shadow-xl">
+                                    <div class="text-center">
+                                        <p class="font-heading font-black text-4xl text-lux-900">15+</p>
+                                        <p class="text-[9px] uppercase tracking-widest text-slate-500">Years Experience</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="reveal">
-                                <span class="text-blue-600 font-black uppercase tracking-[0.3em] text-[10px] block mb-4">Quality Control</span>
-                                <h2 class="text-5xl font-black italic text-slate-900 uppercase tracking-tighter leading-none mb-8">The Solo-So Standard</h2>
-                                <p class="text-slate-500 text-lg mb-10 leading-relaxed">Unlike traditional dealers, every vehicle in our showroom undergoes a rigorous technical diagnosis by certified engineers.</p>
+                            
+                            <div class="w-full lg:w-1/2 reveal-fade delay-100">
+                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-6 block">The Curator</span>
+                                <h2 class="text-5xl font-heading font-bold text-lux-900 mb-8 leading-tight">Driven by a <br>Standard of Excellence.</h2>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-6 text-balance">
+                                    "I founded Solo So Auto with a singular vision: to bring transparency and true luxury to the Sri Lankan automotive market. Every vehicle in our inventory is personally hand-picked from the highest-grade auctions in Japan and the UK."
+                                </p>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-10 text-balance">
+                                    "We don't just import cars; we curate experiences. When you drive a Solo So vehicle, you're driving a promise of quality, integrity, and performance."
+                                </p>
+                                
+                                <div class="flex items-center gap-4">
+                                    <div class="h-px w-12 bg-lux-900"></div>
+                                    <div>
+                                        <h4 class="font-heading font-bold text-xl text-lux-900">Mr. Solo So</h4>
+                                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Founder & Managing Director</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            featuredStock: () => `
+                <section class="py-32 bg-white overflow-hidden">
+                    <div class="container mx-auto px-6 md:px-12 mb-16">
+                         <div class="flex justify-between items-end reveal-fade">
+                            <div>
+                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Current Inventory</span>
+                                <h2 class="text-4xl md:text-5xl font-heading font-bold text-lux-900">Featured Assets.</h2>
+                            </div>
+                            <button onclick="navigateTo('stock')" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-blue-600 transition-colors group">
+                                View All 
+                                <span class="group-hover:translate-x-1 transition-transform">→</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Grid (Hidden Mobile) -->
+                    <div class="container mx-auto px-6 md:px-12 hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        ${DB.cars.slice(0, 3).map((car, i) => Pages.renderCarCard(car, i)).join('')}
+                    </div>
+
+                    <!-- Mobile Auto Carousel (Visible Mobile) -->
+                    <div class="md:hidden w-full mobile-marquee-container">
+                        <div class="mobile-marquee-track pl-6">
+                            ${/* Double the array for seamless loop */ ''}
+                            ${[...DB.cars, ...DB.cars].map((car) => `
+                                <div class="w-[85vw] flex-shrink-0">
+                                    ${Pages.renderCarCard(car, 0)}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="container mx-auto px-6 md:px-12 mt-12 text-center md:hidden">
+                         <button onclick="navigateTo('stock')" class="btn-magnetic bg-lux-900 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest"><span>View Full Inventory</span></button>
+                    </div>
+                </section>
+            `,
+
+            // NEW SECTION: THE PROCESS
+            process: () => `
+                <section class="py-32 bg-lux-900 text-white">
+                    <div class="container mx-auto px-6 md:px-12">
+                        <div class="text-center max-w-2xl mx-auto mb-20 reveal-fade">
+                            <span class="text-blue-500 font-bold text-[10px] uppercase tracking-ultra mb-4 block">How We Work</span>
+                            <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6">The Solo Standard.</h2>
+                            <p class="text-slate-400 text-sm">A seamless journey from selection to handover.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group reveal-fade delay-100">
+                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10 transition-colors">01</span>
+                                <h3 class="font-heading font-bold text-xl mb-4 text-blue-400">Consultation</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">We understand your lifestyle needs and preferences to identify the perfect marque and model.</p>
+                            </div>
+                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group reveal-fade delay-200">
+                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10 transition-colors">02</span>
+                                <h3 class="font-heading font-bold text-xl mb-4 text-purple-400">Sourcing</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">Our agents in Japan and UK inspect vehicles directly, ensuring Grade 4.5+ quality only.</p>
+                            </div>
+                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group reveal-fade delay-300">
+                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10 transition-colors">03</span>
+                                <h3 class="font-heading font-bold text-xl mb-4 text-emerald-400">Atelier</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">Upon arrival, every car enters our detailing studio for ceramic coating and interior conditioning.</p>
+                            </div>
+                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group reveal-fade delay-400">
+                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10 transition-colors">04</span>
+                                <h3 class="font-heading font-bold text-xl mb-4 text-amber-400">Handover</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">A celebratory delivery experience, complete with full tank, documents, and warranty activation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            concierge: () => `
+                <section id="concierge" class="py-32 bg-white text-lux-900 relative overflow-hidden">
+                    <div class="container mx-auto px-6 md:px-12 relative z-10">
+                        <div class="max-w-xl mb-20 reveal-fade">
+                            <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">The Atelier</span>
+                            <h2 class="text-5xl md:text-6xl font-heading font-bold mb-8 leading-tight">Beyond the <br>Factory Spec.</h2>
+                            <p class="text-slate-500 text-sm leading-relaxed">Our in-house detailing studio and customization workshop allows you to personalize your vehicle before delivery. From ceramic coatings to bespoke leather interiors.</p>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <!-- Service 1 -->
+                            <div class="group p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-500 reveal-fade delay-100">
+                                <div class="w-12 h-12 bg-blue-600/10 rounded-full flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform">
+                                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                                </div>
+                                <h3 class="text-xl font-heading font-bold mb-3">Ceramic Armor</h3>
+                                <p class="text-slate-500 text-xs leading-relaxed">9H hardness protection against UV and scratches. Included with every premium sale.</p>
+                            </div>
+
+                            <!-- Service 2 -->
+                            <div class="group p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-500 reveal-fade delay-200">
+                                <div class="w-12 h-12 bg-purple-600/10 rounded-full flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform">
+                                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
+                                </div>
+                                <h3 class="text-xl font-heading font-bold mb-3">Tech Upgrades</h3>
+                                <p class="text-slate-500 text-xs leading-relaxed">Apple CarPlay integration, ambient lighting retrofits, and premium audio tuning.</p>
+                            </div>
+
+                            <!-- Service 3 -->
+                            <div class="group p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-500 reveal-fade delay-300">
+                                <div class="w-12 h-12 bg-emerald-600/10 rounded-full flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform">
+                                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <h3 class="text-xl font-heading font-bold mb-3">Hybrid Health</h3>
+                                <p class="text-slate-500 text-xs leading-relaxed">Comprehensive battery analysis and restorative charging for PHEV and EV models.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `,
+            
+            // NEW SECTION: GLOBAL NETWORK
+            network: () => `
+                 <section class="py-24 bg-slate-50 border-t border-slate-200">
+                    <div class="container mx-auto px-6 md:px-12 text-center">
+                        <p class="text-[10px] font-bold uppercase tracking-ultra text-slate-400 mb-8">Global Sourcing Network</p>
+                        <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                            <div class="text-center group cursor-default">
+                                <h4 class="font-heading font-bold text-2xl text-lux-900 mb-1">Tokyo</h4>
+                                <span class="text-[9px] uppercase tracking-widest text-slate-500">USS Auction</span>
+                            </div>
+                            <div class="text-center group cursor-default">
+                                <h4 class="font-heading font-bold text-2xl text-lux-900 mb-1">London</h4>
+                                <span class="text-[9px] uppercase tracking-widest text-slate-500">BCA Partners</span>
+                            </div>
+                            <div class="text-center group cursor-default">
+                                <h4 class="font-heading font-bold text-2xl text-lux-900 mb-1">Singapore</h4>
+                                <span class="text-[9px] uppercase tracking-widest text-slate-500">Premium Export</span>
+                            </div>
+                            <div class="text-center group cursor-default">
+                                <h4 class="font-heading font-bold text-2xl text-lux-900 mb-1">Colombo</h4>
+                                <span class="text-[9px] uppercase tracking-widest text-slate-500">Headquarters</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `
+        };
+
+        // --- PAGES ---
+        const Pages = {
+            home: () => `
+                ${Components.hero()}
+                ${Components.stats()}
+                ${Components.curator()}
+                ${Components.featuredStock()}
+                ${Components.process()}
+                ${Components.concierge()}
+                ${Components.network()}
+            `,
+
+            stock: () => `
+                <div class="pt-32 pb-24 bg-slate-50 min-h-screen">
+                    <div class="container mx-auto px-6 md:px-12">
+                        <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal-fade">
+                            <div>
+                                <h1 class="text-5xl font-heading font-bold text-lux-900 mb-4">Inventory.</h1>
+                                <p class="text-slate-500 text-sm">Selecting only the finest grades (4.5 and above).</p>
+                            </div>
+                            
+                            <!-- Filter Tabs -->
+                            <div class="flex gap-2 bg-white p-1 rounded-xl shadow-sm border border-slate-100 mt-6 md:mt-0 overflow-x-auto">
+                                <button onclick="filterStock('All')" class="filter-btn active px-6 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors whitespace-nowrap bg-lux-900 text-white">All</button>
+                                <button onclick="filterStock('SUV')" class="filter-btn px-6 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors whitespace-nowrap text-slate-500">SUVs</button>
+                                <button onclick="filterStock('Sedan')" class="filter-btn px-6 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors whitespace-nowrap text-slate-500">Sedans</button>
+                                <button onclick="filterStock('Sport')" class="filter-btn px-6 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors whitespace-nowrap text-slate-500">Sport</button>
+                            </div>
+                        </div>
+
+                        <div id="stock-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            ${DB.cars.map((car, i) => Pages.renderCarCard(car, i)).join('')}
+                        </div>
+                    </div>
+                </div>
+            `,
+
+            finance: () => `
+                <div class="pt-32 pb-24 bg-white min-h-screen">
+                    <div class="container mx-auto px-6 md:px-12">
+                        <div class="grid lg:grid-cols-2 gap-20">
+                            <div class="reveal-fade">
+                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Financial Services</span>
+                                <h1 class="text-5xl md:text-6xl font-heading font-bold text-lux-900 mb-8">Smart Ownership.</h1>
+                                <p class="text-slate-500 text-sm leading-relaxed mb-12">We partner with Sri Lanka's leading banks to provide bespoke leasing solutions. Use our calculator to estimate your monthly commitment.</p>
+                                
                                 <div class="space-y-6">
                                     <div class="flex items-start gap-4">
-                                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 shrink-0 font-bold">01</div>
+                                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold">1</div>
                                         <div>
-                                            <h4 class="font-black uppercase text-sm text-slate-800">Document Authenticity Check</h4>
-                                            <p class="text-sm text-slate-400">Verification of import documents and service history logs.</p>
+                                            <h4 class="font-heading font-bold text-lg">70% Financing</h4>
+                                            <p class="text-xs text-slate-500">Subject to credit evaluation.</p>
                                         </div>
                                     </div>
                                     <div class="flex items-start gap-4">
-                                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 shrink-0 font-bold">02</div>
+                                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold">2</div>
                                         <div>
-                                            <h4 class="font-black uppercase text-sm text-slate-800">Advanced Scanner Diagnosis</h4>
-                                            <p class="text-sm text-slate-400">Electronic health check for ECU, ABS, and Transmission systems.</p>
+                                            <h4 class="font-heading font-bold text-lg">5 Year Repayment</h4>
+                                            <p class="text-xs text-slate-500">Flexible terms from 12 to 60 months.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </section>
 
-                <!-- Auto Scrolling Stock -->
-                <section class="py-24 bg-slate-50 border-y border-slate-100 overflow-hidden">
-                    <div class="max-w-7xl mx-auto px-6 mb-12 flex justify-between items-end reveal">
-                        <div>
-                            <span class="text-blue-600 font-black uppercase tracking-[0.3em] text-[10px] block mb-2">Inventory</span>
-                            <h2 class="text-5xl font-black italic text-slate-900 uppercase tracking-tighter">Live Arrivals</h2>
-                        </div>
-                        <button onclick="navigateTo('stock')" class="text-xs font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">See all stock ↗</button>
-                    </div>
-                    <div class="auto-scroll-container">
-                        ${[...INVENTORY, ...INVENTORY].map(car => `
-                            <div class="w-[340px] car-card bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 mx-4 transition-all hover:shadow-2xl group">
-                                <div class="relative h-48 overflow-hidden">
-                                    <img src="${car.image}" class="car-img w-full h-full object-cover transition-transform duration-700">
-                                    <div class="absolute bottom-4 left-4 flex gap-2">
-                                        <span class="px-3 py-1 bg-white/90 backdrop-blur rounded text-[9px] font-black uppercase">${car.year}</span>
-                                        <span class="px-3 py-1 bg-blue-600 text-white rounded text-[9px] font-black uppercase">${car.status}</span>
-                                    </div>
-                                </div>
-                                <div class="p-6">
-                                    <h3 class="font-black text-lg text-slate-800 uppercase tracking-tighter mb-1">${car.name}</h3>
-                                    <p class="text-blue-600 font-black text-xl mb-4">${car.price.split(' ')[0]} <span class="text-xs text-slate-300">LKR</span></p>
-                                    <div class="flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest border-t pt-4">
-                                        <span>${car.mileage}</span>
-                                        <span>${car.fuel}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </section>
-
-                <!-- Virtual Tour Callout (Unique Section) -->
-                <section class="py-24 bg-white">
-                    <div class="max-w-7xl mx-auto px-6">
-                        <div class="bg-slate-900 rounded-[3rem] p-12 md:p-20 relative overflow-hidden reveal">
-                            <div class="absolute top-0 right-0 w-1/2 h-full bg-[url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80')] bg-cover opacity-20 pointer-events-none grayscale"></div>
-                            <div class="relative z-10 max-w-xl">
-                                <h2 class="text-5xl lg:text-6xl font-black italic text-white uppercase tracking-tighter mb-8 leading-none">Tour our <br> Showroom <br> <span class="text-blue-500 underline underline-offset-8">Virtually.</span></h2>
-                                <p class="text-slate-400 text-lg mb-10 leading-relaxed">Can't visit us in Kurunegala? Schedule a high-definition video tour of any vehicle with our senior consultants.</p>
-                                <button class="btn-premium px-12 py-5 bg-blue-600 text-white rounded-2xl font-black uppercase text-sm tracking-widest shadow-2xl">Book 1-on-1 Tour 🎥</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Founder Legacy -->
-                <section class="py-24 bg-slate-50">
-                    <div class="max-w-7xl mx-auto px-6">
-                        <div class="flex flex-col md:flex-row gap-20 items-center">
-                            <div class="flex-1 order-2 md:order-1 reveal">
-                                <h2 class="text-4xl font-black italic text-slate-900 uppercase tracking-tighter mb-8">Built on trust. <br> Run on passion.</h2>
-                                <p class="text-slate-500 text-lg italic leading-relaxed mb-8">"At Solo-So, we don't just sell cars. We build relationships that last as long as the vehicles we deliver. Our legacy is measured in the smiles of our customers."</p>
-                                <div class="flex items-center gap-4">
-                                    <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-xl">SR</div>
+                            <!-- Calculator Widget -->
+                            <div class="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-100 reveal-fade delay-200">
+                                <h3 class="font-heading font-bold text-2xl mb-8">Monthly Estimator</h3>
+                                
+                                <div class="space-y-6">
                                     <div>
-                                        <div class="font-black uppercase text-sm tracking-widest text-slate-900">Sahan Rathnayake</div>
-                                        <div class="text-[10px] text-blue-500 font-black uppercase tracking-[0.2em]">Founder & CEO</div>
+                                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Vehicle Price (LKR)</label>
+                                        <input type="range" min="5000000" max="150000000" step="1000000" value="25000000" id="priceRange" class="w-full accent-blue-600 mb-2" oninput="updateCalculator()">
+                                        <div class="text-right font-heading font-bold text-xl" id="priceDisplay">25,000,000</div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="flex-1 order-1 md:order-2 reveal">
-                                <div class="aspect-square bg-white rounded-full p-2 border-8 border-white shadow-2xl overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80" class="w-full h-full object-cover rounded-full grayscale" alt="Founder">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
-                <!-- Footer -->
-                <footer class="bg-white py-20 border-t border-slate-100">
-                    <div class="max-w-7xl mx-auto px-6">
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
-                            <div class="col-span-2">
-                                <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" class="h-8 mb-8" alt="Logo">
-                                <p class="text-slate-400 text-sm max-w-xs leading-relaxed">Sri Lanka's premier destination for luxury and high-performance pre-owned vehicles.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-black uppercase text-xs mb-6 tracking-widest">Navigation</h4>
-                                <ul class="space-y-4 text-sm text-slate-500 font-bold uppercase tracking-tighter">
-                                    <li><a href="#" class="hover:text-blue-600">Inventory</a></li>
-                                    <li><a href="#" class="hover:text-blue-600">Financing</a></li>
-                                    <li><a href="#" class="hover:text-blue-600">Services</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-black uppercase text-xs mb-6 tracking-widest">Connect</h4>
-                                <ul class="space-y-4 text-sm text-slate-500 font-bold uppercase tracking-tighter">
-                                    <li><a href="#" class="hover:text-blue-600">Instagram</a></li>
-                                    <li><a href="#" class="hover:text-blue-600">Facebook</a></li>
-                                    <li><a href="#" class="hover:text-blue-600">Youtube</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="pt-8 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-6">
-                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-300">© 2024 Solo-So Auto Hub. All rights reserved.</p>
-                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-300">Built for Excellence</p>
-                        </div>
-                    </div>
-                </footer>
-                <div class="h-24 md:hidden"></div>
-            `,
-            stock: () => `
-                <div class="pt-32 pb-32 max-w-7xl mx-auto px-6">
-                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 reveal">
-                        <div>
-                            <span class="text-blue-600 font-black uppercase tracking-[0.3em] text-[10px] block mb-2">Full Collection</span>
-                            <h1 class="text-6xl lg:text-7xl font-black italic tracking-tighter text-slate-900 uppercase">Our Stock</h1>
-                        </div>
-                        <div class="flex gap-4">
-                            <select class="px-6 py-4 bg-white border border-slate-200 rounded-2xl text-xs font-black uppercase tracking-widest outline-none appearance-none">
-                                <option>All Categories</option>
-                                <option>Sedans</option>
-                                <option>SUVs</option>
-                            </select>
-                            <button class="px-6 py-4 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest">Filter ⚙️</button>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                        ${INVENTORY.map(car => `
-                            <div class="reveal bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-xl shadow-slate-200/40 hover:shadow-2xl transition-all group">
-                                <div class="relative h-64 overflow-hidden">
-                                    <img src="${car.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                    <div class="absolute top-6 left-6 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-white ${car.status === 'Sold' ? 'bg-rose-500' : 'bg-blue-600'}">
-                                        ${car.status}
+                                    <div>
+                                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Down Payment (30%)</label>
+                                        <div class="text-right font-heading font-bold text-lg text-slate-400" id="downPaymentDisplay">7,500,000</div>
                                     </div>
-                                </div>
-                                <div class="p-8">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <h3 class="text-2xl font-black italic text-slate-900 uppercase tracking-tighter">${car.name}</h3>
-                                        <span class="text-[10px] font-black text-slate-300 uppercase">${car.year}</span>
+
+                                    <div class="pt-6 border-t border-slate-200">
+                                        <label class="block text-[10px] font-bold uppercase tracking-widest text-blue-600 mb-2">Estimated Monthly Payment (5 Years)</label>
+                                        <div class="text-4xl font-heading font-black text-lux-900" id="monthlyDisplay">385,000</div>
+                                        <p class="text-[9px] text-slate-400 mt-2">*Estimates exclude interest variations and taxes.</p>
                                     </div>
-                                    <p class="text-3xl font-black text-blue-600 mb-8">${car.price}</p>
-                                    <div class="grid grid-cols-2 gap-4 mb-8">
-                                        <div class="p-3 bg-slate-50 rounded-2xl">
-                                            <div class="text-[8px] font-black text-slate-300 uppercase mb-1">Mileage</div>
-                                            <div class="text-xs font-black text-slate-800 uppercase tracking-tighter">${car.mileage}</div>
-                                        </div>
-                                        <div class="p-3 bg-slate-50 rounded-2xl">
-                                            <div class="text-[8px] font-black text-slate-300 uppercase mb-1">Fuel Type</div>
-                                            <div class="text-xs font-black text-slate-800 uppercase tracking-tighter">${car.fuel}</div>
-                                        </div>
-                                    </div>
-                                    <button class="w-full py-5 bg-slate-900 text-white rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-xl active:scale-95 transition-all">
-                                        Inquire via WhatsApp
-                                    </button>
+                                    
+                                    <button class="w-full bg-lux-900 text-white py-4 rounded-xl text-[11px] font-bold uppercase tracking-widest hover:bg-blue-600 transition-colors mt-4">Apply for Pre-Approval</button>
                                 </div>
                             </div>
-                        `).join('')}
+                        </div>
                     </div>
                 </div>
             `,
+
             reviews: () => `
-                <div class="pt-32 pb-32 max-w-7xl mx-auto px-6">
-                    <div class="max-w-3xl mb-20 reveal">
-                        <span class="text-blue-600 font-black uppercase tracking-[0.3em] text-[10px] block mb-2">Our Reputation</span>
-                        <h1 class="text-6xl font-black italic tracking-tighter text-slate-900 uppercase leading-[0.85] mb-8">What our family says.</h1>
-                        <p class="text-slate-500 text-xl leading-relaxed">Join 1,200+ satisfied owners across Sri Lanka who chose the Solo-So path.</p>
-                    </div>
-                    
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="reveal bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm relative overflow-hidden">
-                            <div class="text-blue-600 mb-6 flex gap-1">${"⭐".repeat(5)}</div>
-                            <p class="text-slate-800 text-lg font-medium italic mb-10 leading-relaxed">"The transparency is unmatched. They showed me the import papers and original auction grades before I even asked."</p>
-                            <div class="flex items-center gap-4">
-                                <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">👔</div>
-                                <div>
-                                    <div class="font-black text-sm uppercase text-slate-900 flex items-center gap-2">Amila R. <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg></div>
-                                    <div class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Verified Buyer</div>
+                 <div class="pt-32 pb-24 bg-white min-h-screen">
+                    <div class="container mx-auto px-6 md:px-12">
+                        <h1 class="text-5xl font-heading font-bold text-lux-900 mb-16 text-center reveal-fade">Client Journal.</h1>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Review 1 -->
+                            <div class="p-10 bg-slate-50 rounded-[2rem] reveal-fade delay-100">
+                                <div class="flex text-yellow-500 text-xs mb-6">★★★★★</div>
+                                <p class="font-heading text-xl font-medium leading-relaxed mb-8">"The transparency regarding the auction sheet was refreshing. Solo So Auto is the only place I trust for JDM imports."</p>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-slate-200"></div>
+                                    <div>
+                                        <h5 class="font-bold text-sm">Dr. Perera</h5>
+                                        <p class="text-[10px] text-slate-500 uppercase tracking-widest">Toyota Harrier Owner</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Review 2 -->
+                            <div class="p-10 bg-slate-50 rounded-[2rem] reveal-fade delay-200">
+                                <div class="flex text-yellow-500 text-xs mb-6">★★★★★</div>
+                                <p class="font-heading text-xl font-medium leading-relaxed mb-8">"Exceptional after-sales service. The team handled all registration and insurance paperwork seamlessly."</p>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-slate-200"></div>
+                                    <div>
+                                        <h5 class="font-bold text-sm">Mr. De Silva</h5>
+                                        <p class="text-[10px] text-slate-500 uppercase tracking-widest">Land Cruiser Owner</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             `,
+
             contact: () => `
-                <div class="pt-32 pb-32 max-w-7xl mx-auto px-6">
-                    <div class="grid lg:grid-cols-2 gap-20">
-                        <div class="reveal">
-                            <h1 class="text-7xl font-black italic tracking-tighter text-slate-900 uppercase mb-8">Visit the <br> <span class="text-blue-600">Sanctuary.</span></h1>
-                            <p class="text-slate-500 text-xl leading-relaxed mb-16">Located in the heart of Kurunegala, our showroom is designed for a premium, low-pressure browsing experience.</p>
-                            
-                            <div class="space-y-8">
-                                <div class="flex gap-6 items-center">
-                                    <div class="w-16 h-16 bg-blue-600 rounded-3xl flex items-center justify-center text-white shadow-xl shadow-blue-600/30">📍</div>
+                <div class="pt-32 pb-24 bg-white min-h-screen">
+                    <div class="container mx-auto px-6 md:px-12">
+                        <div class="grid lg:grid-cols-2 gap-20">
+                            <div class="reveal-fade">
+                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Get in Touch</span>
+                                <h1 class="text-6xl font-heading font-bold text-lux-900 mb-8">Visit the <br>Showroom.</h1>
+                                
+                                <div class="space-y-8 mb-12">
                                     <div>
-                                        <h4 class="font-black text-xs uppercase tracking-widest text-slate-400">Main Showroom</h4>
-                                        <p class="text-slate-900 font-black text-xl">No. 245, Negombo Rd, Kurunegala</p>
+                                        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Address</h4>
+                                        <p class="text-xl font-heading font-medium">No. 245, Colombo Road,<br>Kurunegala, Sri Lanka</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Contact</h4>
+                                        <p class="text-xl font-heading font-medium">+94 77 123 4567<br>sales@soloso.lk</p>
                                     </div>
                                 </div>
-                                <div class="flex gap-6 items-center">
-                                    <div class="w-16 h-16 bg-white border border-slate-100 rounded-3xl flex items-center justify-center text-blue-600 shadow-sm">📱</div>
-                                    <div>
-                                        <h4 class="font-black text-xs uppercase tracking-widest text-slate-400">Direct Hotline</h4>
-                                        <p class="text-slate-900 font-black text-xl">+94 77 123 4567</p>
-                                    </div>
-                                </div>
+
+                                <form class="space-y-4">
+                                    <input type="text" placeholder="Your Name" class="w-full p-4 bg-slate-50 rounded-xl border-none text-sm focus:ring-2 focus:ring-blue-600 transition-all">
+                                    <input type="email" placeholder="Email Address" class="w-full p-4 bg-slate-50 rounded-xl border-none text-sm focus:ring-2 focus:ring-blue-600 transition-all">
+                                    <textarea placeholder="Message" rows="4" class="w-full p-4 bg-slate-50 rounded-xl border-none text-sm focus:ring-2 focus:ring-blue-600 transition-all"></textarea>
+                                    <button class="btn-magnetic bg-lux-900 text-white w-full py-4 rounded-xl text-[11px] font-bold uppercase tracking-widest hover:bg-blue-600"><span>Send Message</span></button>
+                                </form>
                             </div>
-                        </div>
-                        
-                        <div class="reveal bg-white p-12 rounded-[3rem] shadow-2xl shadow-slate-200 border border-slate-50">
-                            <h3 class="font-black text-3xl italic text-slate-900 uppercase mb-10 tracking-tighter">Instant Inquiry</h3>
-                            <div class="space-y-6">
-                                <div class="group">
-                                    <label class="text-[9px] font-black uppercase text-slate-400 ml-5">Preferred Name</label>
-                                    <input class="w-full p-5 bg-slate-50 rounded-2xl border border-transparent focus:bg-white focus:border-blue-400 transition-all font-bold">
-                                </div>
-                                <div class="group">
-                                    <label class="text-[9px] font-black uppercase text-slate-400 ml-5">Contact Number</label>
-                                    <input class="w-full p-5 bg-slate-50 rounded-2xl border border-transparent focus:bg-white focus:border-blue-400 transition-all font-bold">
-                                </div>
-                                <div class="group">
-                                    <label class="text-[9px] font-black uppercase text-slate-400 ml-5">What car are you looking for?</label>
-                                    <textarea rows="3" class="w-full p-5 bg-slate-50 rounded-2xl border border-transparent focus:bg-white focus:border-blue-400 transition-all font-bold"></textarea>
-                                </div>
-                                <button class="btn-premium w-full py-6 bg-blue-600 text-white rounded-2xl font-black uppercase text-sm tracking-widest shadow-2xl">Send Message 🚀</button>
+                            
+                            <div class="h-[600px] bg-slate-200 rounded-[3rem] overflow-hidden reveal-fade delay-200 grayscale contrast-125">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63320.43002235258!2d80.3328224!3d7.4817684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae33a1e09153835%3A0x7d653770d10a623c!2sKurunegala%2C%20Sri%20Lanka!5e0!3m2!1sen!2sus!4v1709400000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                             </div>
                         </div>
                     </div>
+                </div>
+            `,
+
+            renderCarCard: (car, delayIndex = 0) => `
+                <div class="group cursor-pointer reveal-fade delay-${delayIndex * 100}">
+                    <div class="relative aspect-[4/3] rounded-[2rem] overflow-hidden mb-6 img-zoom-container bg-slate-100">
+                        <img src="${car.image}" class="w-full h-full object-cover img-zoom-hover" alt="${car.name}">
+                        <div class="absolute inset-0 bg-lux-900/10 group-hover:bg-transparent transition-colors"></div>
+                        
+                        <div class="absolute top-4 left-4 flex gap-2">
+                             <span class="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-widest text-lux-900">${car.year}</span>
+                             ${car.status === 'Sold' ? '<span class="px-3 py-1 bg-red-500 rounded-full text-[9px] font-bold uppercase tracking-widest text-white">Sold</span>' : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-heading font-bold text-lg text-lux-900 line-clamp-2 w-2/3">${car.name}</h3>
+                        <p class="font-heading font-bold text-blue-600 text-lg">
+                            ${(car.price / 1000000).toFixed(1)}M <span class="text-xs text-slate-400 font-normal">LKR</span>
+                        </p>
+                    </div>
+                    
+                    <div class="flex gap-3 text-[10px] text-slate-500 font-medium uppercase tracking-wider mb-4">
+                        ${car.specs.map(spec => `<span>• ${spec}</span>`).join('')}
+                    </div>
+
+                    <button class="w-full py-3 border border-slate-200 rounded-xl text-[10px] font-bold uppercase tracking-widest text-slate-600 group-hover:bg-lux-900 group-hover:text-white group-hover:border-lux-900 transition-all">View Details</button>
                 </div>
             `
         };
 
+        // --- CORE FUNCTIONS ---
+
         function navigateTo(pageId) {
-            const container = document.getElementById('page-render');
-            container.style.opacity = '0';
+            // Scroll top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Close mobile menu if open
+            const menu = document.getElementById('mobile-menu');
+            if (menu && !menu.classList.contains('translate-x-full')) {
+                toggleMenu();
+            }
+
+            // Update App Content
+            const app = document.getElementById('app');
+            app.style.opacity = '0'; // Simple fade out
             
             setTimeout(() => {
-                container.innerHTML = PAGES[pageId]();
-                container.style.opacity = '1';
-                window.scrollTo(0, 0);
+                app.innerHTML = Pages[pageId] ? Pages[pageId]() : '<h1 class="pt-40 text-center">Page Not Found</h1>';
+                app.style.opacity = '1'; // Fade in
                 
-                // Update nav dots/colors
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    if(link.dataset.page === pageId) link.classList.add('text-blue-600');
-                    else link.classList.remove('text-blue-600');
-                });
+                // Re-init observers
+                initObservers();
+                
+                // Start Hero Slider if home
+                if(pageId === 'home') startHeroSlider();
+                
+                // Specific logic for finance calculator
+                if(pageId === 'finance') updateCalculator();
 
-                if (pageId === 'home') initHero();
-                else stopHero();
-                
-                initScrollObserver();
-            }, 500);
+                // Update Nav State
+                updateActiveNav(pageId);
+            }, 300);
         }
 
-        let currentHeroIdx = 0;
-        let heroInterval;
-        function initHero() {
-            const slider = document.getElementById('hero-slider');
-            if(!slider) return;
-            slider.innerHTML = HERO_IMAGES.map((img, i) => `<div class="hero-bg ${i===0?'active':''}" style="background-image: url('${img}')"></div>`).join('');
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if(el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const lines = document.querySelectorAll('.menu-line');
             
-            clearInterval(heroInterval);
-            heroInterval = setInterval(() => {
-                const bgs = document.querySelectorAll('.hero-bg');
-                bgs[currentHeroIdx].classList.remove('active');
-                currentHeroIdx = (currentHeroIdx + 1) % HERO_IMAGES.length;
-                bgs[currentHeroIdx].classList.add('active');
-            }, 6000);
+            menu.classList.toggle('translate-x-full');
+            
+            // Animate Burger
+            if (!menu.classList.contains('translate-x-full')) {
+                lines[0].classList.add('rotate-45', 'translate-y-2');
+                lines[1].classList.add('-rotate-45', '-translate-y-0.5');
+            } else {
+                lines[0].classList.remove('rotate-45', 'translate-y-2');
+                lines[1].classList.remove('-rotate-45', '-translate-y-0.5');
+            }
         }
 
-        function stopHero() { clearInterval(heroInterval); }
-
-        function toggleMenu(isOpen) {
-            document.getElementById('side-menu').style.transform = isOpen ? 'translateX(0)' : 'translateX(100%)';
+        function handleMobileNav(page) {
+            navigateTo(page);
         }
 
-        function initScrollObserver() {
+        function updateActiveNav(pageId) {
+            // Reset styling could be done here, for now relying on onclick state
+        }
+
+        // --- FILTER LOGIC ---
+        function filterStock(type) {
+            const grid = document.getElementById('stock-grid');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update buttons
+            buttons.forEach(btn => {
+                if(btn.textContent.includes(type)) {
+                    btn.classList.add('bg-lux-900', 'text-white');
+                    btn.classList.remove('text-slate-500');
+                } else {
+                    btn.classList.remove('bg-lux-900', 'text-white');
+                    btn.classList.add('text-slate-500');
+                }
+            });
+
+            // Filter Data
+            const filtered = type === 'All' ? DB.cars : DB.cars.filter(c => c.type === type);
+            
+            // Re-render
+            grid.innerHTML = filtered.map((car, i) => Pages.renderCarCard(car, i)).join('');
+            initObservers(); // Re-attach animations
+        }
+
+        function filterFromFooter(type) {
+            navigateTo('stock');
+            setTimeout(() => filterStock(type), 500);
+        }
+
+        // --- CALCULATOR LOGIC ---
+        function updateCalculator() {
+            const price = parseInt(document.getElementById('priceRange')?.value || 0);
+            const priceDisplay = document.getElementById('priceDisplay');
+            const downPaymentDisplay = document.getElementById('downPaymentDisplay');
+            const monthlyDisplay = document.getElementById('monthlyDisplay');
+            
+            if(!priceDisplay) return;
+
+            // Formatter
+            const fmt = (n) => n.toLocaleString('en-US');
+
+            priceDisplay.innerText = fmt(price);
+            
+            const downPayment = price * 0.3;
+            downPaymentDisplay.innerText = fmt(downPayment);
+
+            const loanAmount = price - downPayment;
+            const interestRate = 0.14; // 14%
+            const years = 5;
+            const monthly = (loanAmount * (1 + (interestRate * years))) / (years * 12);
+            
+            monthlyDisplay.innerText = fmt(Math.round(monthly));
+        }
+
+        // --- SLIDER LOGIC ---
+        let sliderInterval;
+        function startHeroSlider() {
+            const slides = document.querySelectorAll('.hero-slide');
+            if(!slides.length) return;
+            
+            let current = 0;
+            if(sliderInterval) clearInterval(sliderInterval);
+            
+            sliderInterval = setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 5000);
+        }
+
+        // --- ANIMATION OBSERVERS ---
+        function initObservers() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('active');
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
                 });
-            }, { threshold: 0.15 });
+            }, { threshold: 0.1 });
 
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            document.querySelectorAll('.reveal-fade, .reveal-text').forEach(el => observer.observe(el));
         }
 
+        // --- SCROLL EFFECTS ---
         window.addEventListener('scroll', () => {
-            const header = document.getElementById('main-header');
-            const logo = document.getElementById('logo-img');
-            if (window.scrollY > 80) {
-                header.classList.add('glass-header', 'shadow-sm');
-                logo.classList.remove('brightness-0', 'invert');
+            const nav = document.getElementById('main-nav');
+            const pill = document.getElementById('nav-pill');
+            const navLogo = document.getElementById('nav-logo');
+
+            if (window.scrollY > 50) {
+                nav.classList.add('nav-solid');
+                nav.classList.remove('nav-glass', 'h-24');
+                nav.classList.add('h-20');
+                
+                if(navLogo) {
+                    navLogo.classList.remove('filter', 'brightness-0', 'invert');
+                }
+                
+                pill.classList.remove('bg-white/5', 'text-white/70');
+                pill.classList.add('bg-slate-100', 'text-slate-600');
+                
+                // Darken text inside pill
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                   btn.classList.remove('text-white/70', 'hover:text-white', 'hover:bg-white/10'); 
+                   btn.classList.add('text-slate-500', 'hover:text-lux-900', 'hover:bg-slate-200');
+                });
             } else {
-                header.classList.remove('glass-header', 'shadow-sm');
-                logo.classList.add('brightness-0', 'invert');
+                nav.classList.remove('nav-solid', 'h-20');
+                nav.classList.add('nav-glass', 'h-24');
+                
+                if(navLogo) {
+                    navLogo.classList.add('filter', 'brightness-0', 'invert');
+                }
+                
+                pill.classList.remove('bg-slate-100', 'text-slate-600');
+                pill.classList.add('bg-white/5', 'text-white/70');
+
+                 document.querySelectorAll('.nav-btn').forEach(btn => {
+                   btn.classList.add('text-white/70', 'hover:text-white', 'hover:bg-white/10'); 
+                   btn.classList.remove('text-slate-500', 'hover:text-lux-900', 'hover:bg-slate-200');
+                });
             }
         });
 
-        window.onload = () => navigateTo('home');
+        // --- INIT ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                document.body.classList.remove('loading');
+                navigateTo('home');
+            }, 1500); // 1.5s loading time
+        });
+
     </script>
 </body>
 </html>
