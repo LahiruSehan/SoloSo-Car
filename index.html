@@ -5,20 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solo So Auto | The Ultimate Automotive Sanctuary</title>
-    <meta name="description" content="Experience the pinnacle of automotive excellence. From JDM legends to European masterpieces, Solo So Auto curates the world's finest vehicles for the discerning few. Marawila's premier destination for luxury, performance, and prestige.">
+    <meta name="description"
+        content="Experience the pinnacle of automotive excellence. From JDM legends to European masterpieces, Solo So Auto curates the world's finest vehicles for the discerning few. Marawila's premier destination for luxury, performance, and prestige.">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://solosoauto.com/">
     <meta property="og:title" content="Solo So Auto | The Ultimate Automotive Sanctuary">
-    <meta property="og:description" content="Experience the pinnacle of automotive excellence. From JDM legends to European masterpieces, Solo So Auto curates the world's finest vehicles for the discerning few.">
+    <meta property="og:description"
+        content="Experience the pinnacle of automotive excellence. From JDM legends to European masterpieces, Solo So Auto curates the world's finest vehicles for the discerning few.">
     <meta property="og:image" content="https://i.ibb.co/NgmZPszW/Cover.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://solosoauto.com/">
     <meta property="twitter:title" content="Solo So Auto | The Ultimate Automotive Sanctuary">
-    <meta property="twitter:description" content="Experience the pinnacle of automotive excellence. From JDM legends to European masterpieces, Solo So Auto curates the world's finest vehicles for the discerning few.">
+    <meta property="twitter:description"
+        content="Experience the pinnacle of automotive excellence. From JDM legends to European masterpieces, Solo So Auto curates the world's finest vehicles for the discerning few.">
     <meta property="twitter:image" content="https://i.ibb.co/NgmZPszW/Cover.png">
 
     <!-- GLOBAL EXTERNAL LIBRARIES -->
@@ -83,7 +86,7 @@
             justify-content: center;
             transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
         }
-        
+
         .loader-content {
             transition: opacity 0.5s ease;
         }
@@ -96,10 +99,17 @@
             opacity: 0;
             transform: scale(0.95);
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -111,10 +121,12 @@
         <div class="loader-content flex flex-col items-center justify-center w-full max-w-md px-6">
             <!-- Logo / Title -->
             <div class="mb-12 relative">
-                <h1 class="font-heading font-black text-7xl md:text-9xl text-white tracking-tighter leading-none opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
+                <h1
+                    class="font-heading font-black text-7xl md:text-9xl text-white tracking-tighter leading-none opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
                     SOLO<span class="text-blue-600">SO</span>
                 </h1>
-                <div class="absolute -bottom-4 left-0 w-full flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500 opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards]">
+                <div
+                    class="absolute -bottom-4 left-0 w-full flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500 opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards]">
                     <span>Est. 2010</span>
                     <span>Marawila</span>
                 </div>
@@ -122,9 +134,11 @@
 
             <!-- Progress Bar -->
             <div class="w-full h-px bg-slate-800 relative overflow-hidden mb-4">
-                <div id="loader-bar" class="absolute top-0 left-0 h-full bg-blue-600 w-0 shadow-[0_0_15px_rgba(37,99,235,0.5)] transition-all duration-75 ease-out"></div>
+                <div id="loader-bar"
+                    class="absolute top-0 left-0 h-full bg-blue-600 w-0 shadow-[0_0_15px_rgba(37,99,235,0.5)] transition-all duration-75 ease-out">
+                </div>
             </div>
-            
+
             <!-- Status Text -->
             <div class="w-full flex justify-between items-end">
                 <div class="flex flex-col">
@@ -636,7 +650,7 @@
 
 
 
-        
+
 
         // =================================================================
         // SECTION 4: THE CURATOR
@@ -874,7 +888,7 @@
         // SECTION 5.1: FULL INVENTORY (ADDED)
         // =================================================================
         const FullInventory = () => {
-             const carCard = (car) => `
+            const carCard = (car) => `
                 <div class="group cursor-pointer bg-white rounded-[2rem] p-3 md:p-4 border border-slate-100 hover:shadow-2xl transition-all duration-500" data-status="${car.status}">
                     <div class="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden mb-4">
                         <img src="${car.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
@@ -893,7 +907,7 @@
                     </div>
                 </div>
             `;
-            
+
             const html = `
                 <section class="py-32 bg-slate-50 min-h-screen">
                     <div class="container mx-auto px-4 md:px-12">
@@ -1117,9 +1131,9 @@
         const WeddingSection = () => {
             // Generate falling items
             const items = [
-                'https://cdn-icons-png.flaticon.com/512/2926/2926766.png', // Flower
+
                 'https://cdn-icons-png.flaticon.com/512/210/210545.png',   // Heart
-                'https://cdn-icons-png.flaticon.com/512/1828/1828884.png'  // Star
+
             ];
             const fallingItems = Array.from({ length: 20 }).map(() => {
                 const item = items[Math.floor(Math.random() * items.length)];
@@ -1229,16 +1243,16 @@
                 const count = document.getElementById('loader-count');
                 const text = document.getElementById('loader-text');
                 const states = ["Initializing...", "Loading Assets...", "Connecting...", "Preparing...", "Welcome."];
-                
+
                 const interval = setInterval(() => {
                     progress += Math.floor(Math.random() * 3) + 1;
                     if (progress > 100) progress = 100;
                     if (bar) bar.style.width = `${progress}%`;
                     if (count) count.innerText = progress.toString().padStart(2, '0');
                     if (text && progress % 20 === 0 && progress < 100) text.innerText = states[Math.floor(progress / 25)];
-                    
+
                     if (progress === 100) {
-                        if(text) text.innerText = states[4];
+                        if (text) text.innerText = states[4];
                         clearInterval(interval);
                         setTimeout(() => {
                             document.body.classList.remove('loading');
@@ -1252,15 +1266,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 const app = document.getElementById('app');
 
-                // Handle Logo Color for Wedding Section
-                const logo = document.getElementById('nav-logo');
-                if (logo) {
-                    if (page === 'wedding') {
-                        logo.style.filter = 'invert(27%) sepia(51%) saturate(2878%) hue-rotate(275deg) brightness(104%) contrast(97%)';
-                    } else {
-                        logo.style.filter = '';
-                    }
-                }
+     
 
                 let content = '';
                 if (page === 'home') {
