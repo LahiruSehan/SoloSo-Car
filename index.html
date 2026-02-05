@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth antialiased selection:bg-blue-600 selection:text-white">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solo So Auto | The Gold Standard in Mobility</title>
+    <title>Solo So Auto | Marawila </title>
+
+    <!-- GLOBAL EXTERNAL LIBRARIES -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- TAILWIND CONFIG -->
     <script>
         tailwind.config = {
             theme: {
@@ -18,1036 +24,1265 @@
                         heading: ['Outfit', 'sans-serif'],
                     },
                     colors: {
-                        lux: {
-                            900: '#020617', // Richer dark
-                            800: '#0f172a',
-                            100: '#f1f5f9',
-                            50: '#f8fafc',
-                            accent: '#2563eb', // Royal Blue
-                        }
+                        lux: { 900: '#020617', 800: '#0f172a', 100: '#f1f5f9', 50: '#f8fafc', accent: '#2563eb' }
                     },
-                    letterSpacing: {
-                        'ultra': '0.35em',
-                    },
-                    animation: {
-                        'spin-slow': 'spin 12s linear infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-glow': 'pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        'pulse-glow': {
-                            '0%, 100%': { opacity: '1', transform: 'scale(1)' },
-                            '50%': { opacity: '.5', transform: 'scale(0.95)' },
-                        }
-                    }
+                    letterSpacing: { 'ultra': '0.35em' }
                 }
             }
         }
     </script>
 
+    <!-- GLOBAL CORE STYLES -->
     <style>
-        /* --- CORE VISUALS --- */
         body {
             background-color: #f8fafc;
             color: #0f172a;
             overflow-x: hidden;
         }
 
-        /* Typography Refinement */
-        .text-balance { text-wrap: balance; }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
-
-        /* --- ADVANCED ANIMATIONS --- */
-        
-        /* Reveal System */
-        .reveal-text span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(100%);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal-text.active span {
-            opacity: 1;
-            transform: translateY(0);
+        ::-webkit-scrollbar {
+            width: 4px;
         }
 
-        .reveal-fade {
-            opacity: 0;
-            transform: translateY(20px) scale(0.98);
-            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .reveal-fade.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
         }
 
-        /* Stagger Delays */
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-        .delay-400 { transition-delay: 400ms; }
-
-        /* Button Animations */
-        .btn-magnetic {
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .btn-magnetic::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.1);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.5s cubic-bezier(0.8, 0, 0.2, 1);
-            z-index: 0;
-        }
-        .btn-magnetic:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-        .btn-magnetic span { position: relative; z-index: 1; }
-
-        /* Hero Slideshow */
-        .hero-slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out, transform 8s ease-out;
-            transform: scale(1.05);
-            background-size: cover;
-            /* CHANGED: Align to top for 9:16 images */
-            background-position: top center;
-        }
-        .hero-slide.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .hero-overlay {
-            background: linear-gradient(to top, rgba(2,6,23,0.9) 0%, rgba(2,6,23,0.4) 40%, rgba(2,6,23,0.1) 100%);
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 2px;
         }
 
-        /* Loader */
-        .loader-shutter {
+        .text-balance {
+            text-wrap: balance;
+        }
+
+        /* Loader Curtain */
+        .loader-curtain {
             position: fixed;
-            top: 0; width: 50%; height: 100%;
-            background: #020617;
+            inset: 0;
             z-index: 9999;
-            transition: transform 1s cubic-bezier(0.8, 0, 0.2, 1);
+            background: #020617;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
         }
-        .loader-left { left: 0; transform-origin: left; }
-        .loader-right { right: 0; transform-origin: right; }
-        .loaded .loader-left { transform: scaleX(0); }
-        .loaded .loader-right { transform: scaleX(0); }
         
         .loader-content {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10000;
             transition: opacity 0.5s ease;
         }
-        .loaded .loader-content { opacity: 0; pointer-events: none; }
 
-        /* Navigation Styles */
-        /* Default Glass (Home Top) */
-        .nav-glass {
-            background: rgba(2, 6, 23, 0.2); /* Slight dark tint for white text readability */
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .loaded .loader-curtain {
+            transform: translateY(-100%);
+        }
+
+        .loaded .loader-content {
+            opacity: 0;
+            transform: scale(0.95);
         }
         
-        /* Scrolled / Inner Page State */
-        .nav-solid {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-        }
-
-        /* Image Hovers */
-        .img-zoom-container { overflow: hidden; }
-        .img-zoom-hover {
-            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .group:hover .img-zoom-hover { transform: scale(1.08); }
-        
-        /* Line Clamps */
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* Mobile Scroll Snap */
-        .snap-x {
-            scroll-snap-type: x mandatory;
-        }
-        .snap-center {
-            scroll-snap-align: center;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
+
 <body class="loading">
 
-    <!-- --- PRELOADER --- -->
-    <div class="loader-shutter loader-left"></div>
-    <div class="loader-shutter loader-right"></div>
-    <div class="loader-content flex flex-col items-center justify-center gap-6">
-        <div class="w-px h-16 bg-blue-600/30 overflow-hidden relative">
-            <div class="absolute top-0 left-0 w-full h-full bg-blue-600 animate-[float_2s_ease-in-out_infinite]"></div>
-        </div>
-        <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-12 w-auto invert brightness-0">
-    </div>
-
-    <!-- --- NAVIGATION --- -->
-    <!-- Height reduced from h-24 to h-20 by default -->
-    <header id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-500 h-20 flex items-center nav-glass">
-        <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
-            <!-- Logo -->
-            <a href="#" onclick="navigateTo('home')" class="group relative z-10 block">
-                <!-- Starts White (invert brightness-0) -->
-                <img id="nav-logo" src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-10 w-auto object-contain transition-all duration-300 filter brightness-0 invert">
-            </a>
-
-            <!-- Desktop Menu -->
-            <nav class="hidden lg:flex items-center gap-1">
-                <div class="flex bg-white/5 backdrop-blur-md rounded-full p-1 border border-white/5 mr-4 transition-all" id="nav-pill">
-                    <button onclick="navigateTo('home')" class="nav-btn px-6 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/10 transition-all">Atelier</button>
-                    <button onclick="navigateTo('stock')" class="nav-btn px-6 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/10 transition-all">Inventory</button>
-                    <button onclick="navigateTo('finance')" class="nav-btn px-6 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/10 transition-all">Finance</button>
-                    <button onclick="navigateTo('reviews')" class="nav-btn px-6 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-white/10 transition-all">Journal</button>
+    <!-- PRELOADER -->
+    <div id="loader" class="loader-curtain">
+        <div class="loader-content flex flex-col items-center justify-center w-full max-w-md px-6">
+            <!-- Logo / Title -->
+            <div class="mb-12 relative">
+                <h1 class="font-heading font-black text-7xl md:text-9xl text-white tracking-tighter leading-none opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
+                    SOLO<span class="text-blue-600">SO</span>
+                </h1>
+                <div class="absolute -bottom-4 left-0 w-full flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500 opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards]">
+                    <span>Est. 2010</span>
+                    <span>Marawila</span>
                 </div>
-                <button onclick="navigateTo('contact')" class="btn-magnetic bg-blue-600 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
-                    <span>Inquire</span>
-                </button>
-            </nav>
+            </div>
 
-            <!-- Mobile Burger -->
-            <button onclick="toggleMenu()" class="lg:hidden relative z-50 w-10 h-10 flex flex-col justify-center items-end gap-1.5 group">
-                <span id="burger-line-1" class="w-6 h-0.5 bg-white transition-all group-hover:w-8 menu-line"></span>
-                <span id="burger-line-2" class="w-4 h-0.5 bg-white transition-all group-hover:w-8 menu-line"></span>
-            </button>
-        </div>
-    </header>
-
-    <!-- --- MOBILE MENU OVERLAY --- -->
-    <div id="mobile-menu" class="fixed inset-0 bg-lux-900 z-40 translate-x-full transition-transform duration-700 cubic-[0.22, 1, 0.36, 1]">
-        <div class="h-full flex flex-col justify-center px-12 gap-8">
-            <a href="#" onclick="handleMobileNav('home')" class="text-4xl font-heading font-bold text-white/30 hover:text-white hover:translate-x-4 transition-all">Home</a>
-            <a href="#" onclick="handleMobileNav('stock')" class="text-4xl font-heading font-bold text-white/30 hover:text-white hover:translate-x-4 transition-all">Inventory</a>
-            <a href="#" onclick="handleMobileNav('finance')" class="text-4xl font-heading font-bold text-white/30 hover:text-white hover:translate-x-4 transition-all">Finance</a>
-            <a href="#" onclick="handleMobileNav('reviews')" class="text-4xl font-heading font-bold text-white/30 hover:text-white hover:translate-x-4 transition-all">Journal</a>
-            <div class="w-full h-px bg-white/10 my-4"></div>
-            <a href="#" onclick="handleMobileNav('contact')" class="text-lg font-bold uppercase tracking-widest text-blue-500">Contact Sales -></a>
+            <!-- Progress Bar -->
+            <div class="w-full h-px bg-slate-800 relative overflow-hidden mb-4">
+                <div id="loader-bar" class="absolute top-0 left-0 h-full bg-blue-600 w-0 shadow-[0_0_15px_rgba(37,99,235,0.5)] transition-all duration-75 ease-out"></div>
+            </div>
+            
+            <!-- Status Text -->
+            <div class="w-full flex justify-between items-end">
+                <div class="flex flex-col">
+                    <span class="text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-1">System Check</span>
+                    <span id="loader-text" class="text-xs font-heading font-bold text-white">Initializing...</span>
+                </div>
+                <span id="loader-count" class="font-heading font-bold text-4xl text-white leading-none">00</span>
+            </div>
         </div>
     </div>
 
-    <!-- --- MAIN APP CONTENT --- -->
+    <!-- MAIN APP STRUCTURE -->
+    <header id="nav-container"></header>
     <main id="app" class="min-h-screen"></main>
+    <footer id="footer-container"></footer>
 
-    <!-- --- REDESIGNED MASSIVE FOOTER --- -->
-    <footer class="bg-lux-900 pt-32 pb-12 rounded-t-[3rem] relative overflow-hidden mt-12">
-        <!-- Decorative Elements -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-blue-900/50 to-transparent"></div>
-        <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px] pointer-events-none"></div>
-
-        <div class="container mx-auto px-6 md:px-12 relative z-10">
-            <!-- Top Section: CTA -->
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 mb-24 border-b border-white/5 pb-12">
-                <div class="max-w-xl">
-                    <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Join the Inner Circle.</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-8">Receive priority access to new arrivals, off-market opportunities, and exclusive automotive insights before the general public.</p>
-                    <div class="flex gap-0 border-b border-white/20 focus-within:border-blue-500 transition-colors pb-2 max-w-sm">
-                        <input type="email" placeholder="Email Address" class="bg-transparent text-white placeholder-slate-600 text-sm w-full focus:outline-none font-medium">
-                        <button class="text-xs font-bold uppercase tracking-widest text-blue-500 hover:text-white transition-colors">Subscribe</button>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 text-right">
-                    <p class="text-white font-heading font-bold text-2xl">+94 77 123 4567</p>
-                    <p class="text-slate-500 text-xs font-medium uppercase tracking-widest">Marawila, Sri Lanka</p>
-                    <div class="flex justify-end gap-4 mt-4">
-                        <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white hover:text-black transition-all text-xs">FB</a>
-                        <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white hover:text-black transition-all text-xs">IG</a>
-                        <a href="#" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white hover:text-black transition-all text-xs">LK</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Middle Section: Links -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-24">
-                <div>
-                    <h4 class="text-white text-[10px] font-bold uppercase tracking-ultra mb-8">Inventory</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" onclick="navigateTo('stock')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">All Vehicles</a></li>
-                        <li><a href="#" onclick="filterFromFooter('SUV')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">SUVs & 4x4</a></li>
-                        <li><a href="#" onclick="filterFromFooter('Sedan')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Executive Sedans</a></li>
-                        <li><a href="#" onclick="filterFromFooter('Sport')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Performance</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white text-[10px] font-bold uppercase tracking-ultra mb-8">Services</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" onclick="navigateTo('finance')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Financing</a></li>
-                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Trade-In Valuations</a></li>
-                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Global Sourcing</a></li>
-                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Aftercare & Warranty</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white text-[10px] font-bold uppercase tracking-ultra mb-8">Company</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" onclick="navigateTo('reviews')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Client Stories</a></li>
-                        <li><a href="#" onclick="navigateTo('about')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Our Heritage</a></li>
-                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Careers</a></li>
-                        <li><a href="#" onclick="navigateTo('contact')" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Showroom Map</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white text-[10px] font-bold uppercase tracking-ultra mb-8">Legal</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Terms of Service</a></li>
-                        <li><a href="#" class="text-slate-400 text-xs hover:text-blue-500 transition-colors">Cookie Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Bottom Section: Brand -->
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
-                <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-24 w-auto opacity-10 filter grayscale brightness-0 invert pointer-events-none">
-                <div class="text-right">
-                    <p class="text-slate-600 text-[10px] uppercase tracking-widest mb-1">© 2024 Solo So Auto. All Rights Reserved.</p>
-                    <p class="text-slate-700 text-[9px] uppercase tracking-widest">Designed & Engineered in Sri Lanka</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- --- JAVASCRIPT APP LOGIC --- -->
+    <!-- ================================================================= -->
+    <!--                       APP LOGIC & SECTIONS                        -->
+    <!-- ================================================================= -->
     <script>
-        // --- DATA STORE ---
+        // --- GLOBAL DATA STORE ---
         const DB = {
-            cars: [
-                { id: 1, name: "Toyota Land Cruiser 300", type: "SUV", year: "2023", price: 85000000, image: "https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&q=80&w=1000", specs: ["3.3L Twin Turbo", "ZX Grade", "0km"], status: "In Stock" },
-                { id: 2, name: "Range Rover Autobiography", type: "SUV", year: "2024", price: 125000000, image: "https://images.unsplash.com/photo-1606220838315-056192d5e927?auto=format&fit=crop&q=80&w=1000", specs: ["P530 V8", "LWB", "Brand New"], status: "En Route" },
-                { id: 3, name: "Mercedes-Benz S500", type: "Sedan", year: "2022", price: 68000000, image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1000", specs: ["AMG Line", "Premium Plus", "5000km"], status: "In Stock" },
-                { id: 4, name: "Porsche Taycan 4S", type: "Sport", year: "2023", price: 55000000, image: "https://images.unsplash.com/photo-1570375267158-4509e53004e9?auto=format&fit=crop&q=80&w=1000", specs: ["Electric", "Performance Battery", "2000km"], status: "Sold" },
-                { id: 5, name: "BMW X5 M-Sport", type: "SUV", year: "2021", price: 42000000, image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=1000", specs: ["xDrive40i", "Laser Light", "18000km"], status: "In Stock" },
-                { id: 6, name: "Toyota Harrier Z", type: "SUV", year: "2021", price: 21500000, image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1000", specs: ["Leather Package", "JBL", "12000km"], status: "In Stock" },
+            inventory: {
+                inStock: [
+                    { name: "Toyota Land Cruiser 300", price: 85000000, year: "2024", image: "https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&q=80&w=1000", status: "In Stock" },
+                    { name: "Mercedes-Benz S500", price: 68000000, year: "2023", image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1000", status: "In Stock" },
+                    { name: "BMW X5 M-Sport", price: 42000000, year: "2022", image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=1000", status: "In Stock" },
+                    { name: "Toyota Harrier Z", price: 21500000, year: "2021", image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1000", status: "In Stock" },
+                    { name: "Lexus LX600", price: 92000000, year: "2023", image: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&q=80&w=1000", status: "In Stock" },
+                ],
+                importable: [
+                    { name: "Range Rover Autobiography", price: 125000000, year: "2024", image: "https://images.unsplash.com/photo-1606220838315-056192d5e927?auto=format&fit=crop&q=80&w=1000", status: "Importable" },
+                    { name: "Porsche Taycan 4S", price: 55000000, year: "2023", image: "https://images.unsplash.com/photo-1570375267158-4509e53004e9?auto=format&fit=crop&q=80&w=1000", status: "Importable" },
+                    { name: "Audi Q8 S-Line", price: 38000000, year: "2022", image: "https://images.unsplash.com/photo-1614200187524-dc41162f7694?auto=format&fit=crop&q=80&w=1000", status: "Importable" },
+                    { name: "Tesla Model S Plaid", price: 45000000, year: "2023", image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&q=80&w=1000", status: "Importable" },
+                    { name: "Nissan GT-R Nismo", price: 75000000, year: "2022", image: "https://images.unsplash.com/photo-1600712242805-5f78671b24da?auto=format&fit=crop&q=80&w=1000", status: "Importable" }
+                ]
+            },
+            weddingFleet: [
+                { name: "Vintage Rolls Royce", description: "Classic White • Red Leather Interior", image: "https://i.ibb.co/0V9fjYLH/Wedding-Car-2.png" },
+                { name: "Mercedes S-Class", description: "Modern Luxury • Chauffeur Driven", image: "https://i.ibb.co/W4rmhdXX/Wedding-Car-3.png" },
+                { name: "BMW 7 Series", description: "Executive Comfort • Long Wheelbase", image: "https://i.ibb.co/pBLNWzXj/Wedding-Car-1.png" }
             ],
             heroImages: [
-                "https://i.ibb.co/zhWCY3t3/Best-Cars.png",
-                "https://i.ibb.co/gMwFSm5d/Best-Cars2.png",
-                "https://i.ibb.co/gM0CFQbX/Best-Cars7.png",
-                "https://i.ibb.co/GfLm2Pv5/Best-Cars8.png",
-                "https://i.ibb.co/0j5Rb2x7/Best-Cars6.png",
-                "https://i.ibb.co/tw4zzZRf/Best-Cars4.png",
-                "https://i.ibb.co/kgFs37Jw/Best-Cars3.png"
+                "https://i.ibb.co/zhWCY3t3/Best-Cars.png", "https://i.ibb.co/gMwFSm5d/Best-Cars2.png", "https://i.ibb.co/gM0CFQbX/Best-Cars7.png", "https://i.ibb.co/GfLm2Pv5/Best-Cars8.png"
             ]
         };
 
-        // --- COMPONENTS ---
-        const Components = {
-            hero: () => `
-                <section class="relative h-[110vh] w-full overflow-hidden bg-lux-900 -mt-20">
-                    <!-- Background Slideshow -->
-                    <div id="hero-slider" class="absolute inset-0 z-0">
-                        ${DB.heroImages.map((img, i) => `
-                            <div class="hero-slide ${i === 0 ? 'active' : ''}" style="background-image: url('${img}');"></div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="absolute inset-0 hero-overlay z-10"></div>
-                    
-                    <!-- Content Bottom Left -->
-                    <div class="absolute bottom-0 left-0 w-full z-20 pb-24 md:pb-32 px-6 md:px-12">
-                        <div class="max-w-4xl">
-                            <div class="reveal-text overflow-hidden mb-4">
-                                <span class="inline-block px-4 py-1.5 border border-white/20 rounded-full bg-white/5 backdrop-blur-md text-[9px] font-bold uppercase tracking-ultra text-white mb-2">Since 2010 • Marawila</span>
-                            </div>
-                            <h1 class="font-heading font-black text-white text-6xl md:text-8xl lg:text-9xl tracking-tighter leading-[0.9] mb-8 reveal-fade delay-100">
-                                PURE <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">MOTION</span><br>
-                                ARTISTRY
-                            </h1>
-                            <p class="text-slate-300 text-sm md:text-base max-w-lg leading-relaxed mb-10 reveal-fade delay-200">
-                                Curating Sri Lanka's finest collection of premium automobiles. We don't just sell cars; we engineer lifestyle upgrades.
-                            </p>
-                            <div class="flex gap-4 reveal-fade delay-300">
-                                <button onclick="window.open('https://wa.me/94771234567', '_blank')" class="btn-magnetic bg-white text-lux-900 px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-slate-200"><span>Whatsapp</span></button>
-                                <button onclick="navigateTo('stock')" class="btn-magnetic bg-transparent border border-white/20 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-white/10"><span>View Inventory</span></button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
+        // --- HELPER TO RENDER & EXECUTE SCRIPTS ---
+        function renderComponent(html) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const scripts = tempDiv.querySelectorAll('script');
+            const arrScripts = Array.from(scripts);
+            arrScripts.forEach(s => s.remove());
+            return { html: tempDiv.innerHTML, scripts: arrScripts };
+        }
 
-            stats: () => `
-                <section class="py-24 bg-white relative z-20">
-                    <div class="container mx-auto px-6 md:px-12">
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-12 border-y border-slate-100 py-12">
-                            <div class="text-center reveal-fade">
-                                <h3 class="text-4xl font-heading font-bold text-lux-900 mb-2">1,200+</h3>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-ultra">Vehicles Delivered</p>
-                            </div>
-                            <div class="text-center reveal-fade delay-100">
-                                <h3 class="text-4xl font-heading font-bold text-lux-900 mb-2">100%</h3>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-ultra">Auction Transparency</p>
-                            </div>
-                            <div class="text-center reveal-fade delay-200">
-                                <h3 class="text-4xl font-heading font-bold text-lux-900 mb-2">02</h3>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-ultra">Year Premium Warranty</p>
-                            </div>
-                            <div class="text-center reveal-fade delay-300">
-                                <h3 class="text-4xl font-heading font-bold text-lux-900 mb-2">24/7</h3>
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-ultra">Roadside Support</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
+        // =================================================================
+        // SECTION 1: NAVIGATION BAR
+        // =================================================================
+        const NavBar = () => {
+            const styles = `
+                <style>
+                    .btn-magnetic { transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+                    .btn-magnetic:active { transform: scale(0.95); }
+                </style>
+            `;
 
-            // UPDATED SECTION: OWNER DETAILS
-            curator: () => `
-                <section id="curator" class="py-32 bg-slate-50 relative overflow-hidden">
-                    <div class="container mx-auto px-6 md:px-12">
-                        <div class="flex flex-col lg:flex-row items-center gap-16">
-                            <div class="w-full lg:w-1/2 relative reveal-fade">
-                                <div class="aspect-[3/4] rounded-[2rem] overflow-hidden bg-slate-200 relative">
-                                    <img src="https://i.ibb.co/QF5LV7SW/Person.png" alt="Mr. Saman Wijesinghe" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                                </div>
-                                <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-white rounded-full flex items-center justify-center p-4 shadow-xl z-10">
-                                    <div class="text-center">
-                                        <p class="font-heading font-black text-4xl text-lux-900">15+</p>
-                                        <p class="text-[9px] uppercase tracking-widest text-slate-500">Years Experience</p>
-                                    </div>
-                                </div>
+            const html = `
+                <header id="main-nav" class="fixed top-0 w-full z-[100] h-20 flex items-center bg-white/80 backdrop-blur-md border-b border-slate-200">
+                    <div class="w-full px-4 md:px-8 flex justify-between items-center">
+                        <a href="#" onclick="App.navigate('home')" class="group relative z-50 block">
+                            <img id="nav-logo" src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-8 w-auto object-contain">
+                        </a>
+
+                        <!-- Full Menu (No Burger) -->
+                        <nav class="flex items-center gap-2 md:gap-4">
+                            <div class="flex items-center gap-1 md:gap-2">
+                                <button onclick="App.navigate('home')" class="px-3 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-all">Home</button>
+                                <button onclick="App.navigate('stock')" class="px-3 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-all">Cars</button>
+                                <button onclick="App.navigate('wedding')" class="group px-4 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 hover:from-pink-600 hover:via-rose-600 hover:to-red-600 shadow-lg shadow-rose-500/30 transition-all flex items-center gap-2 transform hover:scale-105">
+                                    <span class="animate-pulse">♥</span> 
+                                    <span>Hire Wedding Car</span>
+                                    <span class="animate-pulse">♥</span>
+                                </button>
                             </div>
+                            <button onclick="window.open('https://wa.me/94775300000', '_blank')" class="btn-magnetic bg-green-500 text-white px-4 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest hover:bg-green-600 shadow-lg shadow-green-500/20 transition-all flex items-center gap-2 transform hover:scale-105">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                                <span>WhatsApp</span>
+                            </button>
+                        </nav>
+                    </div>
+                </header>
+            `;
+
+            const logic = `
+                <script>
+                    // No mobile menu logic needed
+                <\/script>
+            `;
+            return styles + html + logic;
+        };
+
+        // =================================================================
+        // SECTION 2: HERO SECTION (RefactORED)
+        // =================================================================
+        const HeroSection = () => {
+
+            const styles = `
+<style>
+
+:root{
+  --h-bg-y:0%;
+  --h-txt-y:0px;
+  --h-txt-s:1;
+}
+
+@media (min-width:768px){
+  :root{
+    --h-bg-y:9%;
+    --h-txt-y:85px;
+    --h-txt-s:.75;
+  }
+}
+
+/* ============================= */
+/* HERO BACKGROUNDS */
+/* ============================= */
+
+.hero-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity 1.5s ease-in-out;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center;
+}
+
+.hero-slide.active{opacity:1;}
+
+.desktop-hero{
+  display:none;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:0;
+}
+
+@media (min-width:768px){
+  #hero-slides{display:none;}
+  .desktop-hero{display:block;}
+}
+
+/* ============================= */
+/* TEXT ANIMATION */
+/* ============================= */
+
+.tunable-text-container{
+  transform:translateY(var(--h-txt-y)) scale(var(--h-txt-s));
+  transform-origin:bottom left;
+}
+
+.reveal-fade{
+  opacity:0;
+  transform:translateY(20px);
+  transition:.8s ease;
+}
+
+.reveal-fade.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@keyframes float-subtle{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-3px);}
+}
+
+.anim-float{
+  animation:float-subtle 3s ease-in-out infinite;
+}
+
+/* ============================= */
+/* MARQUEE */
+/* ============================= */
+
+.marquee-wrapper{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#fff;
+  color:#020617;
+  padding:1rem 0;
+  z-index:50;
+  overflow:hidden;
+  white-space:nowrap;
+  border-top:1px solid #e2e8f0;
+}
+
+.marquee-content{
+  display:inline-block;
+  animation:marquee 20s linear infinite;
+}
+
+@keyframes marquee{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
+</style>
+`;
+
+            const logoUrls = [
+                "https://i.ibb.co/7tTCWV1P/Car-Logo-1.png", "https://i.ibb.co/rf76ph9x/Car-Logo-2.png",
+                "https://i.ibb.co/bMK2Rh8n/Car-Logo-3.png", "https://i.ibb.co/xKBmTkQj/Car-Logo-4.png",
+                "https://i.ibb.co/bRDkFBjj/Car-Logo-5.png", "https://i.ibb.co/whRVTWds/Car-Logo-6.png",
+                "https://i.ibb.co/tjdGYgc/Car-Logo-7.png", "https://i.ibb.co/4nf5zYG1/Car-Logo-8.png",
+                "https://i.ibb.co/QvpCpWTD/Car-Logo-9.png", "https://i.ibb.co/bgxK4S3t/Car-Logo-10.png",
+                "https://i.ibb.co/99QbJp03/Car-Logo-11.png", "https://i.ibb.co/6c1RN9jh/Car-Logo-12.png",
+                "https://i.ibb.co/pByS182G/Car-Logo-13.png", "https://i.ibb.co/ZpRVkZT4/Car-Logo-14.png",
+                "https://i.ibb.co/HLPr7vTX/Car-Logo-15.png", "https://i.ibb.co/RkKNMcnp/Car-Logo-16.png",
+                "https://i.ibb.co/VYXyzmkw/Car-Logo-17.png", "https://i.ibb.co/WNRrVwRS/Car-Logo-18.png",
+                "https://i.ibb.co/bgKThfkP/Car-Logo-19.png", "https://i.ibb.co/TMNJ2Xgy/Car-Logo-20.png"
+            ];
+            const logoStrip = logoUrls.map(url => `<img src="${url}" class="h-6 md:h-8 w-auto mx-6 md:mx-12 inline-block transition-all duration-500 cursor-pointer align-middle" alt="Brand Partner">`).join('');
+            const marqueeContent = logoStrip.repeat(2);
+
+            const html = `
+<section class="relative h-[calc(100vh-5rem)] w-full overflow-hidden bg-lux-900 mt-20">
+
+  <!-- Mobile Slider -->
+  <div id="hero-slides" class="absolute inset-0 z-0 md:hidden">
+    ${(DB.heroImages || [])
+                    .map((img, i) => `
+        <div class="hero-slide ${i === 0 ? 'active' : ''}" 
+             style="background-image:url('${img}')"></div>
+      `).join('')
+                }
+  </div>
+
+  <!-- Desktop Static -->
+  <img 
+    src="https://wallpapercat.com/w/full/5/c/3/277598-1920x1236-desktop-hd-cars-disney-background-image.jpg"
+    class="desktop-hero"
+    alt="Hero Background">
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-t from-lux-900/90 via-lux-900/40 to-transparent z-10"></div>
+
+  <!-- TEXT -->
+  <div class="absolute bottom-0 left-0 w-full z-20 pb-32 md:pb-48 px-6 md:px-12 pointer-events-none">
+    <div class="max-w-4xl tunable-text-container pointer-events-auto">
+
+      <span class="inline-block px-4 py-1.5 border border-white/20 rounded-full bg-white/5 backdrop-blur-md text-[9px] font-bold uppercase tracking-ultra text-white mb-4">
+        Since 2010 • Marawila
+      </span>
+
+      <h1 class="font-heading font-black text-white text-6xl md:text-9xl tracking-tighter leading-[0.9] mb-4 reveal-fade">
+        PURE 
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
+          MOTION
+        </span><br>
+        ARTISTRY
+      </h1>
+
+      <p class="text-slate-300 text-lg md:text-xl mb-6 reveal-fade font-light tracking-wide anim-float">
+        Where <span class="font-bold text-blue-500">Performance</span> meets 
+        <span class="font-bold text-blue-500">Prestige</span>.
+      </p>
+
+      <div class="flex gap-4 reveal-fade" style="transition-delay:120ms">
+        <button 
+          onclick="window.open('https://wa.me/94775300000','_blank')"
+          class="bg-white text-lux-900 px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-slate-200 transition">
+          Whatsapp
+        </button>
+
+        <button 
+          onclick="App.navigate('stock')"
+          class="border border-white/20 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 transition">
+          View Inventory
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrapper">
+    <div class="marquee-content grayscale opacity-30">
+      ${marqueeContent}
+    </div>
+    <div class="absolute inset-0 py-4 pointer-events-none" style="-webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%, black 60%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 40%, black 60%, transparent 100%);">
+      <div class="marquee-content">
+        ${marqueeContent}
+      </div>
+    </div>
+  </div>
+
+</section>
+`;
+
+            const logic = `
+<script>
+(function(){
+
+  const slides = document.querySelectorAll('.hero-slide');
+  let index = 0;
+
+  // Reveal text
+  setTimeout(()=>{
+    document.querySelectorAll('.reveal-fade')
+      .forEach(el=>el.classList.add('active'));
+  },500);
+
+  // Slider only if images exist
+  if(slides.length > 1){
+    setInterval(()=>{
+      slides[index].classList.remove('active');
+      index = (index + 1) % slides.length;
+      slides[index].classList.add('active');
+    },5000);
+  }
+
+})();
+<\/script>
+`;
+
+            return styles + html + logic;
+        };
+
+
+
+
+
+
+
+        // =================================================================
+        // SECTION 3: STATS SECTION (ADDED)
+        // =================================================================
+        const StatsSection = () => {
+            const styles = `
+                <style>
+                    .feature-card {
+                        background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
+                        backdrop-filter: blur(10px);
+                        border: 1px solid rgba(255, 255, 255, 0.05);
+                        position: relative;
+                        overflow: hidden;
+                        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+                    .feature-card::after {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 60%);
+                        opacity: 0;
+                        transition: opacity 0.5s;
+                    }
+                    .feature-card:hover::after {
+                        opacity: 1;
+                    }
+                    .feature-card:hover {
+                        transform: translateY(-5px);
+                        border-color: rgba(59, 130, 246, 0.3);
+                        box-shadow: 0 20px 40px -15px rgba(2, 6, 23, 0.8);
+                    }
+                    .icon-float {
+                        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    }
+                    .feature-card:hover .icon-float {
+                        transform: scale(1.1) rotate(-5deg);
+                    }
+                    @keyframes slideUp {
+                        from { opacity: 0; transform: translateY(20px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    .anim-entry {
+                        opacity: 0;
+                        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                        animation-play-state: paused;
+                    }
+                </style>
+            `;
+
+            const html = `
+                <section id="stats-section" class="py-32 bg-lux-900 relative overflow-hidden">
+                    <!-- Ambient Background -->
+                    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[128px] pointer-events-none"></div>
+                    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/5 rounded-full blur-[128px] pointer-events-none"></div>
+
+                    <div class="container mx-auto px-6 md:px-12 relative z-10">
+                        <div class="grid lg:grid-cols-2 gap-16 items-center">
                             
-                            <div class="w-full lg:w-1/2 reveal-fade delay-100">
-                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-6 block">The Curator</span>
-                                <h2 class="text-5xl font-heading font-bold text-lux-900 mb-8 leading-tight">Driven by a <br>Standard of Excellence.</h2>
-                                <p class="text-slate-600 text-sm leading-relaxed mb-6 text-balance">
-                                    "I founded Solo So Auto with a singular vision: to bring transparency and true luxury to the Sri Lankan automotive market. Every vehicle in our inventory is personally hand-picked from the highest-grade auctions in Japan and the UK."
-                                </p>
-                                <p class="text-slate-600 text-sm leading-relaxed mb-10 text-balance">
-                                    "We don't just import cars; we curate experiences. When you drive a Solo So vehicle, you're driving a promise of quality, integrity, and performance."
+                            <!-- Left Content -->
+                            <div class="anim-entry">
+                                <span class="text-blue-500 font-bold text-[10px] uppercase tracking-ultra mb-6 block">Global Reach</span>
+                                <h2 class="text-5xl md:text-6xl font-heading font-bold text-white mb-8 leading-[1.1]">
+                                    Sourcing Excellence <br>
+                                    <span class="text-slate-500">Across Borders.</span>
+                                </h2>
+                                <p class="text-slate-400 text-sm leading-relaxed mb-10 max-w-md">
+                                    We bridge the gap between the world's premier automotive markets and your garage. Hand-selected units from the finest auctions and dealerships.
                                 </p>
                                 
-                                <div class="flex items-center gap-4">
-                                    <div class="h-px w-12 bg-lux-900"></div>
-                                    <div>
-                                        <h4 class="font-heading font-bold text-xl text-lux-900">Mr. Saman Wijesinghe</h4>
-                                        <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Founder & Managing Director</p>
+                                <div class="flex flex-wrap gap-4">
+                                    <img src="https://flagcdn.com/w80/jp.png" alt="Japan" class="h-10 w-10 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Japan">
+                                    <img src="https://flagcdn.com/w80/gb.png" alt="UK" class="h-10 w-10 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="UK">
+                                    <img src="https://flagcdn.com/w80/th.png" alt="Thailand" class="h-10 w-10 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Thailand">
+                                    <img src="https://flagcdn.com/w80/de.png" alt="Germany" class="h-10 w-10 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Germany">
+                                </div>
+                            </div>
+
+                            <!-- Right Grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                
+                                <!-- Card 1: 500+ Units -->
+                                <div class="feature-card p-8 rounded-[2rem] flex flex-col justify-between min-h-[260px] group anim-entry" style="animation-delay: 0.1s">
+                                    <div class="flex justify-between items-start relative z-10">
+                                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-blue-500 icon-float group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                        </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600 group-hover:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                                     </div>
+                                    <div class="relative z-10">
+                                        <h3 class="text-5xl font-heading font-black text-white mb-1 tracking-tighter">500<span class="text-blue-500">+</span></h3>
+                                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-ultra group-hover:text-white transition-colors">Premium Units Delivered</p>
+                                    </div>
+                                    <div class="pt-6 border-t border-white/5 flex justify-between items-center relative z-10">
+                                        <span class="text-[9px] font-bold uppercase tracking-widest text-slate-500">Since 2010</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </div>
+                                </div>
+
+                                <!-- Card 2: Sterling Partner -->
+                                <div class="feature-card p-8 rounded-[2rem] flex flex-col justify-between min-h-[260px] group anim-entry" style="animation-delay: 0.2s">
+                                    <div class="flex justify-between items-start relative z-10">
+                                        <div class="h-8 w-auto flex gap-4">
+                                            <img src="https://www.sterling.lk/wp-content/uploads/2024/01/logo-14.png" alt="Sterling" class="h-full object-contain brightness-100  opacity-100 group-hover:opacity-100 transition-opacity duration-500">
+                                            <img src="https://i.ibb.co/8gGMjL87/Kobe.png" alt="KOBE Auto" class="h-full object-contain rounded-sm opacity-90 group-hover:opacity-100 transition-opacity duration-500">
+                                        </div>
+                                        <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 group-hover:text-white transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                                        </div>
+                                    </div>
+                                    <div class="relative z-10">
+                                        <h3 class="text-2xl font-heading font-bold text-white mb-1">Service Partners</h3>
+                                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-ultra group-hover:text-white transition-colors">Sterling & KOBE Auto</p>
+                                    </div>
+                                    <div class="pt-6 border-t border-white/5 flex justify-between items-center relative z-10">
+                                        <span class="text-[9px] font-bold uppercase tracking-widest text-slate-500">Warranty & Care</span>
+                                        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Card 3: Quality (Wide) -->
+                                <div class="feature-card p-8 rounded-[2rem] sm:col-span-2 flex flex-col justify-between min-h-[200px] group anim-entry" style="animation-delay: 0.3s">
+                                    <div class="flex justify-between items-start relative z-10 mb-4">
+                                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-amber-500 icon-float group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                        </div>
+                                        <div class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[9px] font-bold uppercase tracking-widest text-slate-400 group-hover:border-blue-500/50 group-hover:text-blue-400 transition-all">
+                                            Certified
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 relative z-10">
+                                        <div>
+                                            <h3 class="text-3xl font-heading font-bold text-white mb-1">Uncompromised Quality</h3>
+                                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-ultra group-hover:text-white transition-colors">Every vehicle undergoes a 120-point inspection.</p>
+                                        </div>
+                                        <div class="text-slate-600 group-hover:text-blue-500 transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            const logic = `
+                <script>
+                    (function() {
+                        const observer = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    entry.target.querySelectorAll('.anim-entry').forEach(el => el.style.animationPlayState = 'running');
+                                    observer.unobserve(entry.target);
+                                }
+                            });
+                        }, { threshold: 0.2 });
+                        
+                        const section = document.getElementById('stats-section');
+                        if(section) observer.observe(section);
+                    })();
+                <\/script>
+            `;
+            return styles + html + logic;
+        }
+
+
+
+
+
+        
+
+        // =================================================================
+        // SECTION 4: THE CURATOR
+        // =================================================================
+        const CuratorSection = () => {
+            const styles = `
+                <style>
+                    .text-reveal-line {
+                        overflow: hidden;
+                    }
+                    .text-reveal-line span {
+                        display: block;
+                        transform: translateY(100%);
+                        transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+                    }
+                    .active .text-reveal-line span {
+                        transform: translateY(0);
+                    }
+                    .fade-in-up {
+                        opacity: 0;
+                        transform: translateY(20px);
+                        transition: opacity 0.8s ease, transform 0.8s ease;
+                    }
+                    .active .fade-in-up {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                    @keyframes blob {
+                        0% { transform: translate(0px, 0px) scale(1); }
+                        33% { transform: translate(30px, -50px) scale(1.1); }
+                        66% { transform: translate(-20px, 20px) scale(0.9); }
+                        100% { transform: translate(0px, 0px) scale(1); }
+                    }
+                    .animate-blob {
+                        animation: blob 7s infinite;
+                    }
+                    .animation-delay-2000 {
+                        animation-delay: 2s;
+                    }
+                </style>
+            `;
+
+            const html = `
+                <section id="curator-section" class="pt-32 pb-12 bg-white relative overflow-hidden">
+                    <!-- Abstract Background Shapes -->
+                    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                        <div class="absolute top-[10%] left-[5%] w-96 h-96 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+                        <div class="absolute top-[20%] right-[10%] w-96 h-96 bg-indigo-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+                    </div>
+
+                    <div class="container mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center">
+                        
+                        <!-- 1. Heading First -->
+                        <div class="text-center mb-16 max-w-4xl">
+                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-6 fade-in-up">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                The Curator
+                            </div>
+                            
+                            <h2 class="text-5xl md:text-7xl font-heading font-black text-lux-900 leading-[0.9] tracking-tight flex flex-col items-center">
+                                <div class="text-reveal-line"><span>DEFINING</span></div>
+                                <div class="text-reveal-line"><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">AUTOMOTIVE</span></div>
+                                <div class="text-reveal-line"><span>LUXURY.</span></div>
+                            </h2>
+                        </div>
+
+                        <!-- 2. Image Smaller & Quote Overlapping -->
+                        <div class="relative w-full max-w-md mb-16 group">
+                            <!-- Image Container -->
+                            <div class="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white fade-in-up aspect-[3/4] md:aspect-[4/5]">
+                                <img src="https://i.ibb.co/QF5LV7SW/Person.png" alt="Mr. Saman Wijesinghe" class="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-lux-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            </div>
+                            
+                            <!-- Decorative Elements -->
+                            <div class="absolute -top-6 -left-6 w-24 h-24 border-t-4 border-l-4 border-blue-500/20 rounded-tl-3xl fade-in-up" style="transition-delay: 100ms"></div>
+                            <div class="absolute -bottom-6 -right-6 w-24 h-24 border-b-4 border-r-4 border-blue-500/20 rounded-br-3xl fade-in-up" style="transition-delay: 100ms"></div>
+
+                            <!-- Overlapping Quote (Founder's Note) -->
+                            <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-slate-100 max-w-[260px] w-[90%] fade-in-up z-20 text-center" style="transition-delay: 200ms">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="flex h-3 w-3 relative">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                                    </span>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Founder's Note</span>
+                                </div>
+                                <p class="font-heading font-bold text-lux-900 text-sm italic">"We don't just sell cars. We curate a lifestyle of excellence."</p>
+                            </div>
+                        </div>
+
+                        <!-- 3. Description & Signature -->
+                        <div class="max-w-2xl text-center fade-in-up" style="transition-delay: 300ms">
+                            <div class="space-y-6 text-slate-600 text-lg font-light leading-relaxed mb-10">
+                                <p>
+                                    Founded with a singular vision: to dismantle the opacity of the traditional car market. Solo So Auto stands as a beacon of transparency, quality, and trust in the Sri Lankan automotive landscape.
+                                </p>
+                                <p>
+                                    "Every vehicle in our inventory is personally hand-picked from the highest-grade auctions in Japan and the UK. I believe that quality is not an act, but a habit."
+                                </p>
+                            </div>
+
+                            <div class="flex flex-col items-center gap-4 pt-8 border-t border-slate-100 w-full">
+                                <div class="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center text-2xl mb-2">✍️</div>
+                                <div>
+                                    <h4 class="font-heading font-bold text-2xl text-lux-900">Saman Wijesinghe</h4>
+                                    <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Managing Director</p>
+                                </div>
+                                <div class="opacity-30 mt-2">
+                                     <svg width="120" height="40" viewBox="0 0 120 40" fill="none" stroke="currentColor" stroke-width="2" class="text-lux-900">
+                                        <path d="M10 30 C 20 10, 40 10, 50 30 S 80 30, 90 10 S 110 10, 110 30" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-            `,
+            `;
 
-            featuredStock: () => `
-                <section class="py-32 bg-white overflow-hidden">
-                    <div class="container mx-auto px-6 md:px-12 mb-16">
-                         <div class="flex justify-between items-end reveal-fade">
-                            <div>
-                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Current Inventory</span>
-                                <h2 class="text-4xl md:text-5xl font-heading font-bold text-lux-900">Featured Assets.</h2>
-                            </div>
-                            <button onclick="navigateTo('stock')" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-blue-600 transition-colors group">
-                                View All 
-                                <span class="group-hover:translate-x-1 transition-transform">→</span>
+            const logic = `
+                <script>
+                    (function() {
+                        const observer = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    entry.target.classList.add('active');
+                                    observer.unobserve(entry.target);
+                                }
+                            });
+                        }, { threshold: 0.3 });
+                        
+                        const section = document.getElementById('curator-section');
+                        if(section) observer.observe(section);
+                    })();
+                <\/script>
+            `;
+            return styles + html + logic;
+        }
+
+        // =================================================================
+        // SECTION 5: INVENTORY (FEATURED)
+        // =================================================================
+        const FeaturedInventory = () => {
+            const styles = `
+                <style>
+                    .snap-scroll-container {
+                        display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+                        -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 2rem; padding-bottom: 2rem;
+                    }
+                    .snap-scroll-container::-webkit-scrollbar { display: none; }
+                    .car-card-snap { flex: 0 0 85vw; scroll-snap-align: center; }
+                    @media (min-width: 768px) { .car-card-snap { flex: 0 0 400px; } }
+                </style>
+            `;
+            const carCard = (car) => `
+                <div class="car-card-snap group cursor-pointer bg-white rounded-[2rem] p-4 border border-slate-100 hover:shadow-2xl transition-all duration-500">
+                    <div class="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden mb-4">
+                        <img src="${car.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
+                        <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-widest text-lux-900">${car.year}</div>
+                    </div>
+                    <div class="px-2">
+                        <h3 class="font-heading font-bold text-lg text-lux-900 mb-1 truncate">${car.name}</h3>
+                        <p class="text-blue-600 font-bold text-lg mb-3">${(car.price / 1000000).toFixed(1)}M <span class="text-xs text-slate-400 font-normal">LKR</span></p>
+                        <div class="flex gap-2">
+                            <button class="flex-1 py-3 border border-slate-200 rounded-xl text-[10px] font-bold uppercase tracking-widest text-slate-600 group-hover:bg-lux-900 group-hover:text-white transition-colors">Details</button>
+                            <button onclick="window.open('https://wa.me/94775300000?text=I am interested in ${car.name}', '_blank')" class="w-12 flex items-center justify-center border border-green-500/30 bg-green-50 rounded-xl text-green-600 hover:bg-green-500 hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                             </button>
                         </div>
                     </div>
-
-                    <!-- Desktop Grid (Hidden Mobile) -->
-                    <div class="container mx-auto px-6 md:px-12 hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        ${DB.cars.slice(0, 3).map((car, i) => Pages.renderCarCard(car, i)).join('')}
-                    </div>
-
-                    <!-- Mobile Carousel (One by One Auto Scroll) -->
-                    <div class="md:hidden w-full overflow-hidden">
-                        <div id="mobile-carousel" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-6 px-6 gap-4">
-                            ${DB.cars.map((car) => `
-                                <div class="w-full min-w-[100%] flex-shrink-0 snap-center">
-                                    ${Pages.renderCarCard(car, 0)}
-                                </div>
-                            `).join('')}
+                </div>
+            `;
+            const html = `
+                <section class="pt-12 pb-32 bg-white overflow-hidden">
+                    <div class="container mx-auto px-6 md:px-12 mb-12 flex flex-col md:flex-row justify-between items-center md:items-end gap-6 md:gap-0 text-center md:text-left">
+                        <div>
+                            <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Current Inventory</span>
+                            <h2 class="text-4xl md:text-5xl font-heading font-bold text-lux-900">Featured Assets.</h2>
+                        </div>
+                        <div class="hidden md:flex gap-2">
+                            <button onclick="scrollInventory(-1)" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-lux-900 hover:text-white transition-colors">←</button>
+                            <button onclick="scrollInventory(1)" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-lux-900 hover:text-white transition-colors">→</button>
                         </div>
                     </div>
-                    
-                    <div class="container mx-auto px-6 md:px-12 mt-12 text-center md:hidden">
-                         <button onclick="navigateTo('stock')" class="btn-magnetic bg-lux-900 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest"><span>View Full Inventory</span></button>
+                    <div id="inv-scroll" class="snap-scroll-container px-6 md:px-12">
+                        ${[...DB.inventory.inStock, ...DB.inventory.importable].map(c => carCard(c)).join('')}
+                    </div>
+                    <div class="text-center mt-8 md:hidden">
+                        <p class="text-[9px] text-slate-400 uppercase tracking-widest animate-pulse">Swipe to Explore</p>
                     </div>
                 </section>
-            `,
+            `;
+            const logic = `
+                <script>
+                    (function() {
+                        const container = document.getElementById('inv-scroll');
+                        if (!container) return;
+                        
+                        // Duplicate content for seamless infinite scroll
+                        container.innerHTML += container.innerHTML;
 
-            // NEW SECTION: THE PROCESS
-            process: () => `
+                        let scrollInterval;
+                        function startAutoScroll() {
+                            clearInterval(scrollInterval);
+                            scrollInterval = setInterval(() => {
+                                const cardWidth = container.querySelector('.car-card-snap').offsetWidth + 32;
+                                const maxScroll = container.scrollWidth / 2;
+                                
+                                if (container.scrollLeft >= maxScroll) {
+                                    container.scrollLeft -= maxScroll;
+                                }
+                                container.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                            }, 2000);
+                        }
+                        
+                        container.addEventListener('mouseenter', () => clearInterval(scrollInterval));
+                        container.addEventListener('touchstart', () => clearInterval(scrollInterval));
+                        container.addEventListener('mouseleave', startAutoScroll);
+                        container.addEventListener('touchend', startAutoScroll);
+                        
+                        startAutoScroll();
+                        
+                        window.scrollInventory = (dir) => {
+                            const card = container.querySelector('.car-card-snap');
+                            const cardWidth = card.offsetWidth + 32;
+                            container.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
+                        };
+                    })();
+                <\/script>
+            `;
+            return styles + html + logic;
+        }
+
+        // =================================================================
+        // SECTION 5.1: FULL INVENTORY (ADDED)
+        // =================================================================
+        const FullInventory = () => {
+             const carCard = (car) => `
+                <div class="group cursor-pointer bg-white rounded-[2rem] p-3 md:p-4 border border-slate-100 hover:shadow-2xl transition-all duration-500" data-status="${car.status}">
+                    <div class="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden mb-4">
+                        <img src="${car.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
+                        <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-widest text-lux-900">${car.year}</div>
+                        <div class="absolute top-3 right-3 px-3 py-1 ${car.status === 'In Stock' ? 'bg-emerald-500/90 text-white' : 'bg-blue-500/90 text-white'} backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-widest">${car.status}</div>
+                    </div>
+                    <div class="px-1 md:px-2">
+                        <h3 class="font-heading font-bold text-base md:text-lg text-lux-900 mb-1 truncate">${car.name}</h3>
+                        <p class="text-blue-600 font-bold text-base md:text-lg mb-3">${(car.price / 1000000).toFixed(1)}M <span class="text-xs text-slate-400 font-normal">LKR</span></p>
+                        <div class="flex gap-2">
+                            <button class="flex-1 py-2 md:py-3 border border-slate-200 rounded-xl text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-slate-600 group-hover:bg-lux-900 group-hover:text-white transition-colors">Details</button>
+                            <button onclick="window.open('https://wa.me/94775300000?text=I am interested in ${car.name}', '_blank')" class="w-10 md:w-12 flex items-center justify-center border border-green-500/30 bg-green-50 rounded-xl text-green-600 hover:bg-green-500 hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const html = `
+                <section class="py-32 bg-slate-50 min-h-screen">
+                    <div class="container mx-auto px-4 md:px-12">
+                        <div class="text-center mb-16">
+                            <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Our Collection</span>
+                            <h2 class="text-4xl md:text-5xl font-heading font-bold text-lux-900">Complete Inventory</h2>
+                        </div>
+                        <div id="filter-buttons" class="flex justify-center gap-2 mb-12">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="In Stock">In Stock</button>
+                            <button class="filter-btn" data-filter="Importable">Importable</button>
+                        </div>
+                        <div id="inventory-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-8">
+                            ${[...DB.inventory.inStock, ...DB.inventory.importable].map(c => carCard(c)).join('')}
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            const styles = `
+                <style>
+                    .filter-btn {
+                        padding: 0.5rem 1.5rem;
+                        border-radius: 9999px;
+                        font-size: 10px;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                        background-color: #fff;
+                        color: #475569;
+                        border: 1px solid #e2e8f0;
+                        transition: all 0.3s;
+                    }
+                    .filter-btn.active, .filter-btn:hover {
+                        background-color: #020617;
+                        color: #fff;
+                        border-color: #020617;
+                    }
+                </style>
+            `;
+
+            const logic = `
+                <script>
+                    (function() {
+                        const grid = document.getElementById('inventory-grid');
+                        const buttons = document.querySelectorAll('.filter-btn');
+                        
+                        buttons.forEach(button => {
+                            button.addEventListener('click', () => {
+                                const filter = button.getAttribute('data-filter');
+                                
+                                // Update active button
+                                buttons.forEach(btn => btn.classList.remove('active'));
+                                button.classList.add('active');
+                                
+                                // Filter cards
+                                const cards = grid.querySelectorAll('[data-status]');
+                                cards.forEach(card => {
+                                    if (filter === 'all' || card.getAttribute('data-status') === filter) {
+                                        card.style.display = 'block';
+                                    } else {
+                                        card.style.display = 'none';
+                                    }
+                                });
+                            });
+                        });
+                    })();
+                <\/script>
+            `;
+
+            return styles + html + logic;
+        }
+
+        // =================================================================
+        // SECTION 6: PROCESS (HOW WE WORK) (ADDED)
+        // =================================================================
+        const ProcessSection = () => {
+            const html = `
                 <section class="py-32 bg-lux-900 text-white">
                     <div class="container mx-auto px-6 md:px-12">
-                        <div class="text-center max-w-2xl mx-auto mb-20 reveal-fade">
-                            <span class="text-blue-500 font-bold text-[10px] uppercase tracking-ultra mb-4 block">How We Work</span>
+                        <div class="text-center max-w-2xl mx-auto mb-20">
+                            <span class="text-blue-500 font-bold text-[10px] uppercase tracking-ultra mb-4 block">The Process</span>
                             <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6">The Solo Standard.</h2>
                             <p class="text-slate-400 text-sm">A seamless journey from selection to handover.</p>
                         </div>
-
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group reveal-fade delay-100">
-                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10 transition-colors">01</span>
-                                <h3 class="font-heading font-bold text-xl mb-4 text-blue-400">Consultation</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">We understand your lifestyle needs and preferences to identify the perfect marque and model.</p>
+                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group">
+                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10">01</span>
+                                <h3 class="font-heading font-bold text-xl mb-4 text-blue-400">Consult</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">We analyze your lifestyle to identify the perfect marque.</p>
                             </div>
-                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group reveal-fade delay-200">
-                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10 transition-colors">02</span>
-                                <h3 class="font-heading font-bold text-xl mb-4 text-purple-400">Sourcing</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">Our agents in Japan and UK inspect vehicles directly, ensuring Grade 4.5+ quality only.</p>
+                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group">
+                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10">02</span>
+                                <h3 class="font-heading font-bold text-xl mb-4 text-purple-400">Source</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">Inspecting vehicles directly in Japan & UK (Grade 4.5+).</p>
                             </div>
-                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group reveal-fade delay-300">
-                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10 transition-colors">03</span>
-                                <h3 class="font-heading font-bold text-xl mb-4 text-emerald-400">Atelier</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">Upon arrival, every car enters our detailing studio for ceramic coating and interior conditioning.</p>
+                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group">
+                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10">03</span>
+                                <h3 class="font-heading font-bold text-xl mb-4 text-emerald-400">Refine</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">Detailing, ceramic coating, and interior conditioning.</p>
                             </div>
-                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group reveal-fade delay-400">
-                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10 transition-colors">04</span>
-                                <h3 class="font-heading font-bold text-xl mb-4 text-amber-400">Handover</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">A celebratory delivery experience, complete with full tank, documents, and warranty activation.</p>
+                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group">
+                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10">04</span>
+                                <h3 class="font-heading font-bold text-xl mb-4 text-amber-400">Deliver</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">Celebratory handover with warranty activation.</p>
                             </div>
                         </div>
                     </div>
                 </section>
-            `,
+            `;
+            return html;
+        }
 
-            concierge: () => `
-                <section id="concierge" class="py-32 bg-white text-lux-900 relative overflow-hidden">
-                    <div class="container mx-auto px-6 md:px-12 relative z-10">
-                        <div class="max-w-xl mb-20 reveal-fade">
+        // =================================================================
+        // SECTION 7: CONCIERGE / SERVICES (ADDED)
+        // =================================================================
+        const ConciergeSection = () => {
+            const html = `
+                <section class="py-32 bg-white text-lux-900">
+                    <div class="container mx-auto px-6 md:px-12">
+                        <div class="max-w-xl mb-20">
                             <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">The Atelier</span>
                             <h2 class="text-5xl md:text-6xl font-heading font-bold mb-8 leading-tight">Beyond the <br>Factory Spec.</h2>
-                            <p class="text-slate-500 text-sm leading-relaxed">Our in-house detailing studio and customization workshop allows you to personalize your vehicle before delivery. From ceramic coatings to bespoke leather interiors.</p>
+                            <p class="text-slate-500 text-sm leading-relaxed">Our in-house detailing studio and customization workshop allows you to personalize your vehicle before delivery.</p>
                         </div>
-
                         <div class="grid md:grid-cols-3 gap-8">
-                            <!-- Service 1 -->
-                            <div class="group p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-500 reveal-fade delay-100">
-                                <div class="w-12 h-12 bg-blue-600/10 rounded-full flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform">
-                                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-                                </div>
+                            <div class="p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:shadow-xl transition-all">
                                 <h3 class="text-xl font-heading font-bold mb-3">Ceramic Armor</h3>
                                 <p class="text-slate-500 text-xs leading-relaxed">9H hardness protection against UV and scratches. Included with every premium sale.</p>
                             </div>
-
-                            <!-- Service 2 -->
-                            <div class="group p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-500 reveal-fade delay-200">
-                                <div class="w-12 h-12 bg-purple-600/10 rounded-full flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform">
-                                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
-                                </div>
+                            <div class="p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:shadow-xl transition-all">
                                 <h3 class="text-xl font-heading font-bold mb-3">Tech Upgrades</h3>
                                 <p class="text-slate-500 text-xs leading-relaxed">Apple CarPlay integration, ambient lighting retrofits, and premium audio tuning.</p>
                             </div>
-
-                            <!-- Service 3 -->
-                            <div class="group p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-500 reveal-fade delay-300">
-                                <div class="w-12 h-12 bg-emerald-600/10 rounded-full flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform">
-                                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                </div>
+                            <div class="p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:shadow-xl transition-all">
                                 <h3 class="text-xl font-heading font-bold mb-3">Hybrid Health</h3>
                                 <p class="text-slate-500 text-xs leading-relaxed">Comprehensive battery analysis and restorative charging for PHEV and EV models.</p>
                             </div>
                         </div>
                     </div>
                 </section>
-            `,
-            
-            // NEW SECTION: GLOBAL NETWORK
-            network: () => `
-                 <section class="py-24 bg-slate-50 border-t border-slate-200">
-                    <div class="container mx-auto px-6 md:px-12 text-center">
-                        <p class="text-[10px] font-bold uppercase tracking-ultra text-slate-400 mb-8">Global Sourcing Network</p>
-                        <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                            <div class="text-center group cursor-default">
-                                <h4 class="font-heading font-bold text-2xl text-lux-900 mb-1">Tokyo</h4>
-                                <span class="text-[9px] uppercase tracking-widest text-slate-500">USS Auction</span>
+            `;
+            return html;
+        }
+
+        // =================================================================
+        // SECTION 8: LEGACY (HISTORY) (NEW - REPLACES FINANCE)
+        // =================================================================
+        const LegacySection = () => {
+            const html = `
+                <section class="py-32 bg-slate-50 border-t border-slate-200">
+                    <div class="container mx-auto px-6 md:px-12">
+                        <div class="grid lg:grid-cols-2 gap-16 items-center">
+                            <div>
+                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-6 block">Our Heritage</span>
+                                <h2 class="text-4xl md:text-5xl font-heading font-bold text-lux-900 mb-8">A Decade of Distinction.</h2>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-8">
+                                    Established in 2010, Solo So Auto began as a boutique importer catering to a select group of automotive enthusiasts in Marawila. Our uncompromising dedication to quality quickly set us apart.
+                                </p>
+                                <ul class="space-y-6">
+                                    <li class="flex items-start gap-4">
+                                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center font-bold text-blue-600 shadow-sm">10</div>
+                                        <div>
+                                            <h4 class="font-bold text-lux-900">Founded</h4>
+                                            <p class="text-xs text-slate-500">Began operations focusing on European classics.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-4">
+                                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center font-bold text-blue-600 shadow-sm">15</div>
+                                        <div>
+                                            <h4 class="font-bold text-lux-900">Expansion</h4>
+                                            <p class="text-xs text-slate-500">Opened the state-of-the-art Atelier in Marawila.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-4">
+                                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center font-bold text-blue-600 shadow-sm">23</div>
+                                        <div>
+                                            <h4 class="font-bold text-lux-900">Global Reach</h4>
+                                            <p class="text-xs text-slate-500">Established direct sourcing partners in UK & Japan.</p>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-                            <div class="text-center group cursor-default">
-                                <h4 class="font-heading font-bold text-2xl text-lux-900 mb-1">London</h4>
-                                <span class="text-[9px] uppercase tracking-widest text-slate-500">BCA Partners</span>
-                            </div>
-                            <div class="text-center group cursor-default">
-                                <h4 class="font-heading font-bold text-2xl text-lux-900 mb-1">Singapore</h4>
-                                <span class="text-[9px] uppercase tracking-widest text-slate-500">Premium Export</span>
-                            </div>
-                            <div class="text-center group cursor-default">
-                                <h4 class="font-heading font-bold text-2xl text-lux-900 mb-1">Colombo</h4>
-                                <span class="text-[9px] uppercase tracking-widest text-slate-500">Headquarters</span>
+                            <div class="h-[600px] bg-slate-200 rounded-[3rem] overflow-hidden">
+                                <img src="https://i.ibb.co/KjHqS4qr/Heritage.png" alt="Heritage" border="0">
+                                <div class="w-full h-full bg-slate-300 flex items-center justify-center">
+                                    <span class="text-slate-400 font-bold uppercase tracking-widest">Archive Image</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
-            `
-        };
+            `;
+            return html;
+        }
 
-        // --- PAGES ---
-        const Pages = {
-            home: () => `
-                ${Components.hero()}
-                ${Components.stats()}
-                ${Components.curator()}
-                ${Components.featuredStock()}
-                ${Components.process()}
-                ${Components.concierge()}
-                ${Components.network()}
-            `,
 
-            stock: () => `
-                <div class="pt-32 pb-24 bg-slate-50 min-h-screen">
-                    <div class="container mx-auto px-6 md:px-12">
-                        <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal-fade">
-                            <div>
-                                <h1 class="text-5xl font-heading font-bold text-lux-900 mb-4">Inventory.</h1>
-                                <p class="text-slate-500 text-sm">Selecting only the finest grades (4.5 and above).</p>
-                            </div>
-                            
-                            <!-- Filter Tabs -->
-                            <div class="flex gap-2 bg-white p-1 rounded-xl shadow-sm border border-slate-100 mt-6 md:mt-0 overflow-x-auto">
-                                <button onclick="filterStock('All')" class="filter-btn active px-6 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors whitespace-nowrap bg-lux-900 text-white">All</button>
-                                <button onclick="filterStock('SUV')" class="filter-btn px-6 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors whitespace-nowrap text-slate-500">SUVs</button>
-                                <button onclick="filterStock('Sedan')" class="filter-btn px-6 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors whitespace-nowrap text-slate-500">Sedans</button>
-                                <button onclick="filterStock('Sport')" class="filter-btn px-6 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors whitespace-nowrap text-slate-500">Sport</button>
-                            </div>
-                        </div>
-
-                        <div id="stock-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            ${DB.cars.map((car, i) => Pages.renderCarCard(car, i)).join('')}
+        // =================================================================
+        // SECTION9: NETWORK & MAP (ADDED)
+        // =================================================================
+        const NetworkSection = () => {
+            const html = `
+                <section class="py-24 bg-slate-900 text-white">
+                    <div class="container mx-auto px-6 md:px-12 text-center">
+                        <p class="text-[10px] font-bold uppercase tracking-ultra text-slate-400 mb-12">Global Sourcing Network</p>
+                        <div class="flex flex-wrap justify-center gap-8 md:gap-12 opacity-80">
+                            <img src="https://flagcdn.com/w80/jp.png" alt="Japan" class="h-12 w-12 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Japan">
+                            <img src="https://flagcdn.com/w80/gb.png" alt="UK" class="h-12 w-12 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="UK">
+                            <img src="https://flagcdn.com/w80/th.png" alt="Thailand" class="h-12 w-12 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Thailand">
+                            <img src="https://flagcdn.com/w80/de.png" alt="Germany" class="h-12 w-12 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Germany">
                         </div>
                     </div>
-                </div>
-            `,
-
-            finance: () => `
-                <div class="pt-32 pb-24 bg-white min-h-screen">
-                    <div class="container mx-auto px-6 md:px-12">
-                        <div class="grid lg:grid-cols-2 gap-20">
-                            <div class="reveal-fade">
-                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Financial Services</span>
-                                <h1 class="text-5xl md:text-6xl font-heading font-bold text-lux-900 mb-8">Smart Ownership.</h1>
-                                <p class="text-slate-500 text-sm leading-relaxed mb-12">We partner with Sri Lanka's leading banks to provide bespoke leasing solutions. Use our calculator to estimate your monthly commitment.</p>
-                                
-                                <div class="space-y-6">
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold">1</div>
-                                        <div>
-                                            <h4 class="font-heading font-bold text-lg">70% Financing</h4>
-                                            <p class="text-xs text-slate-500">Subject to credit evaluation.</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start gap-4">
-                                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold">2</div>
-                                        <div>
-                                            <h4 class="font-heading font-bold text-lg">5 Year Repayment</h4>
-                                            <p class="text-xs text-slate-500">Flexible terms from 12 to 60 months.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Calculator Widget -->
-                            <div class="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-100 reveal-fade delay-200">
-                                <h3 class="font-heading font-bold text-2xl mb-8">Monthly Estimator</h3>
-                                
-                                <div class="space-y-6">
-                                    <div>
-                                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Vehicle Price (LKR)</label>
-                                        <input type="range" min="5000000" max="150000000" step="1000000" value="25000000" id="priceRange" class="w-full accent-blue-600 mb-2" oninput="updateCalculator()">
-                                        <div class="text-right font-heading font-bold text-xl" id="priceDisplay">25,000,000</div>
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Down Payment (30%)</label>
-                                        <div class="text-right font-heading font-bold text-lg text-slate-400" id="downPaymentDisplay">7,500,000</div>
-                                    </div>
-
-                                    <div class="pt-6 border-t border-slate-200">
-                                        <label class="block text-[10px] font-bold uppercase tracking-widest text-blue-600 mb-2">Estimated Monthly Payment (5 Years)</label>
-                                        <div class="text-4xl font-heading font-black text-lux-900" id="monthlyDisplay">385,000</div>
-                                        <p class="text-[9px] text-slate-400 mt-2">*Estimates exclude interest variations and taxes.</p>
-                                    </div>
-                                    
-                                    <button class="w-full bg-lux-900 text-white py-4 rounded-xl text-[11px] font-bold uppercase tracking-widest hover:bg-blue-600 transition-colors mt-4">Apply for Pre-Approval</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `,
-
-            reviews: () => `
-                 <div class="pt-32 pb-24 bg-white min-h-screen">
-                    <div class="container mx-auto px-6 md:px-12">
-                        <h1 class="text-5xl font-heading font-bold text-lux-900 mb-16 text-center reveal-fade">Client Journal.</h1>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <!-- Review 1 -->
-                            <div class="p-10 bg-slate-50 rounded-[2rem] reveal-fade delay-100">
-                                <div class="flex text-yellow-500 text-xs mb-6">★★★★★</div>
-                                <p class="font-heading text-xl font-medium leading-relaxed mb-8">"The transparency regarding the auction sheet was refreshing. Solo So Auto is the only place I trust for JDM imports."</p>
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-full bg-slate-200"></div>
-                                    <div>
-                                        <h5 class="font-bold text-sm">Dr. Perera</h5>
-                                        <p class="text-[10px] text-slate-500 uppercase tracking-widest">Toyota Harrier Owner</p>
-                                    </div>
-                                </div>
-                            </div>
-                             <!-- Review 2 -->
-                            <div class="p-10 bg-slate-50 rounded-[2rem] reveal-fade delay-200">
-                                <div class="flex text-yellow-500 text-xs mb-6">★★★★★</div>
-                                <p class="font-heading text-xl font-medium leading-relaxed mb-8">"Exceptional after-sales service. The team handled all registration and insurance paperwork seamlessly."</p>
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-full bg-slate-200"></div>
-                                    <div>
-                                        <h5 class="font-bold text-sm">Mr. De Silva</h5>
-                                        <p class="text-[10px] text-slate-500 uppercase tracking-widest">Land Cruiser Owner</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `,
-
-            contact: () => `
-                <div class="pt-32 pb-24 bg-white min-h-screen">
-                    <div class="container mx-auto px-6 md:px-12">
-                        <div class="grid lg:grid-cols-2 gap-20">
-                            <div class="reveal-fade">
-                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Get in Touch</span>
-                                <h1 class="text-6xl font-heading font-bold text-lux-900 mb-8">Visit the <br>Showroom.</h1>
-                                
-                                <div class="space-y-8 mb-12">
-                                    <div>
-                                        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Address</h4>
-                                        <p class="text-xl font-heading font-medium">No. 245, Colombo Road,<br>Marawila, Sri Lanka</p>
-                                    </div>
-                                    <div>
-                                        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Contact</h4>
-                                        <p class="text-xl font-heading font-medium">+94 77 123 4567<br>sales@soloso.lk</p>
-                                    </div>
-                                </div>
-
-                                <form class="space-y-4">
-                                    <input type="text" placeholder="Your Name" class="w-full p-4 bg-slate-50 rounded-xl border-none text-sm focus:ring-2 focus:ring-blue-600 transition-all">
-                                    <input type="email" placeholder="Email Address" class="w-full p-4 bg-slate-50 rounded-xl border-none text-sm focus:ring-2 focus:ring-blue-600 transition-all">
-                                    <textarea placeholder="Message" rows="4" class="w-full p-4 bg-slate-50 rounded-xl border-none text-sm focus:ring-2 focus:ring-blue-600 transition-all"></textarea>
-                                    <button class="btn-magnetic bg-lux-900 text-white w-full py-4 rounded-xl text-[11px] font-bold uppercase tracking-widest hover:bg-blue-600"><span>Send Message</span></button>
-                                </form>
-                            </div>
-                            
-                            <div class="h-[600px] bg-slate-200 rounded-[3rem] overflow-hidden reveal-fade delay-200 grayscale contrast-125">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31674.34682025816!2d79.8433303!3d7.4298155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2c8eb1622b31d%3A0xc356450f7574b6e5!2sMarawila!5e0!3m2!1sen!2slk!4v1709400000000!5m2!1sen!2slk" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `,
-
-            renderCarCard: (car, delayIndex = 0) => `
-                <div class="group cursor-pointer reveal-fade delay-${delayIndex * 100}">
-                    <div class="relative aspect-[4/3] rounded-[2rem] overflow-hidden mb-6 img-zoom-container bg-slate-100">
-                        <img src="${car.image}" class="w-full h-full object-cover img-zoom-hover" alt="${car.name}">
-                        <div class="absolute inset-0 bg-lux-900/10 group-hover:bg-transparent transition-colors"></div>
-                        
-                        <div class="absolute top-4 left-4 flex gap-2">
-                             <span class="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-widest text-lux-900">${car.year}</span>
-                             ${car.status === 'Sold' ? '<span class="px-3 py-1 bg-red-500 rounded-full text-[9px] font-bold uppercase tracking-widest text-white">Sold</span>' : ''}
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-heading font-bold text-lg text-lux-900 line-clamp-2 w-2/3">${car.name}</h3>
-                        <p class="font-heading font-bold text-blue-600 text-lg">
-                            ${(car.price / 1000000).toFixed(1)}M <span class="text-xs text-slate-400 font-normal">LKR</span>
-                        </p>
-                    </div>
-                    
-                    <div class="flex gap-3 text-[10px] text-slate-500 font-medium uppercase tracking-wider mb-4">
-                        ${car.specs.map(spec => `<span>• ${spec}</span>`).join('')}
-                    </div>
-
-                    <button class="w-full py-3 border border-slate-200 rounded-xl text-[10px] font-bold uppercase tracking-widest text-slate-600 group-hover:bg-lux-900 group-hover:text-white group-hover:border-lux-900 transition-all">View Details</button>
-                </div>
-            `
-        };
-
-        // --- CORE FUNCTIONS ---
-        let currentPage = 'home';
-        let carouselInterval;
-
-        function navigateTo(pageId) {
-            currentPage = pageId;
-            
-            // Scroll top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Close mobile menu if open
-            const menu = document.getElementById('mobile-menu');
-            if (menu && !menu.classList.contains('translate-x-full')) {
-                toggleMenu();
-            }
-
-            // Update App Content
-            const app = document.getElementById('app');
-            app.style.opacity = '0'; // Simple fade out
-            
-            setTimeout(() => {
-                app.innerHTML = Pages[pageId] ? Pages[pageId]() : '<h1 class="pt-40 text-center">Page Not Found</h1>';
-                app.style.opacity = '1'; // Fade in
-                
-                // Re-init observers
-                initObservers();
-                
-                // Start Hero Slider if home
-                if(pageId === 'home') {
-                    startHeroSlider();
-                    startMobileCarousel();
-                } else {
-                    stopMobileCarousel();
-                }
-                
-                // Specific logic for finance calculator
-                if(pageId === 'finance') updateCalculator();
-
-                // Force update nav state immediately for non-home pages
-                updateNavState();
-
-            }, 300);
+                </section>
+            `;
+            return html;
         }
 
-        function scrollToSection(id) {
-            const el = document.getElementById(id);
-            if(el) el.scrollIntoView({ behavior: 'smooth' });
-        }
+        // =================================================================
+        // SECTION 11: WEDDING CARS (ADDED)
+        // =================================================================
+        const WeddingSection = () => {
+            // Generate falling items
+            const items = [
+                'https://cdn-icons-png.flaticon.com/512/2926/2926766.png', // Flower
+                'https://cdn-icons-png.flaticon.com/512/210/210545.png',   // Heart
+                'https://cdn-icons-png.flaticon.com/512/1828/1828884.png'  // Star
+            ];
+            const fallingItems = Array.from({ length: 20 }).map(() => {
+                const item = items[Math.floor(Math.random() * items.length)];
+                const left = Math.floor(Math.random() * 100);
+                const duration = Math.floor(Math.random() * 15) + 10; // 10-25s
+                const delay = Math.floor(Math.random() * 10);
+                const size = Math.floor(Math.random() * 15) + 10; // 10-25px
+                return `<img src="${item}" class="absolute top-[-50px] animate-fall opacity-30 select-none pointer-events-none" style="left: ${left}%; animation-duration: ${duration}s; animation-delay: -${delay}s; width: ${size}px; height: ${size}px;">`;
+            }).join('');
 
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const lines = document.querySelectorAll('.menu-line');
-            
-            menu.classList.toggle('translate-x-full');
-            
-            // Animate Burger
-            if (!menu.classList.contains('translate-x-full')) {
-                lines[0].classList.add('rotate-45', 'translate-y-2');
-                lines[1].classList.add('-rotate-45', '-translate-y-0.5');
-            } else {
-                lines[0].classList.remove('rotate-45', 'translate-y-2');
-                lines[1].classList.remove('-rotate-45', '-translate-y-0.5');
-            }
-        }
-
-        function handleMobileNav(page) {
-            navigateTo(page);
-        }
-
-        // --- FILTER LOGIC ---
-        function filterStock(type) {
-            const grid = document.getElementById('stock-grid');
-            const buttons = document.querySelectorAll('.filter-btn');
-            
-            // Update buttons
-            buttons.forEach(btn => {
-                if(btn.textContent.includes(type)) {
-                    btn.classList.add('bg-lux-900', 'text-white');
-                    btn.classList.remove('text-slate-500');
-                } else {
-                    btn.classList.remove('bg-lux-900', 'text-white');
-                    btn.classList.add('text-slate-500');
-                }
-            });
-
-            // Filter Data
-            const filtered = type === 'All' ? DB.cars : DB.cars.filter(c => c.type === type);
-            
-            // Re-render
-            grid.innerHTML = filtered.map((car, i) => Pages.renderCarCard(car, i)).join('');
-            initObservers(); // Re-attach animations
-        }
-
-        function filterFromFooter(type) {
-            navigateTo('stock');
-            setTimeout(() => filterStock(type), 500);
-        }
-
-        // --- CALCULATOR LOGIC ---
-        function updateCalculator() {
-            const price = parseInt(document.getElementById('priceRange')?.value || 0);
-            const priceDisplay = document.getElementById('priceDisplay');
-            const downPaymentDisplay = document.getElementById('downPaymentDisplay');
-            const monthlyDisplay = document.getElementById('monthlyDisplay');
-            
-            if(!priceDisplay) return;
-
-            // Formatter
-            const fmt = (n) => n.toLocaleString('en-US');
-
-            priceDisplay.innerText = fmt(price);
-            
-            const downPayment = price * 0.3;
-            downPaymentDisplay.innerText = fmt(downPayment);
-
-            const loanAmount = price - downPayment;
-            const interestRate = 0.14; // 14%
-            const years = 5;
-            const monthly = (loanAmount * (1 + (interestRate * years))) / (years * 12);
-            
-            monthlyDisplay.innerText = fmt(Math.round(monthly));
-        }
-
-        // --- HERO SLIDER ---
-        let sliderInterval;
-        function startHeroSlider() {
-            const slides = document.querySelectorAll('.hero-slide');
-            if(!slides.length) return;
-            
-            let current = 0;
-            if(sliderInterval) clearInterval(sliderInterval);
-            
-            sliderInterval = setInterval(() => {
-                slides[current].classList.remove('active');
-                current = (current + 1) % slides.length;
-                slides[current].classList.add('active');
-            }, 5000);
-        }
-
-        // --- MOBILE CAROUSEL (Auto Scroll) ---
-        function startMobileCarousel() {
-            const container = document.getElementById('mobile-carousel');
-            if (!container) return;
-            
-            if(carouselInterval) clearInterval(carouselInterval);
-            
-            carouselInterval = setInterval(() => {
-                // Ensure container still exists (might have navigated away)
-                if(!document.getElementById('mobile-carousel')) {
-                    clearInterval(carouselInterval);
-                    return;
-                }
-
-                // Scroll to next snap point
-                const itemWidth = container.offsetWidth;
-                const scrollPos = container.scrollLeft;
-                const scrollMax = container.scrollWidth - container.clientWidth;
-                
-                // If we are near the end, loop back to start, else scroll one width
-                if (scrollPos >= scrollMax - 10) {
-                    container.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    container.scrollBy({ left: itemWidth, behavior: 'smooth' });
-                }
-            }, 2000); // 2 Seconds
-        }
-
-        function stopMobileCarousel() {
-            if(carouselInterval) clearInterval(carouselInterval);
-        }
-
-        // --- ANIMATION OBSERVERS ---
-        function initObservers() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
+            const styles = `
+                <style>
+                    @keyframes fall {
+                        0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+                        10% { opacity: 0.6; }
+                        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
                     }
-                });
-            }, { threshold: 0.1 });
+                    .animate-fall {
+                        animation: fall linear infinite;
+                    }
+                </style>
+            `;
 
-            document.querySelectorAll('.reveal-fade, .reveal-text').forEach(el => observer.observe(el));
+            const html = `
+                <section class="py-32 bg-rose-50 relative overflow-hidden">
+                    ${styles}
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+                        ${fallingItems}
+                    </div>
+                    <div class="container mx-auto px-6 md:px-12 text-center relative z-10">
+                        <span class="text-rose-500 font-bold text-[10px] uppercase tracking-ultra mb-4 block">For Your Special Day</span>
+                        <h2 class="text-5xl md:text-7xl font-heading font-black text-rose-900 mb-8">
+                            Fairytale <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-600">Journeys</span>
+                        </h2>
+                        <p class="text-slate-600 max-w-2xl mx-auto mb-12 leading-relaxed">
+                            Arrive in timeless elegance. Our wedding fleet features pristine vintage classics and modern luxury limousines, chauffeur-driven to ensure your grand entrance is nothing short of magical.
+                        </p>
+                        
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <!-- Wedding Car Cards -->
+                            ${DB.weddingFleet.map(car => `
+                                <div class="bg-white p-6 rounded-[2rem] shadow-xl border border-rose-100 hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="aspect-[4/3] rounded-2xl overflow-hidden mb-6">
+                                        <img src="${car.image}" class="w-full h-full object-cover">
+                                    </div>
+                                    <h3 class="font-heading font-bold text-xl text-rose-900 mb-2">${car.name}</h3>
+                                    <p class="text-xs text-slate-500 mb-4">${car.description}</p>
+                                    <button onclick="window.open('https://wa.me/94775300000?text=Inquiry for ${car.name} Wedding Car', '_blank')" class="w-full py-3 rounded-xl bg-rose-500 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-rose-600 transition-colors">Book Now</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+            `;
+            return html;
         }
 
-        // --- SCROLL / NAV LOGIC ---
-        function updateNavState() {
-            const nav = document.getElementById('main-nav');
-            const pill = document.getElementById('nav-pill');
-            const navLogo = document.getElementById('nav-logo');
-            const burgerLines = document.querySelectorAll('.menu-line');
+        // =================================================================
+        // SECTION 10 FOOTER
+        // =================================================================
+        const FooterSection = () => {
+            const html = `
+                <footer class="bg-lux-900 pt-32 pb-12 rounded-t-[3rem] relative overflow-hidden -mt-10 z-30">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-blue-900/50 to-transparent"></div>
+                    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-            const isHome = currentPage === 'home';
-            const scrolled = window.scrollY > 50;
+                    <div class="container mx-auto px-6 md:px-12 relative z-10">
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-12 mb-24 border-b border-white/5 pb-12">
+                            <div class="flex flex-col gap-2 text-center">
+                                <p class="text-white font-heading font-bold text-2xl">+94 77 530 0000</p>
+                                <p class="text-slate-500 text-xs font-medium uppercase tracking-widest">Marawila, Sri Lanka</p>
+                            </div>
+                        </div>
 
-            if (isHome && !scrolled) {
-                // HERO STATE (Transparent, White Logo)
-                nav.classList.remove('nav-solid', 'h-16');
-                nav.classList.add('nav-glass', 'h-20');
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
+                            <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-24 w-auto opacity-10 filter grayscale brightness-0 invert pointer-events-none">
+                            <div class="text-right">
+                                <p class="text-slate-600 text-[10px] uppercase tracking-widest mb-1">© 2024 Solo So Auto. All Rights Reserved.</p>
+                                <p class="text-slate-700 text-[9px] uppercase tracking-widest">Designed & Engineered in Sri Lanka</p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            `;
+            return html;
+        }
+
+        // =================================================================
+        // MAIN APP ROUTER & INITIALIZATION
+        // =================================================================
+        const App = {
+            init: () => {
+                // Render Static Global Layouts
+                document.getElementById('nav-container').innerHTML = renderComponent(NavBar()).html;
+                const navRes = renderComponent(NavBar());
+                navRes.scripts.forEach(s => eval(s.innerHTML));
+
+                document.getElementById('footer-container').innerHTML = FooterSection();
+
+                // Start at Home
+                App.navigate('home');
+
+                // Remove preloader
+                let progress = 0;
+                const bar = document.getElementById('loader-bar');
+                const count = document.getElementById('loader-count');
+                const text = document.getElementById('loader-text');
+                const states = ["Initializing...", "Loading Assets...", "Connecting...", "Preparing...", "Welcome."];
                 
-                if(navLogo) {
-                    navLogo.classList.add('filter', 'brightness-0', 'invert'); // Make White
+                const interval = setInterval(() => {
+                    progress += Math.floor(Math.random() * 3) + 1;
+                    if (progress > 100) progress = 100;
+                    if (bar) bar.style.width = `${progress}%`;
+                    if (count) count.innerText = progress.toString().padStart(2, '0');
+                    if (text && progress % 20 === 0 && progress < 100) text.innerText = states[Math.floor(progress / 25)];
+                    
+                    if (progress === 100) {
+                        if(text) text.innerText = states[4];
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            document.body.classList.remove('loading');
+                            document.body.classList.add('loaded');
+                        }, 800);
+                    }
+                }, 25);
+            },
+
+            navigate: (page) => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                const app = document.getElementById('app');
+
+                // Handle Logo Color for Wedding Section
+                const logo = document.getElementById('nav-logo');
+                if (logo) {
+                    if (page === 'wedding') {
+                        logo.style.filter = 'invert(27%) sepia(51%) saturate(2878%) hue-rotate(275deg) brightness(104%) contrast(97%)';
+                    } else {
+                        logo.style.filter = '';
+                    }
                 }
-                
-                pill.classList.remove('bg-slate-100', 'text-slate-600');
-                pill.classList.add('bg-white/5', 'text-white/70');
 
-                // White Burger
-                burgerLines.forEach(l => l.classList.add('bg-white'));
-                burgerLines.forEach(l => l.classList.remove('bg-slate-900'));
-
-                 document.querySelectorAll('.nav-btn').forEach(btn => {
-                   btn.classList.add('text-white/70', 'hover:text-white', 'hover:bg-white/10'); 
-                   btn.classList.remove('text-slate-500', 'hover:text-lux-900', 'hover:bg-slate-200');
-                });
-            } else {
-                // SCROLLED OR INNER PAGE STATE (Solid/Blurred, Colored Logo)
-                nav.classList.add('nav-solid');
-                nav.classList.remove('nav-glass', 'h-20');
-                nav.classList.add('h-16'); // Shrink on scroll
-                
-                if(navLogo) {
-                    navLogo.classList.remove('filter', 'brightness-0', 'invert'); // Restore Color
+                let content = '';
+                if (page === 'home') {
+                    content = HeroSection() + StatsSection() + CuratorSection() + LegacySection() + FeaturedInventory() + ProcessSection() + ConciergeSection() + NetworkSection();
+                } else if (page === 'stock') {
+                    // Re-use inventory but styled as full page
+                    content = FullInventory() + NetworkSection();
+                } else if (page === 'legacy') {
+                    content = `<div class="pt-32 bg-lux-900 text-center pb-12"><h1 class="text-4xl font-heading font-bold text-white">Our Heritage</h1></div>` + LegacySection() + CuratorSection();
+                } else if (page === 'reviews') {
+                    content = `<div class="pt-32 bg-white text-center pb-12"><h1 class="text-4xl font-heading font-bold text-lux-900">Journal</h1></div>` + ClientJournal() + LegacySection();
+                } else if (page === 'wedding') {
+                    content = WeddingSection() + NetworkSection();
+                } else {
+                    content = `<div class="pt-40 pb-20 text-center"><h1 class="text-4xl font-heading font-bold">Coming Soon</h1></div>`;
                 }
-                
-                pill.classList.remove('bg-white/5', 'text-white/70');
-                pill.classList.add('bg-slate-100', 'text-slate-600');
 
-                // Dark Burger
-                burgerLines.forEach(l => l.classList.remove('bg-white'));
-                burgerLines.forEach(l => l.classList.add('bg-slate-900'));
-                
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                   btn.classList.remove('text-white/70', 'hover:text-white', 'hover:bg-white/10'); 
-                   btn.classList.add('text-slate-500', 'hover:text-lux-900', 'hover:bg-slate-200');
-                });
+                // Render & Execute Scripts
+                const processed = renderComponent(content);
+                app.style.opacity = '0';
+
+                setTimeout(() => {
+                    app.innerHTML = processed.html;
+                    processed.scripts.forEach(script => {
+                        const newScript = document.createElement("script");
+                        newScript.text = script.innerHTML;
+                        document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                    });
+                    app.style.opacity = '1';
+                }, 200);
             }
-        }
+        };
 
-        window.addEventListener('scroll', updateNavState);
-
-        // --- INIT ---
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-                document.body.classList.remove('loading');
-                navigateTo('home');
-            }, 1500); // 1.5s loading time
-        });
+        // Start App
+        window.addEventListener('load', App.init);
 
     </script>
 </body>
+
 </html>
