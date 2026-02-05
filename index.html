@@ -650,143 +650,154 @@
 
 
 
-
-
         // =================================================================
-        // SECTION 4: THE CURATOR
+        // SECTION 4: THE CURATOR (EPIC EDITORIAL REDESIGN)
         // =================================================================
         const CuratorSection = () => {
+
             const styles = `
-                <style>
-                    .text-reveal-line {
-                        overflow: hidden;
-                    }
-                    .text-reveal-line span {
-                        display: block;
-                        transform: translateY(100%);
-                        transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-                    }
-                    .active .text-reveal-line span {
-                        transform: translateY(0);
-                    }
-                    .fade-in-up {
-                        opacity: 0;
-                        transform: translateY(20px);
-                        transition: opacity 0.8s ease, transform 0.8s ease;
-                    }
-                    .active .fade-in-up {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                    @keyframes blob {
-                        0% { transform: translate(0px, 0px) scale(1); }
-                        33% { transform: translate(30px, -50px) scale(1.1); }
-                        66% { transform: translate(-20px, 20px) scale(0.9); }
-                        100% { transform: translate(0px, 0px) scale(1); }
-                    }
-                    .animate-blob {
-                        animation: blob 7s infinite;
-                    }
-                    .animation-delay-2000 {
-                        animation-delay: 2s;
-                    }
-                </style>
-            `;
+<style>
+
+@keyframes slowFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.curator-float {
+  animation: slowFloat 10s ease-in-out infinite;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s cubic-bezier(0.16,1,0.3,1);
+}
+
+.active .reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+`;
 
             const html = `
-                <section id="curator-section" class="pt-32 pb-12 bg-white relative overflow-hidden">
-                    <!-- Abstract Background Shapes -->
-                    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                        <div class="absolute top-[10%] left-[5%] w-96 h-96 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-                        <div class="absolute top-[20%] right-[10%] w-96 h-96 bg-indigo-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-                    </div>
+<section id="curator-section" class="relative bg-white py-32 overflow-hidden">
 
-                    <div class="container mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center">
-                        
-                        <!-- 1. Heading First -->
-                        <div class="text-center mb-16 max-w-4xl">
-                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-6 fade-in-up">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                                The Curator
-                            </div>
-                            
-                            <h2 class="text-5xl md:text-7xl font-heading font-black text-lux-900 leading-[0.9] tracking-tight flex flex-col items-center">
-                                <div class="text-reveal-line"><span>DEFINING</span></div>
-                                <div class="text-reveal-line"><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">AUTOMOTIVE</span></div>
-                                <div class="text-reveal-line"><span>LUXURY.</span></div>
-                            </h2>
-                        </div>
+<!-- Soft Architectural Lights -->
+<div class="absolute inset-0 pointer-events-none">
+  <div class="absolute top-0 left-0 w-[60%] h-[60%] bg-blue-50/60 skew-y-6"></div>
+  <div class="absolute bottom-0 right-0 w-[60%] h-[60%] bg-indigo-50/40 -skew-y-6"></div>
+</div>
 
-                        <!-- 2. Image Smaller & Quote Overlapping -->
-                        <div class="relative w-full max-w-md mb-16 group">
-                            <!-- Image Container -->
-                            <div class="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white fade-in-up aspect-[3/4] md:aspect-[4/5]">
-                                <img src="https://i.ibb.co/QF5LV7SW/Person.png" alt="Mr. Saman Wijesinghe" class="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-105">
-                                <div class="absolute inset-0 bg-gradient-to-t from-lux-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            </div>
-                            
-                            <!-- Decorative Elements -->
-                            <div class="absolute -top-6 -left-6 w-24 h-24 border-t-4 border-l-4 border-blue-500/20 rounded-tl-3xl fade-in-up" style="transition-delay: 100ms"></div>
-                            <div class="absolute -bottom-6 -right-6 w-24 h-24 border-b-4 border-r-4 border-blue-500/20 rounded-br-3xl fade-in-up" style="transition-delay: 100ms"></div>
+<div class="container mx-auto px-6 md:px-12 relative z-10">
 
-                            <!-- Overlapping Quote (Founder's Note) -->
-                            <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-slate-100 max-w-[260px] w-[90%] fade-in-up z-20 text-center" style="transition-delay: 200ms">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <span class="flex h-3 w-3 relative">
-                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-                                    </span>
-                                    <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Founder's Note</span>
-                                </div>
-                                <p class="font-heading font-bold text-lux-900 text-sm italic">"We don't just sell cars. We curate a lifestyle of excellence."</p>
-                            </div>
-                        </div>
+<!-- GRID -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 
-                        <!-- 3. Description & Signature -->
-                        <div class="max-w-2xl text-center fade-in-up" style="transition-delay: 300ms">
-                            <div class="space-y-6 text-slate-600 text-lg font-light leading-relaxed mb-10">
-                                <p>
-                                    Founded with a singular vision: to dismantle the opacity of the traditional car market. Solo So Auto stands as a beacon of transparency, quality, and trust in the Sri Lankan automotive landscape.
-                                </p>
-                                <p>
-                                    "Every vehicle in our inventory is personally hand-picked from the highest-grade auctions in Japan and the UK. I believe that quality is not an act, but a habit."
-                                </p>
-                            </div>
+<!-- LEFT: PORTRAIT CARD -->
+<div class="lg:col-span-5 flex justify-center lg:justify-start">
 
-                            <div class="flex flex-col items-center gap-4 pt-8 border-t border-slate-100 w-full">
-                                <div class="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center text-2xl mb-2">✍️</div>
-                                <div>
-                                    <h4 class="font-heading font-bold text-2xl text-lux-900">Saman Wijesinghe</h4>
-                                    <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Managing Director</p>
-                                </div>
-                                <div class="opacity-30 mt-2">
-                                     <svg width="120" height="40" viewBox="0 0 120 40" fill="none" stroke="currentColor" stroke-width="2" class="text-lux-900">
-                                        <path d="M10 30 C 20 10, 40 10, 50 30 S 80 30, 90 10 S 110 10, 110 30" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
+  <div class="relative curator-float">
+
+    <!-- Image -->
+    <div class="w-[260px] sm:w-[300px] md:w-[340px] aspect-[3/4] rounded-[2.5rem] overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.15)] reveal">
+      <img src="https://i.ibb.co/QF5LV7SW/Person.png"
+        class="w-full h-full object-cover">
+    </div>
+
+    <!-- Quote Ribbon -->
+    <div class="absolute -right-10 bottom-16 bg-white px-6 py-5 rounded-2xl shadow-xl max-w-[260px] reveal">
+      <p class="font-heading font-bold text-lux-900 italic text-sm">
+        “We don't just sell cars.  
+        We curate excellence.”
+      </p>
+      <p class="mt-2 text-[10px] uppercase tracking-widest text-slate-400">
+        Founder's Note
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- CENTER: VERTICAL TITLE -->
+<div class="lg:col-span-2 hidden lg:flex justify-center">
+
+<div class="writing-mode-vertical text-[12px] tracking-[0.4em] font-bold text-blue-500 reveal"
+style="writing-mode: vertical-rl;">
+THE CURATOR
+</div>
+
+</div>
+
+<!-- RIGHT: CONTENT -->
+<div class="lg:col-span-5 text-center lg:text-left">
+
+<!-- Heading -->
+<h2 class="font-heading font-black text-5xl md:text-6xl leading-tight text-lux-900 mb-8 reveal">
+DEFINING  
+<span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+AUTOMOTIVE LUXURY
+</span>
+</h2>
+
+<!-- Body -->
+<div class="space-y-6 text-slate-600 text-lg leading-relaxed reveal">
+
+<p>
+Solo So Auto was founded to dismantle the opacity of the traditional car market and replace it with transparency, trust, and obsession with quality.
+</p>
+
+<p>
+Every vehicle is personally hand-selected from premium auctions in Japan and the UK — because excellence is never accidental.
+</p>
+
+</div>
+
+<!-- Signature -->
+<div class="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center gap-4 reveal">
+
+<div class="h-14 w-14 rounded-full bg-slate-100 flex items-center justify-center text-xl">
+✍️
+</div>
+
+<div>
+<h4 class="font-heading font-bold text-2xl text-lux-900">
+Saman Wijesinghe
+</h4>
+<p class="text-[11px] uppercase tracking-widest text-slate-400">
+Managing Director
+</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+`;
 
             const logic = `
-                <script>
-                    (function() {
-                        const observer = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    entry.target.classList.add('active');
-                                    observer.unobserve(entry.target);
-                                }
-                            });
-                        }, { threshold: 0.3 });
-                        
-                        const section = document.getElementById('curator-section');
-                        if(section) observer.observe(section);
-                    })();
-                <\/script>
-            `;
+<script>
+(function(){
+const observer = new IntersectionObserver(entries=>{
+ entries.forEach(entry=>{
+  if(entry.isIntersecting){
+   entry.target.classList.add("active");
+   observer.unobserve(entry.target);
+  }
+ });
+},{threshold:0.25});
+
+const sec=document.getElementById("curator-section");
+if(sec) observer.observe(sec);
+})();
+<\/script>
+`;
+
             return styles + html + logic;
         }
 
@@ -1193,34 +1204,77 @@
         }
 
         // =================================================================
-        // SECTION 10 FOOTER
+        // SECTION 10 FOOTER (REDESIGNED + MOBILE OPTIMIZED)
         // =================================================================
         const FooterSection = () => {
             const html = `
-                <footer class="bg-lux-900 pt-32 pb-12 rounded-t-[3rem] relative overflow-hidden -mt-10 z-30">
-                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-blue-900/50 to-transparent"></div>
-                    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+        <footer class="relative bg-[#0a0f1c] overflow-hidden">
 
-                    <div class="container mx-auto px-6 md:px-12 relative z-10">
-                        <div class="flex flex-col md:flex-row justify-center items-center gap-12 mb-24 border-b border-white/5 pb-12">
-                            <div class="flex flex-col gap-2 text-center">
-                                <p class="text-white font-heading font-bold text-2xl">+94 77 530 0000</p>
-                                <p class="text-slate-500 text-xs font-medium uppercase tracking-widest">Marawila, Sri Lanka</p>
-                            </div>
-                        </div>
+            <!-- Top Accent Line -->
+            <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/60 to-transparent"></div>
 
-                        <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
-                            <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-24 w-auto opacity-10 filter grayscale brightness-0 invert pointer-events-none">
-                            <div class="text-right">
-                                <p class="text-slate-600 text-[10px] uppercase tracking-widest mb-1">© 2024 Solo So Auto. All Rights Reserved.</p>
-                                <p class="text-slate-700 text-[9px] uppercase tracking-widest">Designed & Engineered in Sri Lanka</p>
-                            </div>
+            <!-- Subtle Glow Orbs -->
+            <div class="absolute -left-24 top-1/2 w-[300px] h-[300px] bg-orange-500/10 blur-[120px] rounded-full"></div>
+            <div class="absolute -right-24 top-1/2 w-[300px] h-[300px] bg-blue-500/10 blur-[120px] rounded-full"></div>
+
+            <div class="container mx-auto px-6 md:px-12 py-10 relative z-10">
+
+                <!-- Main Footer Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 text-center md:text-left">
+
+                    <!-- Brand -->
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-4">
+                        <img 
+                            src="https://i.ibb.co/nNxxKRtz/Solo-So.png" 
+                            alt="Solo So" 
+                            class="h-14 md:h-14 w-auto"
+                        />
+                        <div>
+                            <p class="text-white font-heading font-bold tracking-wide">
+                                SOLO-SO AUTO
+                            </p>
+                            <p class="text-slate-500 text-xs tracking-widest uppercase">
+                                Elevate Your Journey
+                            </p>
                         </div>
                     </div>
-                </footer>
-            `;
+
+                    <!-- Contact -->
+                    <div class="flex flex-col items-center justify-center gap-1">
+                        <p class="text-white font-semibold tracking-wide text-base">
+                            +94 77 530 0000
+                        </p>
+                        <p class="text-slate-500 text-xs uppercase tracking-widest">
+                            Marawila, Sri Lanka
+                        </p>
+                    </div>
+
+                    <!-- Copyright -->
+                    <div class="flex flex-col items-center md:items-end gap-1">
+                        <p class="text-slate-500 text-[11px] uppercase tracking-widest">
+                            © 2024 Solo So Auto
+                        </p>
+                        <p class="text-slate-600 text-[10px] uppercase tracking-widest">
+                            Designed & Engineered in Sri Lanka
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Micro Bar -->
+                <div class="mt-10 pt-4 border-t border-white/5 flex justify-center">
+                    <p class="text-[9px] text-slate-600 tracking-widest uppercase text-center">
+                        Premium Mobility Solutions
+                    </p>
+                </div>
+
+            </div>
+        </footer>
+    `;
             return html;
         }
+
+
 
         // =================================================================
         // MAIN APP ROUTER & INITIALIZATION
@@ -1266,7 +1320,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 const app = document.getElementById('app');
 
-     
+
 
                 let content = '';
                 if (page === 'home') {
