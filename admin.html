@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Solo So Auto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        lux: { 900: '#020617', 800: '#0f172a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f8fafc; }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #3498db;
+            width: 20px;
+            height: 20px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            outline: none;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+        .input-field:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        /* Modern UI Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .glass-card {
+            background: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #f1f5f9;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border-color: #e2e8f0;
+        }
+        /* Mobile Optimizations */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .safe-pb { padding-bottom: env(safe-area-inset-bottom); }
+        input[type="file"]::file-selector-button { display: none; }
+        select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em; }
+    </style>
+</head>
+
+<body class="text-slate-800 antialiased">
+
+    <!-- ======================== -->
+    <!-- LOGIN SCREEN -->
+    <!-- ======================== -->
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-lux-900">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md">
+            <div class="text-center mb-8">
+                <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-12 mx-auto mb-4">
+                <h1 class="text-2xl font-bold text-lux-900">Admin Dashboard</h1>
+                <p class="text-slate-500 text-sm mt-2">Please sign in to manage the fleet.</p>
+            </div>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Email</label>
+                    <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="admin@soloso.com" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Password</label>
+                    <input type="password" id="password" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all" placeholder="••••••••" required>
+                </div>
+                <div id="login-error" class="text-red-500 text-sm hidden">Invalid credentials</div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors flex justify-center items-center gap-2">
+                    <span>Sign In</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ======================== -->
+    <!-- DASHBOARD LAYOUT -->
+    <!-- ======================== -->
+    <div id="dashboard" class="hidden flex flex-col md:flex-row h-screen overflow-hidden bg-slate-50 relative">
+        
+        <!-- Ambient Background -->
+        <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+            <div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-blue-200/20 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-rose-200/20 rounded-full blur-[120px]"></div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="hidden md:flex w-64 bg-lux-900 text-white flex-col shadow-xl z-20">
+            <div class="h-20 flex items-center px-8 border-b border-slate-800">
+                <img src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-8 w-auto">
+            </div>
+            
+            <nav class="flex-1 py-6 px-4 space-y-2">
+                <button onclick="switchTab('inventory')" id="nav-inventory" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium bg-blue-600 text-white transition-all">
+                    <i class="fa-solid fa-car"></i> Inventory
+                </button>
+                <button onclick="switchTab('wedding')" id="nav-wedding" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-heart"></i> Wedding Fleet
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-slate-800">
+                <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-400 hover:bg-slate-800 hover:text-red-300 transition-all">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Mobile Bottom Nav -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 flex justify-around py-3 z-50 safe-pb shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+            <button onclick="switchTab('inventory')" id="mob-nav-inventory" class="flex flex-col items-center gap-1 text-blue-600 w-1/3">
+                <i class="fa-solid fa-car text-xl"></i>
+                <span class="text-[10px] font-bold uppercase tracking-wide">Stock</span>
+            </button>
+            <button onclick="switchTab('wedding')" id="mob-nav-wedding" class="flex flex-col items-center gap-1 text-slate-400 w-1/3">
+                <i class="fa-solid fa-heart text-xl"></i>
+                <span class="text-[10px] font-bold uppercase tracking-wide">Wedding</span>
+            </button>
+            <button onclick="handleLogout()" class="flex flex-col items-center gap-1 text-slate-400 w-1/3">
+                <i class="fa-solid fa-right-from-bracket text-xl"></i>
+                <span class="text-[10px] font-bold uppercase tracking-wide">Exit</span>
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8 relative z-10">
+            
+            <!-- Header -->
+            <header class="flex justify-between items-center mb-6 md:mb-8 sticky top-0 bg-slate-50/95 backdrop-blur z-10 py-2">
+                <div>
+                    <h1 id="page-title" class="text-xl md:text-2xl font-bold text-slate-900">Inventory</h1>
+                    <p class="text-slate-500 text-xs md:text-sm">Manage your fleet.</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span id="user-email" class="text-xs md:text-sm font-medium text-slate-600 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-sm"></span>
+                </div>
+            </header>
+
+            <!-- ======================== -->
+            <!-- INVENTORY SECTION -->
+            <!-- ======================== -->
+            <section id="inventory-section">
+                <!-- Add New Form -->
+                <div id="inventory-form-container" class="glass-panel rounded-3xl shadow-sm p-6 mb-8 transition-all duration-300">
+                    <details class="group">
+                        <summary class="list-none cursor-pointer flex items-center justify-between font-bold text-slate-800">
+                            <span id="inv-form-title" class="flex items-center gap-3 text-lg"><i class="fa-solid fa-circle-plus text-blue-600 text-2xl"></i> Add New Vehicle</span>
+                            <i class="fa-solid fa-chevron-down transition-transform group-open:rotate-180 text-slate-400"></i>
+                        </summary>
+                        
+                        <form id="inventory-form" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <!-- Image Upload -->
+                            <div class="md:col-span-2">
+                                <input type="hidden" name="id" id="inventory-id">
+                                <input type="hidden" name="current_image" id="current-image">
+                                <label class="block w-full cursor-pointer bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl p-4 text-center hover:bg-slate-100 transition-colors relative overflow-hidden group-hover:border-blue-400">
+                                    <input type="file" id="inv-image-file" accept="image/*" capture="environment" class="absolute inset-0 opacity-0 cursor-pointer">
+                                    <div id="inv-image-preview" class="flex flex-col items-center justify-center text-slate-500">
+                                        <i class="fa-solid fa-camera text-2xl mb-2 text-blue-500"></i>
+                                        <span class="text-xs font-bold uppercase tracking-wide">Tap to Capture / Upload Photo</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <input type="text" name="name" placeholder="Model Name (e.g. Toyota Premio)" class="input-field" required>
+                            
+                            <div class="relative">
+                                <i class="fa-solid fa-tag absolute left-3 top-3.5 text-slate-400 text-xs"></i>
+                                <input type="number" name="price" placeholder="Price (LKR)" class="input-field pl-8" required>
+                            </div>
+
+                            <select name="year" id="year-select" class="input-field" required>
+                                <option value="" disabled selected>Select Year</option>
+                                <!-- Populated by JS -->
+                            </select>
+                            
+                            <select name="status" class="input-field" required>
+                                <option value="" disabled selected>Select Status</option>
+                                <option value="In Stock">In Stock</option>
+                                <option value="Importable">Importable</option>
+                            </select>
+                            
+                            <select name="condition" class="input-field" required>
+                                <option value="" disabled selected>Select Condition</option>
+                                <option value="Unregistered">Unregistered</option>
+                                <option value="Registered (Used)">Registered (Used)</option>
+                                <option value="Brand New">Brand New</option>
+                                <option value="Antique">Antique</option>
+                            </select>
+
+                            <select name="fuel_type" class="input-field" required>
+                                <option value="" disabled selected>Select Fuel</option>
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="PHEV">Plug-in Hybrid</option>
+                            </select>
+                            
+                            <div class="flex items-center gap-3 px-4 py-3 border border-slate-200 rounded-lg bg-slate-50 md:col-span-2">
+                                <input type="checkbox" name="is_negotiable" id="is_negotiable" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+                                <label for="is_negotiable" class="text-sm font-medium text-slate-700">Price is Negotiable</label>
+                            </div>
+
+                            <div class="md:col-span-2 flex gap-3">
+                                <button type="button" id="inv-cancel-btn" onclick="resetInventoryForm()" class="hidden flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-4 rounded-xl transition-all">
+                                    Cancel
+                                </button>
+                                <button type="submit" id="inv-submit-btn" class="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all active:scale-95 flex justify-center items-center gap-2">
+                                    <i class="fa-solid fa-check"></i> Save Vehicle
+                                </button>
+                            </div>
+                        </form>
+                    </details>
+                </div>
+
+                <!-- Data Grid (Mobile Cards) -->
+                <div id="inventory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Cards injected via JS -->
+                </div>
+            </section>
+
+            <!-- ======================== -->
+            <!-- WEDDING FLEET SECTION -->
+            <!-- ======================== -->
+            <section id="wedding-section" class="hidden">
+                <!-- Add New Form -->
+                <div id="wedding-form-container" class="glass-panel rounded-3xl shadow-sm p-6 mb-8 transition-all duration-300">
+                    <details class="group">
+                        <summary class="list-none cursor-pointer flex items-center justify-between font-bold text-slate-800">
+                            <span id="wed-form-title" class="flex items-center gap-3 text-lg"><i class="fa-solid fa-circle-plus text-rose-600 text-2xl"></i> Add Wedding Car</span>
+                            <i class="fa-solid fa-chevron-down transition-transform group-open:rotate-180 text-slate-400"></i>
+                        </summary>
+                        
+                        <form id="wedding-form" class="grid grid-cols-1 gap-4 mt-4">
+                            <!-- Image Upload -->
+                            <label class="block w-full cursor-pointer bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl p-4 text-center hover:bg-slate-100 transition-colors relative overflow-hidden group-hover:border-rose-400">
+                                <input type="file" id="wed-image-file" accept="image/*" capture="environment" class="absolute inset-0 opacity-0 cursor-pointer" required>
+                                <input type="hidden" name="id" id="wedding-id">
+                                <input type="hidden" name="current_image" id="wed-current-image">
+                                <div id="wed-image-preview" class="flex flex-col items-center justify-center text-slate-500">
+                                    <i class="fa-solid fa-camera text-2xl mb-2 text-rose-500"></i>
+                                    <span class="text-xs font-bold uppercase tracking-wide">Tap to Capture / Upload Photo</span>
+                                </div>
+                            </label>
+
+                            <input type="text" name="name" placeholder="Car Name (e.g. Vintage Rolls Royce)" class="input-field" required>
+                            <textarea name="description" placeholder="Short Description" class="input-field h-24" required></textarea>
+                            
+                            <div class="flex gap-3">
+                                <button type="button" id="wed-cancel-btn" onclick="resetWeddingForm()" class="hidden flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-4 rounded-xl transition-all">
+                                    Cancel
+                                </button>
+                                <button type="submit" id="wed-submit-btn" class="flex-[2] bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-rose-500/30 transition-all active:scale-95 flex justify-center items-center gap-2">
+                                    <i class="fa-solid fa-check"></i> Save to Fleet
+                                </button>
+                            </div>
+                        </form>
+                    </details>
+                </div>
+
+                <!-- Data Grid -->
+                <div id="wedding-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Cards injected via JS -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ======================== -->
+    <!-- LOGIC -->
+    <!-- ======================== -->
+    <script>
+        // --- CONFIG ---
+        const supabaseUrl = 'https://skrehnxplbrhvdzzrpsb.supabase.co';
+        const supabaseKey = 'sb_publishable_3GArnWyMnPKa426JlLPWJQ_Wa6Kd-P5';
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // --- STATE ---
+        let currentUser = null;
+        let inventoryData = [];
+        let weddingData = [];
+
+        // --- INIT HELPERS ---
+        const yearSelect = document.getElementById('year-select');
+        const currentYear = new Date().getFullYear();
+        for(let i = currentYear + 1; i >= 1980; i--) { yearSelect.innerHTML += `<option value="${i}">${i}</option>`; }
+
+        // --- AUTHENTICATION ---
+        async function checkSession() {
+            const storedUser = localStorage.getItem('solo_admin_user');
+            if (storedUser) {
+                currentUser = JSON.parse(storedUser);
+                document.getElementById('user-email').innerText = currentUser.email;
+                showDashboard();
+                loadInventory();
+                loadWeddingFleet();
+            } else {
+                showLogin();
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('login-error');
+
+            // Check against custom 'admins' table
+            const { data, error } = await supabaseClient
+                .from('admins')
+                .select('*')
+                .eq('email', email)
+                .eq('password', password)
+                .single();
+
+            if (error || !data) {
+                errorMsg.innerText = "Invalid credentials";
+                errorMsg.classList.remove('hidden');
+            } else {
+                currentUser = data;
+                localStorage.setItem('solo_admin_user', JSON.stringify(data));
+                document.getElementById('user-email').innerText = currentUser.email;
+                showDashboard();
+                loadInventory();
+                loadWeddingFleet();
+            }
+        });
+
+        async function handleLogout() {
+            localStorage.removeItem('solo_admin_user');
+            window.location.reload();
+        }
+
+        // --- UI TOGGLING ---
+        function showDashboard() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+        }
+
+        function switchTab(tab) {
+            const invSection = document.getElementById('inventory-section');
+            const wedSection = document.getElementById('wedding-section');
+            const navInv = document.getElementById('nav-inventory');
+            const navWed = document.getElementById('nav-wedding');
+            const title = document.getElementById('page-title');
+            
+            // Mobile Navs
+            const mobInv = document.getElementById('mob-nav-inventory');
+            const mobWed = document.getElementById('mob-nav-wedding');
+
+            if (tab === 'inventory') {
+                invSection.classList.remove('hidden');
+                wedSection.classList.add('hidden');
+                
+                // Desktop Styles
+                navInv.classList.replace('text-slate-400', 'text-white');
+                navInv.classList.replace('hover:bg-slate-800', 'bg-blue-600');
+                navInv.classList.remove('hover:text-white');
+                navWed.classList.replace('text-white', 'text-slate-400');
+                navWed.classList.replace('bg-rose-600', 'hover:bg-slate-800');
+                navWed.classList.add('hover:text-white');
+                
+                // Mobile Styles
+                mobInv.classList.replace('text-slate-400', 'text-blue-600');
+                mobWed.classList.replace('text-rose-600', 'text-slate-400');
+                
+                title.innerText = "Inventory";
+            } else {
+                invSection.classList.add('hidden');
+                wedSection.classList.remove('hidden');
+                
+                navWed.classList.replace('text-slate-400', 'text-white');
+                navWed.classList.replace('hover:bg-slate-800', 'bg-rose-600');
+                navWed.classList.remove('hover:text-white');
+
+                navInv.classList.replace('text-white', 'text-slate-400');
+                navInv.classList.replace('bg-blue-600', 'hover:bg-slate-800');
+                navInv.classList.add('hover:text-white');
+
+                // Mobile Styles
+                mobWed.classList.replace('text-slate-400', 'text-rose-600');
+                mobInv.classList.replace('text-blue-600', 'text-slate-400');
+
+                title.innerText = "Wedding Fleet";
+            }
+        }
+
+        // --- IMAGE UPLOAD HELPER ---
+        async function uploadImage(file, bucket = 'images') {
+            const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9]/g, '_')}`;
+            const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file);
+            
+            if (error) {
+                console.error("Upload Error:", error);
+                alert("Upload failed. Ensure you have a public bucket named '" + bucket + "'.");
+                return null;
+            }
+            
+            const { data: { publicUrl } } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
+            return publicUrl;
+        }
+
+        // Preview Handlers
+        document.getElementById('inv-image-file').addEventListener('change', function(e) {
+            if(this.files[0]) {
+                document.getElementById('inv-image-preview').innerHTML = `<img src="${URL.createObjectURL(this.files[0])}" class="h-32 w-full object-cover rounded-lg">`;
+            }
+        });
+        document.getElementById('wed-image-file').addEventListener('change', function(e) {
+            if(this.files[0]) {
+                document.getElementById('wed-image-preview').innerHTML = `<img src="${URL.createObjectURL(this.files[0])}" class="h-32 w-full object-cover rounded-lg">`;
+            }
+        });
+
+        // --- INVENTORY CRUD ---
+        async function loadInventory() {
+            const grid = document.getElementById('inventory-grid');
+            grid.innerHTML = '<div class="col-span-full text-center py-8 text-slate-400"><div class="loader mx-auto mb-2"></div>Loading Fleet...</div>';
+
+            const { data, error } = await supabaseClient.from('inventory').select('*').order('created_at', { ascending: false });
+
+            if (error) {
+                console.error(error);
+                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-8">Error loading data</div>';
+                return;
+            }
+
+            inventoryData = data;
+            grid.innerHTML = '';
+            data.forEach(item => {
+                const card = `
+                    <div class="glass-card rounded-2xl p-3 flex gap-3 items-center relative overflow-hidden group">
+                        <div class="w-24 h-24 flex-shrink-0 rounded-xl bg-slate-100 overflow-hidden">
+                            <img src="${item.image}" class="w-full h-full object-cover" alt="Car">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-slate-900 truncate pr-6">${item.name}</h4>
+                                <button onclick="editInventory(${item.id})" class="absolute top-3 right-12 text-slate-300 hover:text-blue-500 p-1">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button onclick="deleteInventory(${item.id})" class="absolute top-3 right-3 text-slate-300 hover:text-red-500 p-1">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-slate-500 mb-1">${item.year} • ${item.fuel_type}</p>
+                            <p class="text-blue-600 font-bold text-sm mb-1">
+                                ${(item.price / 1000000).toFixed(2)}M LKR
+                                ${item.is_negotiable ? '<span class="text-[9px] bg-green-50 text-green-600 px-1 rounded ml-1">Neg</span>' : ''}
+                            </p>
+                            <span class="inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase ${item.status === 'In Stock' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'}">
+                                ${item.status}
+                            </span>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        function editInventory(id) {
+            const item = inventoryData.find(i => i.id === id);
+            if (!item) return;
+
+            const form = document.getElementById('inventory-form');
+            form.name.value = item.name;
+            form.price.value = item.price;
+            form.year.value = item.year;
+            form.status.value = item.status;
+            form.condition.value = item.condition;
+            form.fuel_type.value = item.fuel_type;
+            form.is_negotiable.checked = item.is_negotiable;
+            
+            document.getElementById('inventory-id').value = item.id;
+            document.getElementById('current-image').value = item.image;
+
+            // Image Preview
+            document.getElementById('inv-image-preview').innerHTML = `<img src="${item.image}" class="h-32 w-full object-cover rounded-lg">`;
+
+            // Button Update
+            document.getElementById('inv-cancel-btn').classList.remove('hidden');
+            const btn = document.getElementById('inv-submit-btn');
+            btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Update Vehicle';
+            btn.className = "flex-[2] bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-500/30 transition-all active:scale-95 flex justify-center items-center gap-2";
+
+            // UI Feedback
+            const container = document.getElementById('inventory-form-container');
+            container.classList.add('ring-2', 'ring-emerald-500', 'bg-emerald-50/50');
+            document.getElementById('inv-form-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-emerald-600 text-2xl"></i> Editing: <span class="text-emerald-700 ml-1">${item.name}</span>`;
+
+            // Open Details
+            const details = document.querySelector('#inventory-section details');
+            if (!details.open) {
+            details.open = true;
+            details.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function resetInventoryForm() {
+            const form = document.getElementById('inventory-form');
+            form.reset();
+            document.getElementById('inventory-id').value = '';
+            document.getElementById('current-image').value = '';
+            document.getElementById('inv-image-preview').innerHTML = '<i class="fa-solid fa-camera text-2xl mb-2 text-blue-500"></i><span class="text-xs font-bold uppercase tracking-wide">Tap to Capture / Upload Photo</span>';
+            
+            document.getElementById('inv-cancel-btn').classList.add('hidden');
+            const btn = document.getElementById('inv-submit-btn');
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Save Vehicle';
+            btn.className = "flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all active:scale-95 flex justify-center items-center gap-2";
+
+            // UI Reset
+            const container = document.getElementById('inventory-form-container');
+            container.classList.remove('ring-2', 'ring-emerald-500', 'bg-emerald-50/50');
+            document.getElementById('inv-form-title').innerHTML = `<i class="fa-solid fa-circle-plus text-blue-600 text-2xl"></i> Add New Vehicle`;
+        }
+
+        // Reset form when details panel is closed
+        document.querySelector('#inventory-section details').addEventListener('toggle', function() {
+            if (!this.open) resetInventoryForm();
+        });
+
+        document.getElementById('inventory-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('inv-submit-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="loader border-white border-t-transparent w-4 h-4"></div> Processing...';
+            btn.disabled = true;
+
+            const formData = new FormData(e.target);
+            const fileInput = document.getElementById('inv-image-file');
+            const id = formData.get('id');
+            const currentImage = formData.get('current_image');
+            
+            let imageUrl = currentImage;
+            if (fileInput.files.length > 0) {
+                imageUrl = await uploadImage(fileInput.files[0]);
+                if (!imageUrl) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+            } else if (!id && fileInput.files.length === 0) {
+                alert("Please upload an image.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const newItem = {
+                name: formData.get('name'),
+                price: parseFloat(formData.get('price')),
+                image: imageUrl,
+                year: formData.get('year'), // Keeping as string/text based on prompt, or number if DB expects it. JS handles loose types usually.
+                status: formData.get('status'),
+                condition: formData.get('condition'),
+                fuel_type: formData.get('fuel_type'),
+                is_negotiable: formData.get('is_negotiable') === 'on'
+            };
+
+            let error;
+            if (id) {
+                // Change Detection
+                const original = inventoryData.find(i => i.id == id);
+                const hasChanged = 
+                    original.name !== newItem.name ||
+                    original.price !== newItem.price ||
+                    original.year != newItem.year || // loose comparison for string/number
+                    original.status !== newItem.status ||
+                    original.condition !== newItem.condition ||
+                    original.fuel_type !== newItem.fuel_type ||
+                    original.is_negotiable !== newItem.is_negotiable ||
+                    (fileInput.files.length > 0); // If file selected, image changed
+
+                if (!hasChanged) { alert("You haven't changed anything."); btn.innerHTML = originalText; btn.disabled = false; return; }
+
+                const { error: updateError } = await supabaseClient.from('inventory').update(newItem).eq('id', id);
+                error = updateError;
+            } else {
+                const { error: insertError } = await supabaseClient.from('inventory').insert([newItem]);
+                error = insertError;
+            }
+
+            if (error) {
+                alert('Error: ' + error.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            } else {
+                resetInventoryForm();
+                document.querySelector('#inventory-section details').open = false;
+                loadInventory();
+            }
+        });
+
+        async function deleteInventory(id) {
+            if (!confirm('Are you sure you want to delete this vehicle?')) return;
+            const { error } = await supabaseClient.from('inventory').delete().eq('id', id);
+            if (error) alert('Error deleting: ' + error.message);
+            else loadInventory();
+        }
+
+        // --- WEDDING FLEET CRUD ---
+        async function loadWeddingFleet() {
+            const grid = document.getElementById('wedding-grid');
+            grid.innerHTML = '<div class="col-span-full text-center py-8 text-slate-400"><div class="loader mx-auto mb-2"></div>Loading Fleet...</div>';
+
+            const { data, error } = await supabaseClient.from('wedding_fleet').select('*').order('created_at', { ascending: false });
+
+            if (error) {
+                console.error(error);
+                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-8">Error loading data</div>';
+                return;
+            }
+
+            weddingData = data;
+            grid.innerHTML = '';
+            data.forEach(item => {
+                const card = `
+                    <div class="glass-card rounded-2xl p-3 flex gap-3 items-center relative overflow-hidden group">
+                        <div class="w-24 h-24 flex-shrink-0 rounded-xl bg-slate-100 overflow-hidden">
+                            <img src="${item.image}" class="w-full h-full object-cover" alt="Car">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-slate-900 truncate pr-6">${item.name}</h4>
+                                <button onclick="editWedding(${item.id})" class="absolute top-3 right-12 text-slate-300 hover:text-blue-500 p-1">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button onclick="deleteWedding(${item.id})" class="absolute top-3 right-3 text-slate-300 hover:text-red-500 p-1">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-slate-500 line-clamp-2 mt-1">${item.description}</p>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        function editWedding(id) {
+            const item = weddingData.find(i => i.id === id);
+            if (!item) return;
+
+            const form = document.getElementById('wedding-form');
+            form.name.value = item.name;
+            form.description.value = item.description;
+            
+            document.getElementById('wedding-id').value = item.id;
+            document.getElementById('wed-current-image').value = item.image;
+
+            // Image Preview
+            document.getElementById('wed-image-preview').innerHTML = `<img src="${item.image}" class="h-32 w-full object-cover rounded-lg">`;
+
+            // Button Update
+            document.getElementById('wed-cancel-btn').classList.remove('hidden');
+            const btn = document.getElementById('wed-submit-btn');
+            btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Update Car';
+            btn.className = "flex-[2] bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-500/30 transition-all active:scale-95 flex justify-center items-center gap-2";
+
+            // UI Feedback
+            const container = document.getElementById('wedding-form-container');
+            container.classList.add('ring-2', 'ring-emerald-500', 'bg-emerald-50/50');
+            document.getElementById('wed-form-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-emerald-600 text-2xl"></i> Editing: <span class="text-emerald-700 ml-1">${item.name}</span>`;
+
+            // Open Details
+            const details = document.querySelector('#wedding-section details');
+            if (!details.open) {
+                details.open = true;
+                details.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function resetWeddingForm() {
+            const form = document.getElementById('wedding-form');
+            form.reset();
+            document.getElementById('wedding-id').value = '';
+            document.getElementById('wed-current-image').value = '';
+            document.getElementById('wed-image-preview').innerHTML = '<i class="fa-solid fa-camera text-2xl mb-2 text-rose-500"></i><span class="text-xs font-bold uppercase tracking-wide">Tap to Capture / Upload Photo</span>';
+            
+            document.getElementById('wed-cancel-btn').classList.add('hidden');
+            const btn = document.getElementById('wed-submit-btn');
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Save to Fleet';
+            btn.className = "flex-[2] bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-rose-500/30 transition-all active:scale-95 flex justify-center items-center gap-2";
+
+            const container = document.getElementById('wedding-form-container');
+            container.classList.remove('ring-2', 'ring-emerald-500', 'bg-emerald-50/50');
+            document.getElementById('wed-form-title').innerHTML = `<i class="fa-solid fa-circle-plus text-rose-600 text-2xl"></i> Add Wedding Car`;
+        }
+
+        document.getElementById('wedding-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('wed-submit-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="loader border-white border-t-transparent w-4 h-4"></div> Uploading...';
+            btn.disabled = true;
+
+            const formData = new FormData(e.target);
+            const fileInput = document.getElementById('wed-image-file');
+            const id = formData.get('id');
+            const currentImage = formData.get('current_image');
+            
+            let imageUrl = currentImage;
+            if (fileInput.files.length > 0) {
+                imageUrl = await uploadImage(fileInput.files[0]);
+                if (!imageUrl) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+            } else if (!id && fileInput.files.length === 0) {
+                alert("Please upload an image.");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const newItem = {
+                name: formData.get('name'),
+                image: imageUrl,
+                description: formData.get('description')
+            };
+
+            let error;
+            if (id) {
+                // Change Detection
+                const original = weddingData.find(i => i.id == id);
+                const hasChanged = 
+                    original.name !== newItem.name ||
+                    original.description !== newItem.description ||
+                    (fileInput.files.length > 0);
+
+                if (!hasChanged) { alert("You haven't changed anything."); btn.innerHTML = originalText; btn.disabled = false; return; }
+
+                const { error: updateError } = await supabaseClient.from('wedding_fleet').update(newItem).eq('id', id);
+                error = updateError;
+            } else {
+                const { error: insertError } = await supabaseClient.from('wedding_fleet').insert([newItem]);
+                error = insertError;
+            }
+
+            if (error) {
+                alert('Error: ' + error.message);
+            } else {
+                resetWeddingForm();
+                document.querySelector('#wedding-section details').open = false;
+                loadWeddingFleet();
+            }
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        });
+
+        async function deleteWedding(id) {
+            if (!confirm('Are you sure you want to delete this wedding car?')) return;
+            const { error } = await supabaseClient.from('wedding_fleet').delete().eq('id', id);
+            if (error) alert('Error deleting: ' + error.message);
+            else loadWeddingFleet();
+        }
+
+        // --- INIT ---
+        window.onload = checkSession;
+
+    </script>
+</body>
+</html>
