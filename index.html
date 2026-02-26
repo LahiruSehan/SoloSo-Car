@@ -1,1421 +1,1159 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth antialiased selection:bg-blue-600 selection:text-white">
-
+<html lang="en" class="scroll-smooth antialiased">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solo So Auto | The Ultimate Automotive Sanctuary</title>
-    <meta name="description"
-        content="Experience the pinnacle of automotive excellence. From JDM legends to European masterpieces, Solo So Auto curates the world's finest vehicles for the discerning few. Marawila's premier destination for luxury, performance, and prestige.">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://solosoauto.com/">
-    <meta property="og:title" content="Solo So Auto | The Ultimate Automotive Sanctuary">
-    <meta property="og:description"
-        content="Experience the pinnacle of automotive excellence. From JDM legends to European masterpieces, Solo So Auto curates the world's finest vehicles for the discerning few.">
+    <title id="meta-title">Solo So Auto | Sri Lanka's Premium Car Dealer</title>
+    <meta name="description" id="meta-desc" content="Sri Lanka's finest automotive experience. Lowest down payment, best monthly rates.">
     <meta property="og:image" content="https://i.ibb.co/NgmZPszW/Cover.png">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://solosoauto.com/">
-    <meta property="twitter:title" content="Solo So Auto | The Ultimate Automotive Sanctuary">
-    <meta property="twitter:description"
-        content="Experience the pinnacle of automotive excellence. From JDM legends to European masterpieces, Solo So Auto curates the world's finest vehicles for the discerning few.">
-    <meta property="twitter:image" content="https://i.ibb.co/NgmZPszW/Cover.png">
-
-    <!-- Favicon & Manifest -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="manifest" href="site.webmanifest">
 
-    <!-- GLOBAL EXTERNAL LIBRARIES -->
+    <!-- ⚙️ ALL TEXT EDITABLE IN config.js -->
+    <script src="config.js"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- TAILWIND CONFIG -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        heading: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        lux: { 900: '#020617', 800: '#0f172a', 100: '#f1f5f9', 50: '#f8fafc', accent: '#2563eb' }
-                    },
-                    letterSpacing: { 'ultra': '0.35em' }
+                    fontFamily: { sans:['Plus Jakarta Sans','sans-serif'], heading:['Outfit','sans-serif'] },
+                    colors: { lux:{ 900:'#020617', 800:'#0f172a', 700:'#1e293b' } },
+                    letterSpacing: { ultra:'0.35em', mega:'0.5em' }
                 }
             }
         }
     </script>
 
-    <!-- GLOBAL CORE STYLES -->
     <style>
-        body {
-            background-color: #f8fafc;
-            color: #0f172a;
-            overflow-x: hidden;
-        }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { -webkit-text-size-adjust: 100%; }
+        body { background:#f8fafc; color:#0f172a; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+        ::-webkit-scrollbar { width:3px; }
+        ::-webkit-scrollbar-track { background:#f1f5f9; }
+        ::-webkit-scrollbar-thumb { background:#94a3b8; border-radius:2px; }
 
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
+        /* ── LOADER ── */
+        .loader-curtain { position:fixed; inset:0; z-index:9999; background:#020617; display:flex; align-items:center; justify-content:center; transition:transform 1.2s cubic-bezier(0.8,0,0.2,1); }
+        .loader-content { transition:opacity 0.5s ease; }
+        .loaded .loader-curtain { transform:translateY(-100%); }
+        .loaded .loader-content { opacity:0; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
+        /* ── GOLD ── */
+        @keyframes goldShimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+        .gold-text { background:linear-gradient(90deg,#d4a017,#f5c842,#b8860b,#f5c842,#d4a017); background-size:300% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:goldShimmer 3s linear infinite; }
+        .gold-bg  { background:linear-gradient(135deg,#d4a017,#f5c842); }
+        .gold-border { border-color:#d4a017 !important; }
 
-        ::-webkit-scrollbar-thumb {
-            background: #94a3b8;
-            border-radius: 2px;
-        }
+        /* ── PROMO ── */
+        @keyframes redPulse { 0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)} 50%{box-shadow:0 0 30px 8px rgba(239,68,68,.2)} }
+        .promo-pulse { animation:redPulse 2.5s ease-in-out infinite; }
+        @keyframes flashBadge { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.85;transform:scale(1.04)} }
+        .flash-badge { animation:flashBadge 1.8s ease-in-out infinite; }
+        @keyframes gradientFlow { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+        .gradient-flow-bg { background:linear-gradient(270deg,#dc2626,#ef4444,#b91c1c,#7f1d1d); background-size:400% 400%; animation:gradientFlow 3s ease infinite; }
 
-        .text-balance {
-            text-wrap: balance;
-        }
+        /* ── HERO ── */
+        .hero-slide { position:absolute; inset:0; opacity:0; transition:opacity 1.5s ease-in-out; background-size:cover; background-repeat:no-repeat; background-position:center; }
+        .hero-slide.active { opacity:1; }
+        .desktop-hero { display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+        @media(min-width:768px) { #hero-slides{display:none;} .desktop-hero{display:block;} }
+        .reveal-fade { opacity:0; transform:translateY(20px); transition:opacity .8s ease, transform .8s ease; }
+        .reveal-fade.active { opacity:1; transform:translateY(0); }
+        @keyframes float-subtle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+        .anim-float { animation:float-subtle 3s ease-in-out infinite; }
 
-        /* Loader Curtain */
-        .loader-curtain {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #020617;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
-        }
+        /* ── HERO MARQUEE ── */
+        .marquee-wrapper { position:absolute; bottom:0; left:0; width:100%; background:#fff; padding:.75rem 0; z-index:50; overflow:hidden; white-space:nowrap; border-top:1px solid #e2e8f0; }
+        .marquee-content { display:inline-block; animation:marquee-roll 22s linear infinite; }
+        @keyframes marquee-roll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-        .loader-content {
-            transition: opacity 0.5s ease;
-        }
+        /* ── SECTIONS ── */
+        @keyframes slideUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+        .anim-entry { opacity:0; animation:slideUp .7s cubic-bezier(.16,1,.3,1) forwards; animation-play-state:paused; }
 
-        .loaded .loader-curtain {
-            transform: translateY(-100%);
-        }
+        /* ── CURATOR ── */
+        @keyframes slowFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        .curator-img-float { animation:slowFloat 8s ease-in-out infinite; }
+        .curator-reveal { opacity:0; transform:translateY(32px); transition:all .9s cubic-bezier(.16,1,.3,1); }
+        .curator-active .curator-reveal { opacity:1; transform:translateY(0); }
 
-        .loaded .loader-content {
-            opacity: 0;
-            transform: scale(0.95);
-        }
+        /* ── PROCESS CARD ── */
+        .process-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius:1.5rem; padding:2rem; transition:all .4s; position:relative; overflow:hidden; }
+        .process-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(59,130,246,.06),transparent); opacity:0; transition:opacity .4s; }
+        .process-card:hover { transform:translateY(-6px); border-color:rgba(59,130,246,.3); box-shadow:0 20px 40px -10px rgba(2,6,23,.6); }
+        .process-card:hover::before { opacity:1; }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
+        /* ── FEATURE CARDS (dark) ── */
+        .feat-card { background:linear-gradient(180deg,rgba(30,41,59,.5),rgba(15,23,42,.8)); border:1px solid rgba(255,255,255,.05); border-radius:2rem; transition:all .5s cubic-bezier(.4,0,.2,1); position:relative; overflow:hidden; }
+        .feat-card::after { content:''; position:absolute; inset:0; background:radial-gradient(circle at top right,rgba(59,130,246,.12),transparent 60%); opacity:0; transition:opacity .5s; }
+        .feat-card:hover::after { opacity:1; }
+        .feat-card:hover { transform:translateY(-6px); border-color:rgba(59,130,246,.3); box-shadow:0 20px 40px -15px rgba(2,6,23,.8); }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        /* ── CAR CARDS ── */
+        .car-card { transition:all .4s cubic-bezier(.4,0,.2,1); }
+        .car-card:hover { transform:translateY(-4px); box-shadow:0 20px 40px -12px rgba(0,0,0,.15); }
+        .snap-scroll-container { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:1.25rem; padding-bottom:1rem; }
+        .snap-scroll-container::-webkit-scrollbar { display:none; }
+        .car-card-snap { flex:0 0 82vw; scroll-snap-align:center; }
+        @media(min-width:640px) { .car-card-snap { flex:0 0 340px; } }
+        @media(min-width:768px) { .car-card-snap { flex:0 0 360px; } }
+
+        /* ── WA BUTTON ── */
+        @keyframes waPulse { 0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.5)} 60%{box-shadow:0 0 0 10px rgba(37,211,102,0)} }
+        .wa-btn { background:linear-gradient(135deg,#25d366,#128c7e); border-radius:1rem; transition:all .3s; animation:waPulse 2.5s ease-out infinite; }
+        .wa-btn:hover { transform:scale(1.03); box-shadow:0 8px 25px -5px rgba(37,211,102,.5); animation:none; }
+        .wa-btn:active { transform:scale(.97); }
+
+        /* ── FILTER PILLS ── */
+        .filter-btn { padding:.5rem 1.25rem; border-radius:9999px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; background:#fff; color:#475569; border:1px solid #e2e8f0; transition:all .25s; white-space:nowrap; }
+        .filter-btn.active, .filter-btn:hover { background:#020617; color:#fff; border-color:#020617; }
+
+        /* ── FINANCE MARQUEE ── */
+        @keyframes fin-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        .fin-track { display:flex; width:max-content; animation:fin-scroll 35s linear infinite; }
+        .fin-track:hover { animation-play-state:paused; }
+        .fin-wrap { overflow:hidden; position:relative; }
+        .fin-wrap::before, .fin-wrap::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; pointer-events:none; }
+        .fin-wrap::before { left:0; background:linear-gradient(to right,#fff,transparent); }
+        .fin-wrap::after  { right:0; background:linear-gradient(to left,#fff,transparent); }
+
+        /* ── CONCIERGE CARDS ── */
+        .concierge-card { background:linear-gradient(135deg,#f8fafc,#f1f5f9); border:1px solid #e2e8f0; border-radius:1.5rem; padding:2rem; position:relative; overflow:hidden; transition:all .4s; }
+        .concierge-card::before { content:''; position:absolute; top:-40px; right:-40px; width:100px; height:100px; border-radius:50%; opacity:.06; transition:all .4s; }
+        .concierge-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px -12px rgba(0,0,0,.1); border-color:#cbd5e1; }
+
+        /* ── LEGACY TIMELINE ── */
+        .timeline-item { position:relative; padding-left:3rem; }
+        .timeline-item::before { content:''; position:absolute; left:.9rem; top:2.5rem; bottom:-1rem; width:2px; background:linear-gradient(to bottom,#2563eb,transparent); }
+        .timeline-item:last-child::before { display:none; }
+
+        /* ── NETWORK FLAGS ── */
+        .flag-item { display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+
+        /* ── MOBILE NAV ── */
+        #mobile-menu { display:none; }
+        #mobile-menu.open { display:flex; }
     </style>
 </head>
 
 <body class="loading">
 
-    <!-- PRELOADER -->
-    <div id="loader" class="loader-curtain">
-        <div class="loader-content flex flex-col items-center justify-center w-full max-w-md px-6">
-            <!-- Logo / Title -->
-            <div class="mb-12 relative">
-                <h1
-                    class="font-heading font-black text-7xl md:text-9xl text-white tracking-tighter leading-none opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
-                    SOLO<span class="text-blue-600">SO</span>
-                </h1>
-                <div
-                    class="absolute -bottom-4 left-0 w-full flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500 opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards]">
-                    <span>Est. 2010</span>
-                    <span>Marawila</span>
+<!-- PRELOADER -->
+<div id="loader" class="loader-curtain">
+    <div class="loader-content flex flex-col items-center justify-center w-full max-w-sm px-6">
+        <div class="mb-10 relative">
+            <h1 class="font-heading font-black text-6xl text-white tracking-tighter leading-none opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
+                SOLO<span class="text-blue-500">SO</span>
+            </h1>
+            <div class="absolute -bottom-4 left-0 w-full flex justify-between text-[9px] font-bold uppercase tracking-widest text-slate-500 opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards]">
+                <span id="pl-est"></span><span id="pl-loc"></span>
+            </div>
+        </div>
+        <div class="w-full h-px bg-slate-800 relative overflow-hidden mb-4">
+            <div id="loader-bar" class="absolute top-0 left-0 h-full bg-blue-500 w-0 transition-all duration-75 ease-out shadow-[0_0_12px_rgba(59,130,246,.6)]"></div>
+        </div>
+        <div class="w-full flex justify-between items-end">
+            <div class="flex flex-col"><span id="pl-status-label" class="text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-1"></span><span id="loader-text" class="text-xs font-heading font-bold text-white"></span></div>
+            <span id="loader-count" class="font-heading font-bold text-3xl text-white leading-none">00</span>
+        </div>
+    </div>
+</div>
+
+<header id="nav-container"></header>
+<main id="app" class="min-h-screen"></main>
+<footer id="footer-container"></footer>
+
+<!-- FLOATING WA BUTTON (always visible) -->
+<a id="float-wa" href="#" target="_blank" class="fixed bottom-5 right-5 z-[200] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl" style="background:linear-gradient(135deg,#25d366,#128c7e);animation:waPulse 2.5s ease-out infinite;" title="Chat on WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+</a>
+
+<script>
+// ================================================================
+// CONFIG INIT
+// ================================================================
+function initFloatWA() {
+    const wa = document.getElementById('float-wa');
+    if(wa && window.SITE_CONFIG) {
+        const msg = encodeURIComponent("Hi Solo So Auto! I'd like to inquire about your vehicles and financing options 🚗");
+        wa.href = `https://wa.me/${window.SITE_CONFIG.brand.whatsapp}?text=${msg}`;
+    }
+}
+
+// ================================================================
+// SUPABASE
+// ================================================================
+const supabaseUrl = 'https://skrehnxplbrhvdzzrpsb.supabase.co';
+const supabaseKey = 'sb_publishable_3GArnWyMnPKa426JlLPWJQ_Wa6Kd-P5';
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+const DB = {
+    inventory: { all:[], inStock:[], importable:[] },
+    weddingFleet: [],
+    heroImages: [
+        "https://i.ibb.co/zhWCY3t3/Best-Cars.png","https://i.ibb.co/gMwFSm5d/Best-Cars2.png",
+        "https://i.ibb.co/gM0CFQbX/Best-Cars7.png","https://i.ibb.co/GfLm2Pv5/Best-Cars8.png"
+    ]
+};
+
+async function loadData() {
+    try {
+        const { data:cars } = await supabaseClient.from('inventory').select('*');
+        if(cars){ DB.inventory.all=cars; DB.inventory.inStock=cars.filter(c=>c.status==='In Stock'); DB.inventory.importable=cars.filter(c=>c.status==='Importable'); }
+        const { data:wedding } = await supabaseClient.from('wedding_fleet').select('*');
+        if(wedding) DB.weddingFleet=wedding;
+    } catch(e){ console.error("Data error:",e); }
+}
+
+function renderComponent(html) {
+    const d = document.createElement('div');
+    d.innerHTML = html;
+    const scripts = Array.from(d.querySelectorAll('script'));
+    scripts.forEach(s=>s.remove());
+    return {html:d.innerHTML, scripts};
+}
+
+// ================================================================
+// WA MESSAGE BUILDER
+// ================================================================
+function buildWAMessage(car) {
+    return encodeURIComponent(
+        `🚗 Hi Solo So Auto!\n\nI'm interested in the *${car.name}* (${car.year}).\n\n` +
+        `• Condition: ${car.condition || 'Unregistered'}\n` +
+        `• Fuel: ${car.fuel_type || 'Petrol'}\n\n` +
+        `Could you please share the price and available financing options? 🙏\n\n` +
+        `_(via solosoauto.com)_`
+    );
+}
+
+// ================================================================
+// SHARE FLYER
+// ================================================================
+const ShareFlyerScript = () => `<script>
+window.shareCar = function(car) {
+    const C = window.SITE_CONFIG.inventory;
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;';
+    modal.innerHTML = \`<div style="max-width:560px;width:100%;">
+        <div id="flyer-canvas" style="width:100%;aspect-ratio:1/1;background:linear-gradient(135deg,#020617 0%,#0f172a 45%,#1e3a5f 100%);border-radius:20px;overflow:hidden;position:relative;display:flex;flex-direction:column;font-family:sans-serif;">
+            <div style="position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:rgba(37,99,235,.2);border-radius:50%;filter:blur(50px);"></div>
+            <div style="position:absolute;bottom:-50px;left:-50px;width:180px;height:180px;background:rgba(212,160,23,.18);border-radius:50%;filter:blur(50px);"></div>
+            <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;position:relative;z-index:2;">
+                <div style="color:#fff;font-weight:900;font-size:15px;letter-spacing:-.02em;">SOLO<span style="color:#3b82f6;">SO</span> AUTO</div>
+                <div style="background:linear-gradient(135deg,#d4a017,#f5c842);color:#1a0a00;font-size:7px;font-weight:900;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.1em;">AVAILABLE NOW</div>
+            </div>
+            <div style="flex:1;position:relative;overflow:hidden;min-height:0;">
+                <img src="\${car.image}" style="width:100%;height:100%;object-fit:cover;" crossorigin="anonymous" onerror="this.src='https://placehold.co/600x400/020617/white?text=\${encodeURIComponent(car.name)}'">
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(2,6,23,.97) 0%,rgba(2,6,23,.1) 55%,transparent 100%);"></div>
+            </div>
+            <div style="padding:14px 16px;flex-shrink:0;position:relative;z-index:2;">
+                <div style="color:#64748b;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px;">\${car.year} · \${car.condition||'Unregistered'} · \${car.fuel_type||'Petrol'}</div>
+                <div style="color:#fff;font-size:19px;font-weight:900;letter-spacing:-.02em;margin-bottom:10px;line-height:1.1;">\${car.name}</div>
+                <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:6px;">
+                    <div style="background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);border-radius:8px;padding:6px 12px;">
+                        <div style="color:#4ade80;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;">💬 Inquire for Price</div>
+                        <div style="color:#86efac;font-size:8px;margin-top:1px;">Lowest rates available</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="color:#f5c842;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;">\${C.flyerTagline}</div>
+                        <div style="color:#94a3b8;font-size:8px;margin-top:2px;">\${C.flyerContact}</div>
+                        <div style="color:#64748b;font-size:7px;margin-top:1px;">\${C.flyerFooter}</div>
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+            <button id="flyer-share-fb" style="background:#1877f2;color:#fff;border:none;padding:10px 18px;border-radius:100px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;display:flex;align-items:center;gap:6px;"><svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook</button>
+            <button id="flyer-share-wa" style="background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;padding:10px 18px;border-radius:100px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;">📱 WhatsApp</button>
+            <button id="flyer-close" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.15);padding:10px 18px;border-radius:100px;font-size:11px;font-weight:800;cursor:pointer;">✕ Close</button>
+        </div>
+        <p style="color:#475569;text-align:center;font-size:9px;margin-top:8px;text-transform:uppercase;letter-spacing:.1em;">Screenshot to save · Share buttons to post</p>
+    </div>\`;
+    document.body.appendChild(modal);
+    document.getElementById('flyer-close').onclick = () => modal.remove();
+    modal.addEventListener('click', e => { if(e.target===modal) modal.remove(); });
+    const flyerText = '🚗 ' + car.name + ' (' + car.year + ')\\n⭐ ' + (car.condition||'Unregistered') + ' · ' + (car.fuel_type||'Petrol') + '\\n\\n🔥 Available Now at Solo So Auto\\n💬 Inquire for price — best rates in Sri Lanka!\\n📞 +94 77 530 0000\\n📍 Colombo-Puttalam Rd, Marawila\\n\\n🏆 Lowest Down Payment · Best Monthly Rates!';
+    document.getElementById('flyer-share-fb').onclick = () => window.open('https://www.facebook.com/sharer/sharer.php?u=https://solosoauto.com&quote='+encodeURIComponent(flyerText),'_blank','width=600,height=400');
+    document.getElementById('flyer-share-wa').onclick = () => window.open('https://wa.me/?text='+encodeURIComponent(flyerText),'_blank');
+};
+<\/script>`;
+
+// ================================================================
+// NAV BAR — MOBILE HAMBURGER + DESKTOP FULL
+// ================================================================
+const NavBar = () => {
+    const C = window.SITE_CONFIG;
+    return `
+<header id="main-nav" class="fixed top-0 w-full z-[100] bg-white/95 backdrop-blur-lg border-b border-slate-200/80" style="height:64px;">
+    <div class="w-full h-full px-3 md:px-8 flex items-center justify-between gap-2">
+        <!-- Logo -->
+        <a href="#" onclick="App.navigate('home')" class="flex-shrink-0">
+            <img src="${C.brand.logoSrc}" alt="${C.brand.nameShort}" class="h-7 w-auto object-contain">
+        </a>
+
+        <!-- ALWAYS VISIBLE CORE NAV -->
+        <nav class="flex items-center gap-1 sm:gap-1.5 flex-1 justify-center">
+            <button onclick="App.navigate('home')" class="hidden sm:flex px-2.5 py-1.5 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-all whitespace-nowrap">${C.nav.home}</button>
+
+            <!-- Cars ALWAYS visible -->
+            <button onclick="App.navigate('stock')" class="flex items-center gap-1 px-3 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all whitespace-nowrap">
+                <svg class="h-3 w-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="m16 8 5 3v5h-5V8Z"/></svg>
+                ${C.nav.cars}
+            </button>
+
+            <!-- Wedding ALWAYS visible -->
+            <button onclick="App.navigate('wedding')" class="flex items-center gap-1 px-3 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white bg-gradient-to-r from-pink-500 to-rose-500 shadow-sm shadow-rose-400/30 hover:opacity-90 transition-all whitespace-nowrap">
+                <span class="animate-pulse">${C.nav.weddingIcon}</span>
+                <span class="hidden xs:inline">${C.nav.wedding}</span>
+                <span class="inline sm:hidden" aria-hidden="true">💒</span>
+            </button>
+
+            <!-- Gold anniversary — md+ only -->
+            <div class="hidden md:flex px-2.5 py-1.5 rounded-full gold-bg shadow-sm items-center gap-1 flex-shrink-0">
+                <span class="text-[8px] font-black text-amber-900 uppercase tracking-wider whitespace-nowrap">${C.anniversary.years} YRS · ${C.anniversary.range}</span>
+            </div>
+        </nav>
+
+        <!-- Right: WA + Burger -->
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+            <a href="https://wa.me/${C.brand.whatsapp}?text=${encodeURIComponent('Hi Solo So Auto! I would like to inquire about your vehicles 🚗')}" target="_blank"
+               class="wa-btn flex items-center gap-1.5 px-2.5 sm:px-3 py-2 text-white text-[9px] md:text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
+                <svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                <span class="hidden sm:inline">WhatsApp</span>
+            </a>
+            <button id="burger-btn" class="w-8 h-8 rounded-lg bg-slate-100 flex flex-col items-center justify-center gap-1 flex-shrink-0" onclick="toggleMenu()">
+                <span class="w-4 h-0.5 bg-slate-700 rounded-full transition-all" id="b1"></span>
+                <span class="w-4 h-0.5 bg-slate-700 rounded-full transition-all" id="b2"></span>
+                <span class="w-4 h-0.5 bg-slate-700 rounded-full transition-all" id="b3"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- MOBILE MENU DROPDOWN -->
+<div id="mobile-menu" class="fixed top-16 left-0 right-0 z-[99] bg-white border-b border-slate-200 px-4 py-4 flex-col gap-2 shadow-xl">
+    <button onclick="App.navigate('home');toggleMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-2">
+        <span>🏠</span> ${C.nav.home}
+    </button>
+    <button onclick="App.navigate('stock');toggleMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 transition-all flex items-center gap-2">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="m16 8 5 3v5h-5V8Z"/></svg>
+        ${C.nav.cars}
+    </button>
+    <button onclick="App.navigate('wedding');toggleMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-pink-500 to-rose-500 transition-all flex items-center gap-2">
+        <span>${C.nav.weddingIcon}</span> ${C.nav.wedding}
+    </button>
+    <div class="px-4 py-2.5 rounded-xl gold-bg flex items-center gap-2">
+        <span class="text-sm">🏆</span>
+        <span class="text-[11px] font-black text-amber-900 uppercase tracking-wider">${C.anniversary.years} Years · ${C.anniversary.range} · ${C.anniversary.tagline}</span>
+    </div>
+</div>
+
+<script>
+function toggleMenu(){
+    const m=document.getElementById('mobile-menu');
+    const b1=document.getElementById('b1'),b2=document.getElementById('b2'),b3=document.getElementById('b3');
+    const open=m.classList.contains('open');
+    if(open){m.classList.remove('open');b1.style.transform='';b3.style.transform='';b2.style.opacity='1';}
+    else{m.classList.add('open');b1.style.transform='rotate(45deg) translate(3px,3px)';b3.style.transform='rotate(-45deg) translate(3px,-3px)';b2.style.opacity='0';}
+}
+<\/script>`;
+};
+
+// ================================================================
+// HERO SECTION — FULLY MOBILE RESPONSIVE
+// ================================================================
+const HeroSection = () => {
+    const C = window.SITE_CONFIG;
+    const H = C.hero;
+    const logoUrls = ["https://i.ibb.co/7tTCWV1P/Car-Logo-1.png","https://i.ibb.co/rf76ph9x/Car-Logo-2.png","https://i.ibb.co/bMK2Rh8n/Car-Logo-3.png","https://i.ibb.co/xKBmTkQj/Car-Logo-4.png","https://i.ibb.co/bRDkFBjj/Car-Logo-5.png","https://i.ibb.co/whRVTWds/Car-Logo-6.png","https://i.ibb.co/tjdGYgc/Car-Logo-7.png","https://i.ibb.co/4nf5zYG1/Car-Logo-8.png","https://i.ibb.co/QvpCpWTD/Car-Logo-9.png","https://i.ibb.co/bgxK4S3t/Car-Logo-10.png","https://i.ibb.co/99QbJp03/Car-Logo-11.png","https://i.ibb.co/6c1RN9jh/Car-Logo-12.png","https://i.ibb.co/pByS182G/Car-Logo-13.png","https://i.ibb.co/ZpRVkZT4/Car-Logo-14.png","https://i.ibb.co/HLPr7vTX/Car-Logo-15.png","https://i.ibb.co/RkKNMcnp/Car-Logo-16.png","https://i.ibb.co/VYXyzmkw/Car-Logo-17.png","https://i.ibb.co/WNRrVwRS/Car-Logo-18.png","https://i.ibb.co/bgKThfkP/Car-Logo-19.png","https://i.ibb.co/TMNJ2Xgy/Car-Logo-20.png"];
+    const logoStrip = logoUrls.map(u=>`<img src="${u}" class="h-5 md:h-7 w-auto mx-5 md:mx-8 inline-block align-middle opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-300 flex-shrink-0 drop-shadow-sm" alt="">`).join('');
+
+    return `
+<section class="relative w-full overflow-hidden bg-lux-900" style="min-height:calc(100svh - 64px);margin-top:64px;">
+
+    <!-- BG Images -->
+    <div id="hero-slides" class="absolute inset-0 z-0 md:hidden">
+        ${(DB.heroImages||[]).map((img,i)=>`<div class="hero-slide ${i===0?'active':''}" style="background-image:url('${img}')"></div>`).join('')}
+    </div>
+    <img src="https://images.stockcake.com/public/4/c/a/4ca35e64-64cb-4395-b5ca-32b2b7ae3fef_large/sunset-beach-drive-stockcake.jpg" class="desktop-hero" alt="">
+    <div class="absolute inset-0 bg-gradient-to-t from-lux-900 via-lux-900/60 to-lux-900/20 z-10"></div>
+
+    <!-- CONTENT WRAPPER -->
+    <div class="relative z-20 flex flex-col justify-end h-full px-5 md:px-12" style="padding-bottom:70px;min-height:calc(100svh - 64px);">
+
+        <!-- TOP ROW: Badge + Services (stacked on mobile) -->
+        <div class="flex flex-col gap-3 mb-6 mt-8">
+
+            <!-- Badge row -->
+            <div class="flex items-center gap-2 flex-wrap">
+                <span class="inline-flex items-center px-3 py-1.5 border border-white/25 rounded-full bg-white/8 backdrop-blur-md text-[9px] font-bold uppercase tracking-ultra text-white/90">
+                    ${H.badgeText}
+                </span>
+                <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full gold-bg text-[9px] font-black text-amber-900 uppercase tracking-wider shadow-md">
+                    🏆 ${C.anniversary.years} YRS · ${C.anniversary.range}
+                </span>
             </div>
 
-            <!-- Progress Bar -->
-            <div class="w-full h-px bg-slate-800 relative overflow-hidden mb-4">
-                <div id="loader-bar"
-                    class="absolute top-0 left-0 h-full bg-blue-600 w-0 shadow-[0_0_15px_rgba(37,99,235,0.5)] transition-all duration-75 ease-out">
-                </div>
+            <!-- Services row — fully responsive pills -->
+            <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-[8px] font-bold uppercase tracking-ultra text-slate-400">${H.servicesLabel}:</span>
+                ${H.services.map(s=>`
+                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/12 backdrop-blur-sm border border-white/20 text-white">
+                    <span class="text-sm leading-none">${s.icon}</span>
+                    <span class="text-[9px] font-black uppercase tracking-wider">${s.text}</span>
+                </div>`).join('')}
             </div>
+        </div>
 
-            <!-- Status Text -->
-            <div class="w-full flex justify-between items-end">
-                <div class="flex flex-col">
-                    <span class="text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-1">System Check</span>
-                    <span id="loader-text" class="text-xs font-heading font-bold text-white">Initializing...</span>
+        <!-- MAIN HEADLINE -->
+        <div class="mb-5">
+            <h1 class="font-heading font-black text-white leading-[0.88] tracking-tighter reveal-fade" style="font-size:clamp(2.8rem,12vw,7rem);">
+                ${H.heading1} <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-500">${H.heading2}</span><br>${H.heading3}
+            </h1>
+            <p class="text-slate-300 mt-3 font-light reveal-fade anim-float" style="font-size:clamp(.9rem,3vw,1.2rem);transition-delay:.1s;">
+                ${H.subheading} <span class="font-bold text-blue-400">${H.subHighlight1}</span> ${H.subMid} <span class="font-bold text-blue-400">${H.subHighlight2}</span>${H.subEnd}
+            </p>
+        </div>
+
+        <!-- PROMO BANNER — responsive, never hidden -->
+        <div class="mb-6 reveal-fade" style="transition-delay:.15s;">
+            <div class="gradient-flow-bg promo-pulse rounded-2xl p-4 border border-red-400/30 shadow-2xl shadow-red-900/30 max-w-lg">
+                <div class="flex items-start gap-3 flex-wrap">
+                    <div class="flex-1 min-w-0">
+                        <div class="flash-badge inline-flex items-center gap-1 mb-2 px-2.5 py-1 bg-yellow-400 text-red-900 rounded-full text-[8px] font-black uppercase tracking-widest">${H.promoBadge}</div>
+                        <div class="text-white/90 text-[10px] font-bold uppercase tracking-wider">${H.promoHeadline}</div>
+                        <div class="font-heading font-black text-yellow-300 leading-none my-1" style="font-size:clamp(1.6rem,7vw,2.5rem);">${H.promoPrice}</div>
+                        <div class="text-red-100/80 text-[9px] font-semibold uppercase tracking-wide">${H.promoSub}</div>
+                    </div>
+                    <div class="flex flex-col gap-1.5 flex-shrink-0">
+                        <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400 flex-shrink-0"></span><span class="text-yellow-200 text-[8px] font-bold uppercase tracking-wider">${H.downPaymentText}</span></div>
+                        <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400 flex-shrink-0"></span><span class="text-yellow-200 text-[8px] font-bold uppercase tracking-wider">${H.monthlyRateText}</span></div>
+                    </div>
                 </div>
-                <span id="loader-count" class="font-heading font-bold text-4xl text-white leading-none">00</span>
             </div>
+        </div>
+
+        <!-- CTA BUTTONS -->
+        <div class="flex gap-3 flex-wrap reveal-fade" style="transition-delay:.2s;">
+            <a href="https://wa.me/${C.brand.whatsapp}?text=${encodeURIComponent('Hi Solo So Auto! I would like to inquire about a vehicle 🚗')}" target="_blank"
+               class="wa-btn flex items-center gap-2 px-6 py-3.5 text-white font-bold text-[10px] uppercase tracking-widest">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                ${H.ctaWhatsapp}
+            </a>
+            <button onclick="App.navigate('stock')" class="flex items-center gap-2 px-6 py-3.5 rounded-2xl border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all backdrop-blur-sm">
+                ${H.ctaInventory} →
+            </button>
         </div>
     </div>
 
-    <!-- MAIN APP STRUCTURE -->
-    <header id="nav-container"></header>
-    <main id="app" class="min-h-screen"></main>
-    <footer id="footer-container"></footer>
-
-    <!-- ================================================================= -->
-    <!--                       APP LOGIC & SECTIONS                        -->
-    <!-- ================================================================= -->
-    <script>
-        // --- SUPABASE CONFIG ---
-        const supabaseUrl = 'https://skrehnxplbrhvdzzrpsb.supabase.co';
-        const supabaseKey = 'sb_publishable_3GArnWyMnPKa426JlLPWJQ_Wa6Kd-P5';
-        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        // --- GLOBAL DATA STORE ---
-        const DB = {
-            inventory: {
-                all: [],
-                inStock: [],
-                importable: []
-            },
-            weddingFleet: [],
-            heroImages: [
-                "https://i.ibb.co/zhWCY3t3/Best-Cars.png", "https://i.ibb.co/gMwFSm5d/Best-Cars2.png", "https://i.ibb.co/gM0CFQbX/Best-Cars7.png", "https://i.ibb.co/GfLm2Pv5/Best-Cars8.png"
-            ]
-        };
-
-        // --- FETCH DATA FROM SUPABASE ---
-        async function loadData() {
-            try {
-                // Fetch Inventory
-                const { data: cars, error: carError } = await supabaseClient.from('inventory').select('*');
-                if (cars) {
-                    DB.inventory.all = cars;
-                    DB.inventory.inStock = cars.filter(c => c.status === 'In Stock');
-                    DB.inventory.importable = cars.filter(c => c.status === 'Importable');
-                }
-
-                // Fetch Wedding Fleet
-                const { data: wedding, error: weddingError } = await supabaseClient.from('wedding_fleet').select('*');
-                if (wedding) {
-                    DB.weddingFleet = wedding;
-                }
-            } catch (e) {
-                console.error("Error loading data:", e);
-            }
-        }
-
-        // --- HELPER TO RENDER & EXECUTE SCRIPTS ---
-        function renderComponent(html) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            const scripts = tempDiv.querySelectorAll('script');
-            const arrScripts = Array.from(scripts);
-            arrScripts.forEach(s => s.remove());
-            return { html: tempDiv.innerHTML, scripts: arrScripts };
-        }
-
-        // =================================================================
-        // SECTION 1: NAVIGATION BAR
-        // =================================================================
-        const NavBar = () => {
-            const styles = `
-                <style>
-                    .btn-magnetic { transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
-                    .btn-magnetic:active { transform: scale(0.95); }
-                </style>
-            `;
-
-            const html = `
-                <header id="main-nav" class="fixed top-0 w-full z-[100] h-20 flex items-center bg-white/80 backdrop-blur-md border-b border-slate-200">
-                    <div class="w-full px-4 md:px-8 flex justify-between items-center">
-                        <a href="#" onclick="App.navigate('home')" class="group relative z-50 block">
-                            <img id="nav-logo" src="https://i.ibb.co/nNxxKRtz/Solo-So.png" alt="Solo So" class="h-8 w-auto object-contain">
-                        </a>
-
-                        <!-- Full Menu (No Burger) -->
-                        <nav class="flex items-center gap-2 md:gap-4">
-                            <div class="flex items-center gap-1 md:gap-2">
-                                <button onclick="App.navigate('home')" class="px-3 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-all">Home</button>
-                                <button onclick="App.navigate('stock')" class="px-3 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-all">Cars</button>
-                                <button onclick="App.navigate('wedding')" class="group px-4 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 hover:from-pink-600 hover:via-rose-600 hover:to-red-600 shadow-lg shadow-rose-500/30 transition-all flex items-center gap-2 transform hover:scale-105">
-                                    <span class="animate-pulse">♥</span> 
-                                    <span>Wedding Cars</span>
-                                    <span class="animate-pulse">♥</span>
-                                </button>
-                            </div>
-                            <button onclick="window.open('https://wa.me/94775300000', '_blank')" class="btn-magnetic bg-green-500 text-white px-4 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest hover:bg-green-600 shadow-lg shadow-green-500/20 transition-all flex items-center gap-2 transform hover:scale-105">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                             
-                            </button>
-                        </nav>
-                    </div>
-                </header>
-            `;
-
-            const logic = `
-                <script>
-                    // No mobile menu logic needed
-                <\/script>
-            `;
-            return styles + html + logic;
-        };
-
-        // =================================================================
-        // SECTION 2: HERO SECTION (RefactORED)
-        // =================================================================
-        const HeroSection = () => {
-
-            const styles = `
-<style>
-
-:root{
-  --h-bg-y:0%;
-  --h-txt-y:0px;
-  --h-txt-s:1;
-}
-
-@media (min-width:768px){
-  :root{
-    --h-bg-y:9%;
-    --h-txt-y:85px;
-    --h-txt-s:.75;
-  }
-}
-
-/* ============================= */
-/* HERO BACKGROUNDS */
-/* ============================= */
-
-.hero-slide{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  transition:opacity 1.5s ease-in-out;
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:center;
-}
-
-.hero-slide.active{opacity:1;}
-
-.desktop-hero{
-  display:none;
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:0;
-}
-
-@media (min-width:768px){
-  #hero-slides{display:none;}
-  .desktop-hero{display:block;}
-}
-
-/* ============================= */
-/* TEXT ANIMATION */
-/* ============================= */
-
-.tunable-text-container{
-  transform:translateY(var(--h-txt-y)) scale(var(--h-txt-s));
-  transform-origin:bottom left;
-}
-
-.reveal-fade{
-  opacity:0;
-  transform:translateY(20px);
-  transition:.8s ease;
-}
-
-.reveal-fade.active{
-  opacity:1;
-  transform:translateY(0);
-}
-
-@keyframes float-subtle{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-3px);}
-}
-
-.anim-float{
-  animation:float-subtle 3s ease-in-out infinite;
-}
-
-/* ============================= */
-/* MARQUEE */
-/* ============================= */
-
-.marquee-wrapper{
-  position:absolute;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#fff;
-  color:#020617;
-  padding:1rem 0;
-  z-index:50;
-  overflow:hidden;
-  white-space:nowrap;
-  border-top:1px solid #e2e8f0;
-}
-
-.marquee-content{
-  display:inline-block;
-  animation:marquee 20s linear infinite;
-}
-
-@keyframes marquee{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
-
-</style>
-`;
-
-            const logoUrls = [
-                "https://i.ibb.co/7tTCWV1P/Car-Logo-1.png", "https://i.ibb.co/rf76ph9x/Car-Logo-2.png",
-                "https://i.ibb.co/bMK2Rh8n/Car-Logo-3.png", "https://i.ibb.co/xKBmTkQj/Car-Logo-4.png",
-                "https://i.ibb.co/bRDkFBjj/Car-Logo-5.png", "https://i.ibb.co/whRVTWds/Car-Logo-6.png",
-                "https://i.ibb.co/tjdGYgc/Car-Logo-7.png", "https://i.ibb.co/4nf5zYG1/Car-Logo-8.png",
-                "https://i.ibb.co/QvpCpWTD/Car-Logo-9.png", "https://i.ibb.co/bgxK4S3t/Car-Logo-10.png",
-                "https://i.ibb.co/99QbJp03/Car-Logo-11.png", "https://i.ibb.co/6c1RN9jh/Car-Logo-12.png",
-                "https://i.ibb.co/pByS182G/Car-Logo-13.png", "https://i.ibb.co/ZpRVkZT4/Car-Logo-14.png",
-                "https://i.ibb.co/HLPr7vTX/Car-Logo-15.png", "https://i.ibb.co/RkKNMcnp/Car-Logo-16.png",
-                "https://i.ibb.co/VYXyzmkw/Car-Logo-17.png", "https://i.ibb.co/WNRrVwRS/Car-Logo-18.png",
-                "https://i.ibb.co/bgKThfkP/Car-Logo-19.png", "https://i.ibb.co/TMNJ2Xgy/Car-Logo-20.png"
-            ];
-            const logoStrip = logoUrls.map(url => `<img src="${url}" class="h-6 md:h-8 w-auto mx-6 md:mx-12 inline-block transition-all duration-500 cursor-pointer align-middle" alt="Brand Partner">`).join('');
-            const marqueeContent = logoStrip.repeat(2);
-
-            const html = `
-<section class="relative h-[calc(100vh-5rem)] w-full overflow-hidden bg-lux-900 mt-20">
-
-  <!-- Mobile Slider -->
-  <div id="hero-slides" class="absolute inset-0 z-0 md:hidden">
-    ${(DB.heroImages || [])
-                    .map((img, i) => `
-        <div class="hero-slide ${i === 0 ? 'active' : ''}" 
-             style="background-image:url('${img}')"></div>
-      `).join('')
-                }
-  </div>
-
-  <!-- Desktop Static -->
-  <img 
-    src="https://images.stockcake.com/public/4/c/a/4ca35e64-64cb-4395-b5ca-32b2b7ae3fef_large/sunset-beach-drive-stockcake.jpg"
-    class="desktop-hero"
-    alt="Hero Background">
-
-  <!-- Overlay -->
-  <div class="absolute inset-0 bg-gradient-to-t from-lux-900/90 via-lux-900/40 to-transparent z-10"></div>
-
-  <!-- TEXT -->
-  <div class="absolute bottom-0 left-0 w-full z-20 pb-32 md:pb-48 px-6 md:px-12 pointer-events-none">
-    <div class="max-w-4xl tunable-text-container pointer-events-auto">
-
-      <span class="inline-block px-4 py-1.5 border border-white/20 rounded-full bg-white/5 backdrop-blur-md text-[9px] font-bold uppercase tracking-ultra text-white mb-4">
-        Since 2010 • Marawila
-      </span>
-
-      <h1 class="font-heading font-black text-white text-6xl md:text-9xl tracking-tighter leading-[0.9] mb-4 reveal-fade">
-        PURE 
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">
-          MOTION
-        </span><br>
-        ARTISTRY
-      </h1>
-
-      <p class="text-slate-300 text-lg md:text-xl mb-6 reveal-fade font-light tracking-wide anim-float">
-        Where <span class="font-bold text-blue-500">Performance</span> meets 
-        <span class="font-bold text-blue-500">Prestige</span>.
-      </p>
-
-      <div class="flex gap-4 reveal-fade" style="transition-delay:120ms">
-        <button 
-          onclick="window.open('https://wa.me/94775300000','_blank')"
-          class="bg-white text-lux-900 px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-slate-200 transition">
-          Whatsapp
-        </button>
-
-        <button 
-          onclick="App.navigate('stock')"
-          class="border border-white/20 text-white px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 transition">
-          View Inventory
-        </button>
-      </div>
-
+    <!-- BRAND MARQUEE -->
+    <div class="marquee-wrapper">
+        <div class="marquee-content">${logoStrip+logoStrip}</div>
+        <div class="absolute inset-0 pointer-events-none" style="-webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);">
+            <div class="marquee-content py-3">${logoStrip+logoStrip}</div>
+        </div>
     </div>
-  </div>
-
-  <!-- MARQUEE -->
-  <div class="marquee-wrapper">
-    <div class="marquee-content grayscale opacity-30">
-      ${marqueeContent}
-    </div>
-    <div class="absolute inset-0 py-4 pointer-events-none" style="-webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%, black 60%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 40%, black 60%, transparent 100%);">
-      <div class="marquee-content">
-        ${marqueeContent}
-      </div>
-    </div>
-  </div>
-
 </section>
-`;
 
-            const logic = `
 <script>
 (function(){
-
-  const slides = document.querySelectorAll('.hero-slide');
-  let index = 0;
-
-  // Reveal text
-  setTimeout(()=>{
-    document.querySelectorAll('.reveal-fade')
-      .forEach(el=>el.classList.add('active'));
-  },500);
-
-  // Slider only if images exist
-  if(slides.length > 1){
-    setInterval(()=>{
-      slides[index].classList.remove('active');
-      index = (index + 1) % slides.length;
-      slides[index].classList.add('active');
-    },5000);
-  }
-
+    const slides=document.querySelectorAll('.hero-slide'); let idx=0;
+    setTimeout(()=>document.querySelectorAll('.reveal-fade').forEach(el=>el.classList.add('active')),400);
+    if(slides.length>1) setInterval(()=>{slides[idx].classList.remove('active');idx=(idx+1)%slides.length;slides[idx].classList.add('active');},5000);
 })();
-<\/script>
-`;
+<\/script>`;
+};
 
-            return styles + html + logic;
-        };
+// ================================================================
+// STATS / GLOBAL REACH SECTION
+// ================================================================
+const StatsSection = () => {
+    const C = window.SITE_CONFIG; const S = C.stats;
+    const flags = S.countries.map(c=>`<div class="flag-item"><img src="https://flagcdn.com/w80/${c.code}.png" alt="${c.name}" class="h-9 w-9 rounded-full object-cover border-2 border-white/15 hover:border-blue-400 hover:scale-110 transition-all duration-300 shadow-md"><span class="text-[7px] text-slate-500 uppercase tracking-wider text-center leading-tight">${c.name.split(' ')[0]}</span></div>`).join('');
 
-
-
-
-
-
-
-        // =================================================================
-        // SECTION 3: STATS SECTION (ADDED)
-        // =================================================================
-        const StatsSection = () => {
-            const styles = `
-                <style>
-                    .feature-card {
-                        background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
-                        backdrop-filter: blur(10px);
-                        border: 1px solid rgba(255, 255, 255, 0.05);
-                        position: relative;
-                        overflow: hidden;
-                        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-                    }
-                    .feature-card::after {
-                        content: '';
-                        position: absolute;
-                        inset: 0;
-                        background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent 60%);
-                        opacity: 0;
-                        transition: opacity 0.5s;
-                    }
-                    .feature-card:hover::after {
-                        opacity: 1;
-                    }
-                    .feature-card:hover {
-                        transform: translateY(-5px);
-                        border-color: rgba(59, 130, 246, 0.3);
-                        box-shadow: 0 20px 40px -15px rgba(2, 6, 23, 0.8);
-                    }
-                    .icon-float {
-                        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-                    }
-                    .feature-card:hover .icon-float {
-                        transform: scale(1.1) rotate(-5deg);
-                    }
-                    @keyframes slideUp {
-                        from { opacity: 0; transform: translateY(20px); }
-                        to { opacity: 1; transform: translateY(0); }
-                    }
-                    .anim-entry {
-                        opacity: 0;
-                        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                        animation-play-state: paused;
-                    }
-                </style>
-            `;
-
-            const html = `
-                <section id="stats-section" class="py-32 bg-lux-900 relative overflow-hidden">
-                    <!-- Ambient Background -->
-                    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[128px] pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/5 rounded-full blur-[128px] pointer-events-none"></div>
-
-                    <div class="container mx-auto px-6 md:px-12 relative z-10">
-                        <div class="grid lg:grid-cols-2 gap-16 items-center">
-                            
-                            <!-- Left Content -->
-                            <div class="anim-entry">
-                                <span class="text-blue-500 font-bold text-[10px] uppercase tracking-ultra mb-6 block">Global Reach</span>
-                                <h2 class="text-5xl md:text-6xl font-heading font-bold text-white mb-8 leading-[1.1]">
-                                    Sourcing Excellence <br>
-                                    <span class="text-slate-500">Across Borders.</span>
-                                </h2>
-                                <p class="text-slate-400 text-sm leading-relaxed mb-10 max-w-md">
-                                    We bridge the gap between the world's premier automotive markets and your garage. Hand-selected units from the finest auctions and dealerships.
-                                </p>
-                                
-                                <div class="flex flex-wrap gap-4">
-                                    <img src="https://flagcdn.com/w80/jp.png" alt="Japan" class="h-10 w-10 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Japan">
-                                    <img src="https://flagcdn.com/w80/gb.png" alt="UK" class="h-10 w-10 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="UK">
-                                    <img src="https://flagcdn.com/w80/th.png" alt="Thailand" class="h-10 w-10 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Thailand">
-                                    <img src="https://flagcdn.com/w80/de.png" alt="Germany" class="h-10 w-10 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Germany">
-                                </div>
-                            </div>
-
-                            <!-- Right Grid -->
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                
-                                <!-- Card 1: 500+ Units -->
-                                <div class="feature-card p-8 rounded-[2rem] flex flex-col justify-between min-h-[260px] group anim-entry" style="animation-delay: 0.1s">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-blue-500 icon-float group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                        </div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600 group-hover:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                                    </div>
-                                    <div class="relative z-10">
-                                        <h3 class="text-5xl font-heading font-black text-white mb-1 tracking-tighter">500<span class="text-blue-500">+</span></h3>
-                                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-ultra group-hover:text-white transition-colors">Premium Units Delivered</p>
-                                    </div>
-                                    <div class="pt-6 border-t border-white/5 flex justify-between items-center relative z-10">
-                                        <span class="text-[9px] font-bold uppercase tracking-widest text-slate-500">Since 2010</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </div>
-                                </div>
-
-                                <!-- Card 2: Sterling Partner -->
-                                <div class="feature-card p-8 rounded-[2rem] flex flex-col justify-between min-h-[260px] group anim-entry" style="animation-delay: 0.2s">
-                                    <div class="flex justify-between items-start relative z-10">
-                                        <div class="h-8 w-auto flex gap-4">
-                                            <img src="https://www.sterling.lk/wp-content/uploads/2024/01/logo-14.png" alt="Sterling" class="h-full object-contain brightness-100  opacity-100 group-hover:opacity-100 transition-opacity duration-500">
-                                            <img src="https://i.ibb.co/8gGMjL87/Kobe.png" alt="KOBE Auto" class="h-full object-contain rounded-sm opacity-90 group-hover:opacity-100 transition-opacity duration-500">
-                                        </div>
-                                        <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 group-hover:text-white transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                                        </div>
-                                    </div>
-                                    <div class="relative z-10">
-                                        <h3 class="text-2xl font-heading font-bold text-white mb-1">Service Partners</h3>
-                                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-ultra group-hover:text-white transition-colors">Sterling & KOBE Auto</p>
-                                    </div>
-                                    <div class="pt-6 border-t border-white/5 flex justify-between items-center relative z-10">
-                                        <span class="text-[9px] font-bold uppercase tracking-widest text-slate-500">Warranty & Care</span>
-                                        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                                    </div>
-                                </div>
-
-                                <!-- Card 3: Quality (Wide) -->
-                                <div class="feature-card p-8 rounded-[2rem] sm:col-span-2 flex flex-col justify-between min-h-[200px] group anim-entry" style="animation-delay: 0.3s">
-                                    <div class="flex justify-between items-start relative z-10 mb-4">
-                                        <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-amber-500 icon-float group-hover:bg-amber-500 group-hover:text-white transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
-                                        </div>
-                                        <div class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[9px] font-bold uppercase tracking-widest text-slate-400 group-hover:border-blue-500/50 group-hover:text-blue-400 transition-all">
-                                            Certified
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 relative z-10">
-                                        <div>
-                                            <h3 class="text-3xl font-heading font-bold text-white mb-1">Uncompromised Quality</h3>
-                                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-ultra group-hover:text-white transition-colors">Every vehicle undergoes a 120-point inspection.</p>
-                                        </div>
-                                        <div class="text-slate-600 group-hover:text-blue-500 transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
-
-            const logic = `
-                <script>
-                    (function() {
-                        const observer = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    entry.target.querySelectorAll('.anim-entry').forEach(el => el.style.animationPlayState = 'running');
-                                    observer.unobserve(entry.target);
-                                }
-                            });
-                        }, { threshold: 0.2 });
-                        
-                        const section = document.getElementById('stats-section');
-                        if(section) observer.observe(section);
-                    })();
-                <\/script>
-            `;
-            return styles + html + logic;
-        }
-
-
-
-
-
-        // =================================================================
-        // SECTION 4: THE CURATOR (EPIC EDITORIAL REDESIGN)
-        // =================================================================
-        const CuratorSection = () => {
-
-            const styles = `
-<style>
-
-@keyframes slowFloat {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-
-.curator-float {
-  animation: slowFloat 10s ease-in-out infinite;
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 1s cubic-bezier(0.16,1,0.3,1);
-}
-
-.active .reveal {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-</style>
-`;
-
-            const html = `
-<section id="curator-section" class="relative bg-white py-32 overflow-hidden">
-
-<!-- Soft Architectural Lights -->
-<div class="absolute inset-0 pointer-events-none">
-  <div class="absolute top-0 left-0 w-[60%] h-[60%] bg-blue-50/60 skew-y-6"></div>
-  <div class="absolute bottom-0 right-0 w-[60%] h-[60%] bg-indigo-50/40 -skew-y-6"></div>
-</div>
-
-<div class="container mx-auto px-6 md:px-12 relative z-10">
-
-<!-- GRID -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-
-<!-- LEFT: PORTRAIT CARD -->
-<div class="lg:col-span-5 flex justify-center lg:justify-start">
-
-  <div class="relative curator-float">
-
-    <!-- Image -->
-    <div class="w-[260px] sm:w-[300px] md:w-[340px] aspect-[3/4] rounded-[2.5rem] overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.15)] reveal">
-      <img src="https://i.ibb.co/QF5LV7SW/Person.png"
-        class="w-full h-full object-cover">
-    </div>
-
-    <!-- Quote Ribbon -->
-    <div class="absolute -right-10 bottom-16 bg-white px-6 py-5 rounded-2xl shadow-xl max-w-[260px] reveal">
-      <p class="font-heading font-bold text-lux-900 italic text-sm">
-        “We don't just sell cars.  
-        We curate excellence.”
-      </p>
-      <p class="mt-2 text-[10px] uppercase tracking-widest text-slate-400">
-        Founder's Note
-      </p>
-    </div>
-
-  </div>
-
-</div>
-
-<!-- CENTER: VERTICAL TITLE -->
-<div class="lg:col-span-2 hidden lg:flex justify-center">
-
-<div class="writing-mode-vertical text-[12px] tracking-[0.4em] font-bold text-blue-500 reveal"
-style="writing-mode: vertical-rl;">
-THE CURATOR
-</div>
-
-</div>
-
-<!-- RIGHT: CONTENT -->
-<div class="lg:col-span-5 text-center lg:text-left">
-
-<!-- Heading -->
-<h2 class="font-heading font-black text-5xl md:text-6xl leading-tight text-lux-900 mb-8 reveal">
-DEFINING  
-<span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-AUTOMOTIVE LUXURY
-</span>
-</h2>
-
-<!-- Body -->
-<div class="space-y-6 text-slate-600 text-lg leading-relaxed reveal">
-
-<p>
-Solo So Auto was founded to dismantle the opacity of the traditional car market and replace it with transparency, trust, and obsession with quality.
-</p>
-
-<p>
-Every vehicle is personally hand-selected from premium auctions in Japan and the UK — because excellence is never accidental.
-</p>
-
-</div>
-
-<!-- Signature -->
-<div class="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center gap-4 reveal">
-
-<div class="h-14 w-14 rounded-full bg-slate-100 flex items-center justify-center text-xl">
-✍️
-</div>
-
-<div>
-<h4 class="font-heading font-bold text-2xl text-lux-900">
-Saman Wijesinghe
-</h4>
-<p class="text-[11px] uppercase tracking-widest text-slate-400">
-Managing Director
-</p>
-</div>
-
-</div>
-
-</div>
-
-</div>
-</div>
-</section>
-`;
-
-            const logic = `
-<script>
-(function(){
-const observer = new IntersectionObserver(entries=>{
- entries.forEach(entry=>{
-  if(entry.isIntersecting){
-   entry.target.classList.add("active");
-   observer.unobserve(entry.target);
-  }
- });
-},{threshold:0.25});
-
-const sec=document.getElementById("curator-section");
-if(sec) observer.observe(sec);
-})();
-<\/script>
-`;
-
-            return styles + html + logic;
-        }
-
-        // =================================================================
-        // SECTION 5: INVENTORY (FEATURED)
-        // =================================================================
-        const FeaturedInventory = () => {
-            const styles = `
-                <style>
-                    .snap-scroll-container {
-                        display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-                        -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 2rem; padding-bottom: 2rem;
-                    }
-                    .snap-scroll-container::-webkit-scrollbar { display: none; }
-                    .car-card-snap { flex: 0 0 85vw; scroll-snap-align: center; }
-                    @media (min-width: 768px) { .car-card-snap { flex: 0 0 400px; } }
-                </style>
-            `;
-            const carCard = (car) => `
-                <div class="car-card-snap group cursor-pointer bg-white rounded-[2rem] p-4 border border-slate-100 hover:shadow-2xl transition-all duration-500">
-                    <div class="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden mb-4">
-                        <img src="${car.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
-                        <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-widest text-lux-900">${car.year}</div>
-                    </div>
-                    <div class="px-2">
-                        <h3 class="font-heading font-bold text-lg text-lux-900 mb-1 truncate">${car.name}</h3>
-                        <p class="text-blue-600 font-bold text-lg mb-3">${(car.price / 1000000).toFixed(1)}M <span class="text-xs text-slate-400 font-normal">LKR</span></p>
-                        <div class="flex gap-2">
-                            <button class="flex-1 py-3 border border-slate-200 rounded-xl text-[10px] font-bold uppercase tracking-widest text-slate-600 group-hover:bg-lux-900 group-hover:text-white transition-colors">Details</button>
-                            <button onclick="window.open('https://wa.me/94775300000?text=I am interested in ${car.name}', '_blank')" class="w-12 flex items-center justify-center border border-green-500/30 bg-green-50 rounded-xl text-green-600 hover:bg-green-500 hover:text-white transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                            </button>
-                        </div>
-                    </div>
+    return `
+<section id="stats-section" class="py-16 md:py-24 bg-lux-900 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-80 h-80 bg-blue-600/8 rounded-full blur-[100px]"></div>
+    <div class="absolute bottom-0 left-0 w-80 h-80 bg-indigo-600/5 rounded-full blur-[100px]"></div>
+    <div class="max-w-6xl mx-auto px-5 md:px-12 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Left -->
+            <div class="anim-entry">
+                <span class="text-blue-400 font-bold text-[9px] uppercase tracking-ultra mb-4 block">${S.sectionLabel}</span>
+                <h2 class="font-heading font-bold text-white mb-5 leading-tight" style="font-size:clamp(2rem,7vw,3.5rem);">
+                    ${S.heading1}<br><span class="text-slate-500">${S.heading2}</span>
+                </h2>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6 max-w-md">${S.body}</p>
+                <!-- 10 Year badge -->
+                <div class="inline-flex items-center gap-3 mb-6 p-4 rounded-2xl border gold-border bg-amber-900/10 shadow-lg shadow-amber-900/10">
+                    <div class="text-center"><div class="font-heading font-black text-3xl gold-text">${C.anniversary.years}</div><div class="text-[8px] font-bold uppercase tracking-widest text-amber-400">${C.anniversary.label}</div></div>
+                    <div class="w-px h-8 bg-amber-700/40"></div>
+                    <div><div class="gold-text font-bold text-sm">${C.anniversary.range}</div><div class="text-amber-500/70 text-[9px] uppercase tracking-wider">${C.anniversary.tagline}</div></div>
                 </div>
-            `;
-            const html = `
-                <section class="pt-12 pb-32 bg-white overflow-hidden">
-                    <div class="container mx-auto px-6 md:px-12 mb-12 flex flex-col md:flex-row justify-between items-center md:items-end gap-6 md:gap-0 text-center md:text-left">
-                        <div>
-                            <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Current Inventory</span>
-                            <h2 class="text-4xl md:text-5xl font-heading font-bold text-lux-900">Featured Assets.</h2>
-                        </div>
-                        <div class="hidden md:flex gap-2">
-                            <button onclick="scrollInventory(-1)" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-lux-900 hover:text-white transition-colors">←</button>
-                            <button onclick="scrollInventory(1)" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-lux-900 hover:text-white transition-colors">→</button>
-                        </div>
-                    </div>
-                    <div id="inv-scroll" class="snap-scroll-container px-6 md:px-12">
-                        ${DB.inventory.all.slice(0, 6).map(c => carCard(c)).join('')}
-                    </div>
-                    <div class="text-center mt-8 md:hidden">
-                        <p class="text-[9px] text-slate-400 uppercase tracking-widest animate-pulse">Swipe to Explore</p>
-                    </div>
-                </section>
-            `;
-            const logic = `
-                <script>
-                    (function() {
-                        const container = document.getElementById('inv-scroll');
-                        if (!container) return;
-                        
-                        // Duplicate content for seamless infinite scroll
-                        container.innerHTML += container.innerHTML;
-
-                        let scrollInterval;
-                        function startAutoScroll() {
-                            clearInterval(scrollInterval);
-                            scrollInterval = setInterval(() => {
-                                const cardWidth = container.querySelector('.car-card-snap').offsetWidth + 32;
-                                const maxScroll = container.scrollWidth / 2;
-                                
-                                if (container.scrollLeft >= maxScroll) {
-                                    container.scrollLeft -= maxScroll;
-                                }
-                                container.scrollBy({ left: cardWidth, behavior: 'smooth' });
-                            }, 2000);
-                        }
-                        
-                        container.addEventListener('mouseenter', () => clearInterval(scrollInterval));
-                        container.addEventListener('touchstart', () => clearInterval(scrollInterval));
-                        container.addEventListener('mouseleave', startAutoScroll);
-                        container.addEventListener('touchend', startAutoScroll);
-                        
-                        startAutoScroll();
-                        
-                        window.scrollInventory = (dir) => {
-                            const card = container.querySelector('.car-card-snap');
-                            const cardWidth = card.offsetWidth + 32;
-                            container.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
-                        };
-                    })();
-                <\/script>
-            `;
-            return styles + html + logic;
-        }
-
-        // =================================================================
-        // SECTION 5.1: FULL INVENTORY (ADDED)
-        // =================================================================
-        const FullInventory = () => {
-            const carCard = (car) => `
-                <div class="inventory-card group cursor-pointer bg-white rounded-[2rem] p-3 md:p-4 border border-slate-100 hover:shadow-2xl transition-all duration-500" 
-                     data-status="${car.status}" 
-                     data-condition="${car.condition}" 
-                     data-price="${car.price}">
-                    <div class="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden mb-4">
-                        <img src="${car.image || 'https://placehold.co/600x400?text=No+Image'}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
-                        <div class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-widest text-lux-900">${car.year}</div>
-                        <div class="absolute top-3 right-3 px-3 py-1 ${car.status === 'In Stock' ? 'bg-emerald-500/90 text-white' : 'bg-blue-500/90 text-white'} backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-widest">${car.status}</div>
-                    </div>
-                    <div class="px-1 md:px-2">
-                        <h3 class="font-heading font-bold text-base md:text-lg text-lux-900 mb-1 truncate">${car.name}</h3>
-                        <div class="flex justify-between items-end mb-2">
-                            <p class="text-blue-600 font-bold text-base md:text-lg">${car.price ? (car.price / 1000000).toFixed(1) + 'M' : 'Call for Price'} <span class="text-xs text-slate-400 font-normal">LKR</span></p>
-                            ${car.is_negotiable ? '<span class="text-[9px] text-emerald-600 font-bold uppercase tracking-wider bg-emerald-50 px-2 py-1 rounded-full">Negotiable</span>' : ''}
-                        </div>
-                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
-                            <span>${car.condition || 'Unregistered'}</span>
-                            <span class="w-1 h-1 rounded-full bg-slate-300"></span>
-                            <span>${car.fuel_type || 'Petrol'}</span>
-                        </p>
-                        <button onclick="window.open('https://wa.me/94775300000?text=I am interested in ${car.name}', '_blank')" class="w-full py-3 rounded-xl bg-green-500 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-green-600 shadow-lg shadow-green-500/20 transition-all flex items-center justify-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                            Inquire via WhatsApp
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            const html = `
-                <section class="py-32 bg-slate-50 min-h-screen">
-                    <div class="container mx-auto px-4 md:px-12">
-                        <div class="text-center mb-16">
-                            <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">Our Collection</span>
-                            <h2 class="text-4xl md:text-5xl font-heading font-bold text-lux-900">Complete Inventory</h2>
-                        </div>
-                        
-                        <!-- Advanced Filters -->
-                        <div id="filter-buttons" class="flex flex-wrap justify-center gap-4 mb-12">
-                            <div class="flex gap-2 bg-white p-1 rounded-full border border-slate-200 shadow-sm">
-                                <button class="filter-btn active" data-group="status" data-val="all">All Status</button>
-                                <button class="filter-btn" data-group="status" data-val="In Stock">In Stock</button>
-                                <button class="filter-btn" data-group="status" data-val="Importable">Importable</button>
-                            </div>
-                            <div class="flex gap-2 bg-white p-1 rounded-full border border-slate-200 shadow-sm">
-                                <button class="filter-btn active" data-group="condition" data-val="all">All Conditions</button>
-                                <button class="filter-btn" data-group="condition" data-val="Unregistered">Unregistered</button>
-                                <button class="filter-btn" data-group="condition" data-val="Registered (Used)">Registered</button>
-                            </div>
-                        </div>
-
-                        <div id="inventory-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-8">
-                            ${DB.inventory.all.map(c => carCard(c)).join('')}
-                            <div id="no-items-msg" class="hidden col-span-full text-center py-12 text-slate-400">
-                                <p class="text-sm uppercase tracking-widest">No vehicles found matching your criteria.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
-
-            const styles = `
-                <style>
-                    .filter-btn {
-                        padding: 0.5rem 1.5rem;
-                        border-radius: 9999px;
-                        font-size: 10px;
-                        font-weight: bold;
-                        text-transform: uppercase;
-                        letter-spacing: 0.1em;
-                        background-color: #fff;
-                        color: #475569;
-                        border: 1px solid #e2e8f0;
-                        transition: all 0.3s;
-                    }
-                    .filter-btn.active, .filter-btn:hover {
-                        background-color: #020617;
-                        color: #fff;
-                        border-color: #020617;
-                    }
-                </style>
-            `;
-
-            const logic = `
-                <script>
-                    (function() {
-                        const grid = document.getElementById('inventory-grid');
-                        const noItemsMsg = document.getElementById('no-items-msg');
-                        const buttons = document.querySelectorAll('.filter-btn');
-                        
-                        function applyFilters() {
-                            const activeStatus = document.querySelector('.filter-btn[data-group="status"].active').getAttribute('data-val');
-                            const activeCondition = document.querySelector('.filter-btn[data-group="condition"].active').getAttribute('data-val');
-                            
-                            const cards = grid.querySelectorAll('.inventory-card');
-                            let visibleCount = 0;
-                            
-                            cards.forEach(card => {
-                                const status = card.getAttribute('data-status');
-                                const condition = card.getAttribute('data-condition');
-                                
-                                const statusMatch = activeStatus === 'all' || status === activeStatus;
-                                const conditionMatch = activeCondition === 'all' || condition === activeCondition;
-                                
-                                if (statusMatch && conditionMatch) {
-                                    card.style.display = 'block';
-                                    visibleCount++;
-                                } else {
-                                    card.style.display = 'none';
-                                }
-                            });
-                            
-                            if(noItemsMsg) noItemsMsg.style.display = visibleCount === 0 ? 'block' : 'none';
-                        }
-
-                        buttons.forEach(button => {
-                            button.addEventListener('click', () => {
-                                const group = button.getAttribute('data-group');
-                                document.querySelectorAll('.filter-btn[data-group="' + group + '"]').forEach(btn => btn.classList.remove('active'));
-                                button.classList.add('active');
-                                applyFilters();
-                            });
-                        });
-                    })();
-                <\/script>
-            `;
-
-            return styles + html + logic;
-        }
-
-        // =================================================================
-        // SECTION 6: PROCESS (HOW WE WORK) (ADDED)
-        // =================================================================
-        const ProcessSection = () => {
-            const html = `
-                <section class="py-32 bg-lux-900 text-white">
-                    <div class="container mx-auto px-6 md:px-12">
-                        <div class="text-center max-w-2xl mx-auto mb-20">
-                            <span class="text-blue-500 font-bold text-[10px] uppercase tracking-ultra mb-4 block">The Process</span>
-                            <h2 class="text-4xl md:text-5xl font-heading font-bold mb-6">The Solo Standard.</h2>
-                            <p class="text-slate-400 text-sm">A seamless journey from selection to handover.</p>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group">
-                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10">01</span>
-                                <h3 class="font-heading font-bold text-xl mb-4 text-blue-400">Consult</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">We analyze your lifestyle to identify the perfect marque.</p>
-                            </div>
-                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group">
-                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10">02</span>
-                                <h3 class="font-heading font-bold text-xl mb-4 text-purple-400">Source</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">Inspecting vehicles directly in Japan & UK (Grade 4.5+).</p>
-                            </div>
-                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group">
-                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10">03</span>
-                                <h3 class="font-heading font-bold text-xl mb-4 text-emerald-400">Refine</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">Detailing, ceramic coating, and interior conditioning.</p>
-                            </div>
-                            <div class="relative p-8 border border-white/10 rounded-3xl hover:bg-white/5 transition-colors group">
-                                <span class="absolute top-8 right-8 text-4xl font-heading font-black text-white/5 group-hover:text-white/10">04</span>
-                                <h3 class="font-heading font-bold text-xl mb-4 text-amber-400">Deliver</h3>
-                                <p class="text-xs text-slate-400 leading-relaxed">Celebratory handover with warranty activation.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
-            return html;
-        }
-
-        // =================================================================
-        // SECTION 7: CONCIERGE / SERVICES (ADDED)
-        // =================================================================
-        const ConciergeSection = () => {
-            const html = `
-                <section class="py-32 bg-white text-lux-900">
-                    <div class="container mx-auto px-6 md:px-12">
-                        <div class="max-w-xl mb-20">
-                            <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-4 block">The Atelier</span>
-                            <h2 class="text-5xl md:text-6xl font-heading font-bold mb-8 leading-tight">Beyond the <br>Factory Spec.</h2>
-                            <p class="text-slate-500 text-sm leading-relaxed">Our in-house detailing studio and customization workshop allows you to personalize your vehicle before delivery.</p>
-                        </div>
-                        <div class="grid md:grid-cols-3 gap-8">
-                            <div class="p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:shadow-xl transition-all">
-                                <h3 class="text-xl font-heading font-bold mb-3">Ceramic Armor</h3>
-                                <p class="text-slate-500 text-xs leading-relaxed">9H hardness protection against UV and scratches. Included with every premium sale.</p>
-                            </div>
-                            <div class="p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:shadow-xl transition-all">
-                                <h3 class="text-xl font-heading font-bold mb-3">Tech Upgrades</h3>
-                                <p class="text-slate-500 text-xs leading-relaxed">Apple CarPlay integration, ambient lighting retrofits, and premium audio tuning.</p>
-                            </div>
-                            <div class="p-8 border border-slate-100 bg-slate-50 rounded-3xl hover:shadow-xl transition-all">
-                                <h3 class="text-xl font-heading font-bold mb-3">Hybrid Health</h3>
-                                <p class="text-slate-500 text-xs leading-relaxed">Comprehensive battery analysis and restorative charging for PHEV and EV models.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
-            return html;
-        }
-
-        // =================================================================
-        // SECTION 8: LEGACY (HISTORY) (NEW - REPLACES FINANCE)
-        // =================================================================
-        const LegacySection = () => {
-            const html = `
-                <section class="py-32 bg-slate-50 border-t border-slate-200">
-                    <div class="container mx-auto px-6 md:px-12">
-                        <div class="grid lg:grid-cols-2 gap-16 items-center">
-                            <div>
-                                <span class="text-blue-600 font-bold text-[10px] uppercase tracking-ultra mb-6 block">Our Heritage</span>
-                                <h2 class="text-4xl md:text-5xl font-heading font-bold text-lux-900 mb-8">A Decade of Distinction.</h2>
-                                <p class="text-slate-600 text-sm leading-relaxed mb-8">
-                                    Established in 2010, Solo So Auto began as a boutique importer catering to a select group of automotive enthusiasts in Marawila. Our uncompromising dedication to quality quickly set us apart.
-                                </p>
-                                <ul class="space-y-6">
-                                    <li class="flex items-start gap-4">
-                                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center font-bold text-blue-600 shadow-sm">10</div>
-                                        <div>
-                                            <h4 class="font-bold text-lux-900">Founded</h4>
-                                            <p class="text-xs text-slate-500">Began operations focusing on European classics.</p>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-start gap-4">
-                                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center font-bold text-blue-600 shadow-sm">15</div>
-                                        <div>
-                                            <h4 class="font-bold text-lux-900">Expansion</h4>
-                                            <p class="text-xs text-slate-500">Opened the state-of-the-art Atelier in Marawila.</p>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-start gap-4">
-                                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center font-bold text-blue-600 shadow-sm">23</div>
-                                        <div>
-                                            <h4 class="font-bold text-lux-900">Global Reach</h4>
-                                            <p class="text-xs text-slate-500">Established direct sourcing partners in UK & Japan.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="h-[600px] bg-slate-200 rounded-[3rem] overflow-hidden">
-                                <img src="https://i.ibb.co/KjHqS4qr/Heritage.png" alt="Heritage" border="0">
-                                <div class="w-full h-full bg-slate-300 flex items-center justify-center">
-                                    <span class="text-slate-400 font-bold uppercase tracking-widest">Archive Image</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
-            return html;
-        }
-
-
-        // =================================================================
-        // SECTION9: NETWORK & MAP (ADDED)
-        // =================================================================
-        const NetworkSection = () => {
-            const html = `
-                <section class="py-24 bg-slate-900 text-white">
-                    <div class="container mx-auto px-6 md:px-12 text-center">
-                        <p class="text-[10px] font-bold uppercase tracking-ultra text-slate-400 mb-12">Global Sourcing Network</p>
-                        <div class="flex flex-wrap justify-center gap-8 md:gap-12 opacity-80">
-                            <img src="https://flagcdn.com/w80/jp.png" alt="Japan" class="h-12 w-12 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Japan">
-                            <img src="https://flagcdn.com/w80/gb.png" alt="UK" class="h-12 w-12 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="UK">
-                            <img src="https://flagcdn.com/w80/th.png" alt="Thailand" class="h-12 w-12 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Thailand">
-                            <img src="https://flagcdn.com/w80/de.png" alt="Germany" class="h-12 w-12 rounded-full object-cover border-2 border-white/10 hover:border-blue-500 hover:scale-110 transition-all duration-300 shadow-lg" title="Germany">
-                        </div>
-                    </div>
-                </section>
-            `;
-            return html;
-        }
-
-        // =================================================================
-        // SECTION 11: WEDDING CARS (ADDED)
-        // =================================================================
-        const WeddingSection = () => {
-            // Generate falling items
-            const items = [
-
-                'https://cdn-icons-png.flaticon.com/512/210/210545.png',   // Heart
-
-            ];
-            const fallingItems = Array.from({ length: 20 }).map(() => {
-                const item = items[Math.floor(Math.random() * items.length)];
-                const left = Math.floor(Math.random() * 100);
-                const duration = Math.floor(Math.random() * 15) + 10; // 10-25s
-                const delay = Math.floor(Math.random() * 10);
-                const size = Math.floor(Math.random() * 15) + 10; // 10-25px
-                return `<img src="${item}" class="absolute top-[-50px] animate-fall opacity-30 select-none pointer-events-none" style="left: ${left}%; animation-duration: ${duration}s; animation-delay: -${delay}s; width: ${size}px; height: ${size}px;">`;
-            }).join('');
-
-            const styles = `
-                <style>
-                    @keyframes fall {
-                        0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-                        10% { opacity: 0.6; }
-                        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-                    }
-                    .animate-fall {
-                        animation: fall linear infinite;
-                    }
-                </style>
-            `;
-
-            const html = `
-                <section class="py-32 bg-rose-50 relative overflow-hidden">
-                    ${styles}
-                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-                        <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
-                        ${fallingItems}
-                    </div>
-                    <div class="container mx-auto px-6 md:px-12 text-center relative z-10">
-                        <span class="text-rose-500 font-bold text-[10px] uppercase tracking-ultra mb-4 block">For Your Special Day</span>
-                        <h2 class="text-5xl md:text-7xl font-heading font-black text-rose-900 mb-8">
-                            Fairytale <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-600">Journeys</span>
-                        </h2>
-                        <p class="text-slate-600 max-w-2xl mx-auto mb-12 leading-relaxed">
-                            Arrive in timeless elegance. Our wedding fleet features pristine vintage classics and modern luxury limousines, chauffeur-driven to ensure your grand entrance is nothing short of magical.
-                        </p>
-                        
-                        <div class="grid md:grid-cols-3 gap-8">
-                            <!-- Wedding Car Cards -->
-                            ${DB.weddingFleet.map(car => `
-                                <div class="bg-white p-6 rounded-[2rem] shadow-xl border border-rose-100 hover:-translate-y-2 transition-transform duration-500">
-                                    <div class="aspect-[4/3] rounded-2xl overflow-hidden mb-6">
-                                        <img src="${car.image}" class="w-full h-full object-cover">
-                                    </div>
-                                    <h3 class="font-heading font-bold text-xl text-rose-900 mb-2">${car.name}</h3>
-                                    <p class="text-xs text-slate-500 mb-4">${car.description}</p>
-                                    <button onclick="window.open('https://wa.me/94775300000?text=Inquiry for ${car.name} Wedding Car', '_blank')" class="w-full py-3 rounded-xl bg-rose-500 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-rose-600 transition-colors">Book Now</button>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </section>
-            `;
-            return html;
-        }
-
-        // =================================================================
-        // SECTION 10 FOOTER (REDESIGNED + MOBILE OPTIMIZED)
-        // =================================================================
-        const FooterSection = () => {
-            const html = `
-        <footer class="relative bg-[#0a0f1c] overflow-hidden">
-
-            <!-- Top Accent Line -->
-            <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/60 to-transparent"></div>
-
-            <!-- Subtle Glow Orbs -->
-            <div class="absolute -left-24 top-1/2 w-[300px] h-[300px] bg-orange-500/10 blur-[120px] rounded-full"></div>
-            <div class="absolute -right-24 top-1/2 w-[300px] h-[300px] bg-blue-500/10 blur-[120px] rounded-full"></div>
-
-            <div class="container mx-auto px-6 md:px-12 py-10 relative z-10">
-
-                <!-- Main Footer Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 text-center md:text-left">
-
-                    <!-- Brand -->
-                    <div class="flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-4">
-                        <img 
-                            src="https://i.ibb.co/nNxxKRtz/Solo-So.png" 
-                            alt="Solo So" 
-                            class="h-14 md:h-14 w-auto"
-                        />
-                        <div>
-                            <p class="text-white font-heading font-bold tracking-wide">
-                                SOLO-SO AUTO
-                            </p>
-                            <p class="text-slate-500 text-xs tracking-widest uppercase">
-                                Elevate Your Journey
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Contact -->
-                    <div class="flex flex-col items-center justify-center gap-1">
-                        <p class="text-white font-semibold tracking-wide text-base">
-                            +94 77 530 0000
-                        </p>
-                        <p class="text-slate-500 text-xs uppercase tracking-widest">
-                            Marawila, Sri Lanka
-                        </p>
-                    </div>
-
-                    <!-- Copyright -->
-                    <div class="flex flex-col items-center md:items-end gap-1">
-                        <p class="text-slate-500 text-[11px] uppercase tracking-widest">
-                            © 2024 Solo So Auto
-                        </p>
-                        <p class="text-slate-600 text-[10px] uppercase tracking-widest">
-                            Designed & Engineered in Sri Lanka
-                        </p>
-                    </div>
-
-                </div>
-
-                <!-- Bottom Micro Bar -->
-                <div class="mt-10 pt-4 border-t border-white/5 flex justify-center">
-                    <p class="text-[9px] text-slate-600 tracking-widest uppercase text-center">
-                        Premium Mobility Solutions
-                    </p>
-                </div>
-
+                <!-- Flags -->
+                <div class="flex flex-wrap gap-4">${flags}</div>
             </div>
-        </footer>
-    `;
-            return html;
-        }
+            <!-- Right cards -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="feat-card p-5 md:p-7 flex flex-col justify-between min-h-[200px] group anim-entry col-span-1" style="animation-delay:.1s;">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 mb-4"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+                    <div><div class="font-heading font-black text-white mb-1" style="font-size:clamp(2rem,6vw,3rem);">${S.card1Units}</div><p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">${S.card1Label}</p></div>
+                    <div class="pt-4 border-t border-white/5 mt-2"><span class="text-[8px] font-bold uppercase tracking-widest text-slate-600">${S.card1Since}</span></div>
+                </div>
+                <div class="feat-card p-5 md:p-7 flex flex-col justify-between min-h-[200px] group anim-entry" style="animation-delay:.2s;">
+                    <div class="flex flex-col gap-3 mb-3">
+                        <img src="https://www.sterling.lk/wp-content/uploads/2024/01/logo-14.png" alt="Sterling" class="h-6 w-auto object-contain opacity-80">
+                        <img src="https://i.ibb.co/8gGMjL87/Kobe.png" alt="KOBE" class="h-6 w-auto object-contain opacity-80">
+                    </div>
+                    <div><h3 class="text-base font-heading font-bold text-white mb-1">${S.card2Title}</h3><p class="text-[9px] text-slate-400 uppercase tracking-wider">${S.card2Badge}</p></div>
+                </div>
+                <div class="feat-card p-5 md:p-7 flex flex-col justify-between group anim-entry col-span-2" style="animation-delay:.3s;min-height:120px;">
+                    <div class="flex items-start justify-between gap-4">
+                        <div><h3 class="text-lg md:text-2xl font-heading font-bold text-white mb-1">${S.card3Title}</h3><p class="text-[9px] text-slate-400 uppercase tracking-wider">${S.card3Sub}</p></div>
+                        <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[8px] font-bold uppercase tracking-widest text-slate-400 flex-shrink-0">${S.card3Badge}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
+<script>
+(function(){
+    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.anim-entry').forEach(el=>el.style.animationPlayState='running');obs.unobserve(e.target);}});},{threshold:.15});
+    const sec=document.getElementById('stats-section');if(sec)obs.observe(sec);
+})();
+<\/script>`;
+};
 
+// ================================================================
+// CURATOR — BEAUTIFUL REDESIGN (COZY, MAGAZINE-STYLE, MOBILE-FIRST)
+// ================================================================
+const CuratorSection = () => {
+    const C = window.SITE_CONFIG.curator;
+    return `
+<section id="curator-section" class="relative overflow-hidden" style="background:linear-gradient(160deg,#f8fafc 0%,#eef2ff 50%,#f0f9ff 100%);">
 
-        // =================================================================
-        // MAIN APP ROUTER & INITIALIZATION
-        // =================================================================
-        const App = {
-            init: async () => {
-                // Render Static Global Layouts
-                document.getElementById('nav-container').innerHTML = renderComponent(NavBar()).html;
-                const navRes = renderComponent(NavBar());
-                navRes.scripts.forEach(s => eval(s.innerHTML));
+    <!-- Decorative blobs -->
+    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl opacity-60 pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 bg-indigo-100 rounded-full translate-y-1/3 -translate-x-1/3 blur-3xl opacity-50 pointer-events-none"></div>
 
-                document.getElementById('footer-container').innerHTML = FooterSection();
+    <!-- Section label bar -->
+    <div class="relative z-10 border-b border-slate-200/60 py-3 px-5 md:px-12">
+        <p class="text-[9px] font-bold uppercase tracking-ultra text-blue-500 flex items-center gap-2">
+            <span class="w-4 h-px bg-blue-400 inline-block"></span>${C.sideLabel}<span class="w-4 h-px bg-blue-400 inline-block"></span>
+        </p>
+    </div>
 
-                // Load Data from Supabase
-                await loadData();
+    <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-12 py-16 md:py-24">
 
-                // Start at Home
-                App.navigate('home');
+        <!-- MOBILE: stacked. DESKTOP: split -->
+        <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
-                // Remove preloader
-                let progress = 0;
-                const bar = document.getElementById('loader-bar');
-                const count = document.getElementById('loader-count');
-                const text = document.getElementById('loader-text');
-                const states = ["Initializing...", "Loading Assets...", "Connecting...", "Preparing...", "Welcome."];
+            <!-- IMAGE CARD (left on desktop, top on mobile) -->
+            <div class="w-full lg:w-5/12 flex justify-center lg:justify-start flex-shrink-0">
+                <div class="relative curator-img-float max-w-[300px] md:max-w-[340px] w-full">
 
-                const interval = setInterval(() => {
-                    progress += Math.floor(Math.random() * 3) + 1;
-                    if (progress > 100) progress = 100;
-                    if (bar) bar.style.width = `${progress}%`;
-                    if (count) count.innerText = progress.toString().padStart(2, '0');
-                    if (text && progress % 20 === 0 && progress < 100) text.innerText = states[Math.floor(progress / 25)];
+                    <!-- Main portrait -->
+                    <div class="rounded-[2.5rem] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.18)] aspect-[3/4] w-full">
+                        <img src="${C.imageSrc}" class="w-full h-full object-cover">
+                    </div>
 
-                    if (progress === 100) {
-                        if (text) text.innerText = states[4];
-                        clearInterval(interval);
-                        setTimeout(() => {
-                            document.body.classList.remove('loading');
-                            document.body.classList.add('loaded');
-                        }, 800);
-                    }
-                }, 25);
-            },
+                    <!-- Quote card — repositioned for mobile -->
+                    <div class="absolute -bottom-6 left-0 right-0 mx-3 md:-right-8 md:left-auto md:mx-0 bg-white px-5 py-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.12)]" style="max-width:260px;">
+                        <div class="flex items-start gap-2 mb-2">
+                            <span class="text-blue-500 text-xl leading-none flex-shrink-0">"</span>
+                            <p class="font-heading font-bold text-lux-900 text-sm italic leading-snug">${C.quoteText.replace(/^"|"$/g,'')}"</p>
+                        </div>
+                        <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                            <div class="w-5 h-5 rounded-full gold-bg flex-shrink-0"></div>
+                            <p class="text-[9px] uppercase tracking-widest text-slate-400">${C.quoteAttr}</p>
+                        </div>
+                    </div>
 
-            navigate: (page) => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                const app = document.getElementById('app');
+                    <!-- Year badge -->
+                    <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full gold-bg flex flex-col items-center justify-center shadow-lg shadow-amber-500/30">
+                        <span class="text-[9px] font-black text-amber-900 leading-none">EST.</span>
+                        <span class="text-[11px] font-black text-amber-900">2016</span>
+                    </div>
+                </div>
+            </div>
 
+            <!-- TEXT (right on desktop, bottom on mobile) -->
+            <div class="w-full lg:w-7/12 pt-8 lg:pt-0 curator-reveal">
 
+                <h2 class="font-heading font-black text-lux-900 leading-tight mb-5 curator-reveal" style="font-size:clamp(2rem,7vw,3.8rem);">
+                    ${C.heading1}
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500"> ${C.heading2}</span>
+                </h2>
 
-                let content = '';
-                if (page === 'home') {
-                    content = HeroSection() + StatsSection() + CuratorSection() + LegacySection() + FeaturedInventory() + ProcessSection() + ConciergeSection() + NetworkSection();
-                } else if (page === 'stock') {
-                    // Re-use inventory but styled as full page
-                    content = FullInventory() + NetworkSection();
-                } else if (page === 'legacy') {
-                    content = `<div class="pt-32 bg-lux-900 text-center pb-12"><h1 class="text-4xl font-heading font-bold text-white">Our Heritage</h1></div>` + LegacySection() + CuratorSection();
-                } else if (page === 'reviews') {
-                    content = `<div class="pt-32 bg-white text-center pb-12"><h1 class="text-4xl font-heading font-bold text-lux-900">Journal</h1></div>` + ClientJournal() + LegacySection();
-                } else if (page === 'wedding') {
-                    content = WeddingSection() + NetworkSection();
-                } else {
-                    content = `<div class="pt-40 pb-20 text-center"><h1 class="text-4xl font-heading font-bold">Coming Soon</h1></div>`;
-                }
+                <div class="space-y-4 text-slate-600 leading-relaxed mb-8 curator-reveal" style="font-size:clamp(.95rem,2.5vw,1.1rem);">
+                    <p>${C.para1}</p>
+                    <p>${C.para2}</p>
+                </div>
 
-                // Render & Execute Scripts
-                const processed = renderComponent(content);
-                app.style.opacity = '0';
+                <!-- 3 value pills -->
+                <div class="grid grid-cols-3 gap-3 mb-8 curator-reveal">
+                    <div class="p-3 rounded-2xl bg-white border border-slate-200 text-center shadow-sm">
+                        <div class="font-heading font-black text-xl text-blue-600 mb-1">500+</div>
+                        <div class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Cars Sold</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white border border-slate-200 text-center shadow-sm">
+                        <div class="font-heading font-black text-xl gold-text mb-1">10</div>
+                        <div class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Years Active</div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white border border-slate-200 text-center shadow-sm">
+                        <div class="font-heading font-black text-xl text-emerald-500 mb-1">17+</div>
+                        <div class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Finance Partners</div>
+                    </div>
+                </div>
 
-                setTimeout(() => {
-                    app.innerHTML = processed.html;
-                    processed.scripts.forEach(script => {
-                        const newScript = document.createElement("script");
-                        newScript.text = script.innerHTML;
-                        document.body.appendChild(newScript).parentNode.removeChild(newScript);
-                    });
-                    app.style.opacity = '1';
-                }, 200);
+                <!-- Director signature -->
+                <div class="flex items-center gap-4 pt-6 border-t border-slate-200 curator-reveal">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full gold-bg flex items-center justify-center text-lg shadow-md flex-shrink-0">✍️</div>
+                    <div>
+                        <h4 class="font-heading font-bold text-lux-900 text-base md:text-xl">${C.directorName}</h4>
+                        <p class="text-[10px] uppercase tracking-widest text-slate-400">${C.directorTitle}</p>
+                    </div>
+                    <div class="ml-auto hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100">
+                        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                        <span class="text-[9px] font-bold text-blue-600 uppercase tracking-wider">Available Now</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function(){
+    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('curator-active');obs.unobserve(e.target);}});},{threshold:.15});
+    const sec=document.getElementById('curator-section');if(sec)obs.observe(sec);
+})();
+<\/script>`;
+};
+
+// ================================================================
+// FEATURED INVENTORY — NO PRICE, CUSTOM WA BUTTON
+// ================================================================
+const FeaturedInventory = () => {
+    const C = window.SITE_CONFIG.inventory;
+    const WA = window.SITE_CONFIG.brand.whatsapp;
+
+    const carCard = (car) => {
+        const msg = encodeURIComponent(`🚗 Hi Solo So Auto!\n\nI'm interested in the *${car.name}* (${car.year}).\n\n• Condition: ${car.condition || 'Unregistered'}\n• Fuel: ${car.fuel_type || 'Petrol'}\n\nCould you please share the price and financing options? 🙏`);
+        return `
+<div class="car-card-snap car-card group bg-white rounded-[1.75rem] overflow-hidden border border-slate-100 shadow-md">
+    <div class="relative aspect-[4/3] overflow-hidden">
+        <img src="${car.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div class="absolute top-3 left-3 px-2.5 py-1 bg-white/90 backdrop-blur-md rounded-full text-[8px] font-bold uppercase tracking-widest text-lux-900">${car.year}</div>
+        <div class="absolute top-3 right-3 px-2.5 py-1 ${car.status==='In Stock'?'bg-emerald-500':'bg-blue-500'} text-white rounded-full text-[8px] font-bold uppercase tracking-widest">${car.status}</div>
+        <button onclick="window.shareCar(${JSON.stringify(car).replace(/\"/g,'&quot;').replace(/'/g,'&#39;')})" class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-600 hover:bg-white hover:text-blue-600 transition-all shadow-md">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+        </button>
+    </div>
+    <div class="p-4">
+        <h3 class="font-heading font-bold text-lux-900 mb-1 truncate" style="font-size:clamp(.9rem,3vw,1.1rem);">${car.name}</h3>
+        <p class="text-[10px] text-slate-400 font-medium uppercase tracking-wider mb-4">${car.condition||'Unregistered'} · ${car.fuel_type||'Petrol'}</p>
+        <a href="https://wa.me/${WA}?text=${msg}" target="_blank" class="wa-btn flex items-center justify-center gap-2 py-3 text-white font-bold text-[10px] uppercase tracking-widest w-full">
+            <svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            Inquire on WhatsApp
+        </a>
+    </div>
+</div>`;
+    };
+
+    return `
+<section class="py-14 md:py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-5 md:px-12 mb-8 flex items-end justify-between">
+        <div><span class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">${C.sectionLabel}</span><h2 class="font-heading font-bold text-lux-900" style="font-size:clamp(1.6rem,6vw,2.8rem);">${C.heading}</h2></div>
+        <div class="hidden md:flex gap-2">
+            <button onclick="scrollInventory(-1)" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-lux-900 hover:text-white transition-colors text-sm">←</button>
+            <button onclick="scrollInventory(1)" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-lux-900 hover:text-white transition-colors text-sm">→</button>
+        </div>
+    </div>
+    <div id="inv-scroll" class="snap-scroll-container px-5 md:px-12">
+        ${DB.inventory.all.slice(0,6).map(c=>carCard(c)).join('')}
+    </div>
+    <div class="text-center mt-5 md:hidden"><p class="text-[8px] text-slate-400 uppercase tracking-widest animate-pulse">← Swipe to explore →</p></div>
+    <div class="text-center mt-8">
+        <button onclick="App.navigate('stock')" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-lux-900 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-lux-800 transition-all shadow-lg">
+            View All Cars →
+        </button>
+    </div>
+</section>
+
+<script>
+(function(){
+    const c=document.getElementById('inv-scroll');if(!c)return;
+    c.innerHTML+=c.innerHTML;
+    let si;
+    function start(){clearInterval(si);si=setInterval(()=>{const cw=c.querySelector('.car-card-snap').offsetWidth+20;const ms=c.scrollWidth/2;if(c.scrollLeft>=ms)c.scrollLeft-=ms;c.scrollBy({left:cw,behavior:'smooth'});},2500);}
+    c.addEventListener('mouseenter',()=>clearInterval(si));c.addEventListener('touchstart',()=>clearInterval(si),{passive:true});
+    c.addEventListener('mouseleave',start);c.addEventListener('touchend',start,{passive:true});
+    start();
+    window.scrollInventory=(d)=>{const cd=c.querySelector('.car-card-snap');c.scrollBy({left:d*(cd.offsetWidth+20),behavior:'smooth'});};
+})();
+<\/script>`;
+};
+
+// ================================================================
+// FULL INVENTORY — NO PRICE, CUSTOM WA
+// ================================================================
+const FullInventory = () => {
+    const C = window.SITE_CONFIG.inventory;
+    const WA = window.SITE_CONFIG.brand.whatsapp;
+
+    const carCard = (car) => {
+        const msg = encodeURIComponent(`🚗 Hi Solo So Auto!\n\nI'm interested in the *${car.name}* (${car.year}).\n\n• Status: ${car.status}\n• Condition: ${car.condition || 'Unregistered'}\n• Fuel: ${car.fuel_type || 'Petrol'}\n\nPlease share the price & financing options 🙏`);
+        return `
+<div class="inventory-card car-card group bg-white rounded-[1.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-400" data-status="${car.status}" data-condition="${car.condition}" data-price="${car.price}">
+    <div class="relative aspect-[4/3] overflow-hidden">
+        <img src="${car.image||'https://placehold.co/600x400/f1f5f9/94a3b8?text=No+Image'}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+        <div class="absolute top-2 left-2 px-2 py-0.5 bg-white/90 backdrop-blur-sm rounded-full text-[8px] font-bold uppercase tracking-widest text-lux-900">${car.year}</div>
+        <div class="absolute top-2 right-2 px-2 py-0.5 ${car.status==='In Stock'?'bg-emerald-500':'bg-blue-500'} text-white rounded-full text-[8px] font-bold uppercase tracking-widest">${car.status}</div>
+    </div>
+    <div class="p-3">
+        <h3 class="font-heading font-bold text-lux-900 text-sm truncate mb-0.5">${car.name}</h3>
+        <p class="text-[9px] text-slate-400 font-medium uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <span>${car.condition||'Unregistered'}</span><span class="w-1 h-1 rounded-full bg-slate-200"></span><span>${car.fuel_type||'Petrol'}</span>
+            ${car.is_negotiable?'<span class="ml-auto text-emerald-600 font-bold">Negotiable</span>':''}
+        </p>
+        <div class="flex gap-1.5">
+            <a href="https://wa.me/${WA}?text=${msg}" target="_blank" class="wa-btn flex-1 flex items-center justify-center gap-1.5 py-2.5 text-white font-bold text-[9px] uppercase tracking-wider">
+                <svg class="h-3.5 w-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                Inquire
+            </a>
+            <button onclick="window.shareCar(${JSON.stringify(car).replace(/\"/g,'&quot;').replace(/'/g,'&#39;')})" class="w-10 h-10 rounded-xl bg-slate-50 text-slate-500 flex items-center justify-center border border-slate-100 hover:bg-blue-50 hover:text-blue-500 transition-all flex-shrink-0">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>`;
+    };
+
+    return `
+<section class="py-14 md:py-20 bg-slate-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 md:px-12">
+        <div class="text-center mb-8">
+            <span class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">${C.fullLabel}</span>
+            <h2 class="font-heading font-bold text-lux-900 mb-3" style="font-size:clamp(1.8rem,6vw,3rem);">${C.fullHeading}</h2>
+        </div>
+        <!-- Promo bar -->
+        <div class="mb-8 p-4 rounded-2xl gradient-flow-bg promo-pulse text-center shadow-xl">
+            <p class="text-yellow-300 font-black uppercase tracking-wider" style="font-size:clamp(.9rem,4vw,1.4rem);">🏆 ${window.SITE_CONFIG.hero.downPaymentText}</p>
+            <p class="text-white/85 font-semibold text-sm mt-1 tracking-wide">${window.SITE_CONFIG.hero.monthlyRateText}</p>
+        </div>
+        <!-- Filters -->
+        <div id="filter-buttons" class="flex flex-wrap justify-center gap-3 mb-8 overflow-x-auto pb-1">
+            <div class="flex gap-1.5 bg-white p-1 rounded-full border border-slate-200 shadow-sm flex-shrink-0">
+                <button class="filter-btn active" data-group="status" data-val="all">${C.filterAllStatus}</button>
+                <button class="filter-btn" data-group="status" data-val="In Stock">${C.filterInStock}</button>
+                <button class="filter-btn" data-group="status" data-val="Importable">${C.filterImportable}</button>
+            </div>
+            <div class="flex gap-1.5 bg-white p-1 rounded-full border border-slate-200 shadow-sm flex-shrink-0">
+                <button class="filter-btn active" data-group="condition" data-val="all">${C.filterAllCond}</button>
+                <button class="filter-btn" data-group="condition" data-val="Unregistered">${C.filterUnreg}</button>
+                <button class="filter-btn" data-group="condition" data-val="Registered (Used)">${C.filterReg}</button>
+            </div>
+        </div>
+        <div id="inventory-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+            ${DB.inventory.all.map(c=>carCard(c)).join('')}
+            <div id="no-items-msg" class="hidden col-span-full text-center py-16 text-slate-400"><p class="text-sm uppercase tracking-widest">${C.noResults}</p></div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function(){
+    const grid=document.getElementById('inventory-grid');const noMsg=document.getElementById('no-items-msg');const btns=document.querySelectorAll('.filter-btn');
+    function applyFilters(){
+        const as=document.querySelector('.filter-btn[data-group="status"].active').getAttribute('data-val');
+        const ac=document.querySelector('.filter-btn[data-group="condition"].active').getAttribute('data-val');
+        const cards=grid.querySelectorAll('.inventory-card');let vc=0;
+        cards.forEach(card=>{const sm=as==='all'||card.getAttribute('data-status')===as;const cm=ac==='all'||card.getAttribute('data-condition')===ac;if(sm&&cm){card.style.display='';vc++;}else{card.style.display='none';}});
+        if(noMsg)noMsg.style.display=vc===0?'block':'none';
+    }
+    btns.forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn[data-group="'+btn.getAttribute('data-group')+'"]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyFilters();}));
+})();
+<\/script>`;
+};
+
+// ================================================================
+// PROCESS — REDESIGNED: Numbered horizontal scroll on mobile
+// ================================================================
+const ProcessSection = () => {
+    const C = window.SITE_CONFIG.process;
+    const icons = ['🔍','🌏','✨','🎉'];
+    const colors = ['from-blue-500/20 to-blue-600/5','from-purple-500/20 to-purple-600/5','from-emerald-500/20 to-emerald-600/5','from-amber-500/20 to-amber-600/5'];
+    const borderColors = ['border-blue-500/20','border-purple-500/20','border-emerald-500/20','border-amber-500/20'];
+    return `
+<section class="py-16 md:py-24 bg-lux-900 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none"><div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-blue-600/6 rounded-full blur-[100px]"></div></div>
+    <div class="max-w-6xl mx-auto px-5 md:px-12">
+        <div class="text-center mb-10 md:mb-14">
+            <span class="text-blue-400 font-bold text-[9px] uppercase tracking-ultra mb-3 block">${C.sectionLabel}</span>
+            <h2 class="font-heading font-bold text-white mb-3" style="font-size:clamp(1.8rem,6vw,3rem);">${C.heading}</h2>
+            <p class="text-slate-400 text-sm max-w-md mx-auto">${C.subtext}</p>
+        </div>
+        <!-- Mobile: horizontal scroll. Desktop: grid -->
+        <div class="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto pb-4 md:pb-0 md:overflow-visible snap-x snap-mandatory" style="scrollbar-width:none;">
+            ${C.steps.map((s,i)=>`
+            <div class="process-card flex-shrink-0 snap-center" style="min-width:240px;animation-delay:${i*.1}s;">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${colors[i]} border ${borderColors[i]} flex items-center justify-center text-2xl mb-4">${icons[i]}</div>
+                <div class="text-[9px] font-black uppercase tracking-ultra text-slate-600 mb-2">${s.num}</div>
+                <h3 class="font-heading font-bold text-xl text-white mb-2 ${s.color}">${s.title}</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">${s.body}</p>
+                ${i<C.steps.length-1?`<div class="hidden md:block absolute top-1/2 -right-2 w-4 h-px bg-white/10"></div>`:''}
+            </div>`).join('')}
+        </div>
+        <div class="text-center mt-4 md:hidden"><p class="text-[8px] text-slate-600 uppercase tracking-widest">← Swipe →</p></div>
+    </div>
+</section>`;
+};
+
+// ================================================================
+// CONCIERGE — REDESIGNED: Dark editorial card grid
+// ================================================================
+const ConciergeSection = () => {
+    const C = window.SITE_CONFIG.concierge;
+    const icons = ['🛡️','📱','⚡'];
+    const accentColors = ['#3b82f6','#8b5cf6','#10b981'];
+    return `
+<section class="py-16 md:py-24 bg-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-48 h-48 bg-blue-50 rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+    <div class="max-w-6xl mx-auto px-5 md:px-12">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+            <div>
+                <span class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">${C.sectionLabel}</span>
+                <h2 class="font-heading font-bold text-lux-900 leading-tight" style="font-size:clamp(1.8rem,6vw,3rem);">${C.heading1}<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">${C.heading2}</span></h2>
+            </div>
+            <p class="text-slate-500 text-sm leading-relaxed max-w-xs">${C.body}</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 md:gap-6">
+            ${C.services.map((s,i)=>`
+            <div class="concierge-card">
+                <div class="concierge-card::before" style="background:${accentColors[i]};"></div>
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5 shadow-sm" style="background:${accentColors[i]}18;border:1px solid ${accentColors[i]}30;">${icons[i]}</div>
+                <h3 class="font-heading font-bold text-lux-900 text-lg mb-2">${s.title}</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">${s.body}</p>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full" style="background:${accentColors[i]};"></div>
+                    <span class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Included with every vehicle</span>
+                </div>
+            </div>`).join('')}
+        </div>
+    </div>
+</section>`;
+};
+
+// ================================================================
+// LEGACY SECTION — REDESIGNED
+// ================================================================
+const LegacySection = () => {
+    const C = window.SITE_CONFIG.legacy;
+    return `
+<section class="py-16 md:py-24 bg-slate-50 relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-5 md:px-12">
+        <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+            <div>
+                <span class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-4 block">${C.sectionLabel}</span>
+                <h2 class="font-heading font-bold text-lux-900 mb-8" style="font-size:clamp(1.8rem,6vw,2.8rem);">Our Story,<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">Decade by Decade</span></h2>
+                <div class="space-y-0">
+                    ${C.timeline.map((t,i)=>`
+                    <div class="timeline-item pb-6">
+                        <div class="absolute left-0 top-0 w-7 h-7 rounded-full ${i===C.timeline.length-1?'gold-bg shadow-lg shadow-amber-400/30':'bg-white border-2 border-blue-200'} flex items-center justify-center z-10">
+                            ${i===C.timeline.length-1?`<span class="text-[8px] font-black text-amber-900">★</span>`:`<span class="text-[8px] font-bold text-blue-500">${t.year.slice(-2)}</span>`}
+                        </div>
+                        <div class="pl-2">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="font-heading font-black text-base text-lux-900">${t.title}</span>
+                                <span class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">${t.year}</span>
+                                ${i===C.timeline.length-1?`<span class="px-2 py-0.5 rounded-full gold-bg text-[7px] font-black text-amber-900 uppercase tracking-wider">New!</span>`:''}
+                            </div>
+                            <p class="text-sm text-slate-500 leading-relaxed">${t.body}</p>
+                        </div>
+                    </div>`).join('')}
+                </div>
+            </div>
+            <div class="rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[3/4] md:aspect-auto md:h-[560px]">
+                <img src="https://i.ibb.co/KjHqS4qr/Heritage.png" alt="Heritage" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </div>
+</section>`;
+};
+
+// ================================================================
+// NETWORK — REDESIGNED: Dark with animated flags
+// ================================================================
+const NetworkSection = () => {
+    const C = window.SITE_CONFIG;
+    const flags = C.stats.countries.map(c=>`
+    <div class="flex flex-col items-center gap-2 group">
+        <div class="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-blue-400 group-hover:scale-110 transition-all duration-300 shadow-lg">
+            <img src="https://flagcdn.com/w80/${c.code}.png" alt="${c.name}" class="w-full h-full object-cover">
+        </div>
+        <span class="text-[8px] text-slate-500 uppercase tracking-wider">${c.name.split(' ')[0]}</span>
+    </div>`).join('');
+
+    return `
+<section class="py-16 md:py-20 bg-lux-900 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-white/3"></div><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-white/5"></div></div>
+    <div class="max-w-5xl mx-auto px-5 md:px-12 text-center relative z-10">
+        <p class="text-[9px] font-bold uppercase tracking-ultra text-slate-500 mb-3">${C.network.label}</p>
+        <!-- Anniversary gold pill -->
+        <div class="inline-flex items-center gap-3 mb-10 px-5 py-2.5 rounded-full border gold-border bg-amber-900/15 shadow-lg shadow-amber-900/10">
+            <span class="gold-text font-black text-xl">${C.anniversary.years}</span>
+            <div class="w-px h-5 bg-amber-700/40"></div>
+            <span class="text-amber-300 font-semibold text-sm">${C.anniversary.range}</span>
+            <div class="w-px h-5 bg-amber-700/40"></div>
+            <span class="text-amber-500/70 text-xs">${C.anniversary.tagline}</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-6 md:gap-10">${flags}</div>
+    </div>
+</section>`;
+};
+
+// ================================================================
+// LOCATION SECTION — MOBILE-FIRST REDESIGN
+// ================================================================
+const LocationSection = () => {
+    const C = window.SITE_CONFIG.location;
+    const B = window.SITE_CONFIG.brand;
+    const H = window.SITE_CONFIG.hero;
+    return `
+<section class="bg-lux-900 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-1 gold-bg"></div>
+    <!-- MOBILE: stacked. DESKTOP: side by side -->
+    <div class="flex flex-col md:grid md:grid-cols-2" style="min-height:500px;">
+        <!-- Map first on mobile for visual appeal -->
+        <div class="relative order-first md:order-last" style="min-height:280px;md:min-height:auto;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63296.62!2d79.7437!3d7.6057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2eda9fb6e3a2f%3A0xa8e3a7bbce1c9a64!2sMarawila!5e0!3m2!1sen!2slk!4v1700000000000!5m2!1sen!2slk"
+                class="w-full h-full absolute inset-0 border-0" allowfullscreen="" loading="lazy" style="min-height:280px;filter:saturate(.9) contrast(1.1);"></iframe>
+            <div class="absolute top-3 left-3 z-10 pointer-events-none">
+                <div class="gold-bg px-3 py-1.5 rounded-xl shadow-xl">
+                    <div class="text-[8px] font-black text-amber-900 uppercase tracking-widest">SOLO SO AUTO</div>
+                    <div class="text-[7px] text-amber-800 uppercase tracking-wider">${C.roadHighlight}</div>
+                </div>
+            </div>
+        </div>
+        <!-- Info -->
+        <div class="flex flex-col justify-center px-6 md:px-12 py-10 md:py-16 relative order-last md:order-first">
+            <div class="absolute inset-0 pointer-events-none"><div class="absolute top-0 left-0 w-64 h-64 bg-blue-600/8 rounded-full blur-[80px]"></div></div>
+            <div class="relative z-10">
+                <span class="text-blue-400 font-bold text-[9px] uppercase tracking-ultra mb-3 block">${C.sectionLabel}</span>
+                <h2 class="font-heading font-black text-white leading-tight mb-4" style="font-size:clamp(1.6rem,6vw,2.8rem);">${C.heading}</h2>
+                <!-- Road badge -->
+                <div class="inline-flex items-center gap-2 mb-4 px-4 py-2.5 rounded-xl gold-bg shadow-lg shadow-amber-600/20 max-w-full">
+                    <svg class="h-4 w-4 text-amber-900 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <div class="min-w-0"><div class="text-[8px] font-bold uppercase tracking-wider text-amber-800">On</div><div class="font-heading font-black text-amber-900 text-xs md:text-sm truncate">${C.roadHighlight}</div></div>
+                </div>
+                <!-- Finance highlights -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
+                    <div class="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/15">
+                        <span class="text-xl flex-shrink-0">🏆</span>
+                        <div class="min-w-0"><div class="text-red-400 font-black text-[10px] uppercase tracking-wide leading-tight">${H.downPaymentText}</div></div>
+                    </div>
+                    <div class="flex items-center gap-2 p-3 rounded-xl bg-yellow-500/10 border border-yellow-500/15">
+                        <span class="text-xl flex-shrink-0">🔥</span>
+                        <div class="min-w-0"><div class="text-yellow-300 font-black text-[10px] leading-tight">${H.promoHeadline} <span class="text-yellow-400">${H.promoPrice}</span></div></div>
+                    </div>
+                </div>
+                <!-- Landmarks -->
+                <ul class="space-y-1.5 mb-6">
+                    ${C.landmarks.map(l=>`<li class="flex items-start gap-2 text-slate-400 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0 mt-1.5"></span>${l}</li>`).join('')}
+                </ul>
+                <div class="flex flex-wrap gap-2">
+                    <a href="${C.mapShareLink}" target="_blank" class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl gold-bg text-amber-900 font-bold text-[10px] uppercase tracking-wider shadow-md hover:opacity-90 transition-all">
+                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                        ${C.directions}
+                    </a>
+                    <a href="tel:${B.phone}" class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/8 border border-white/15 text-white font-bold text-[10px] uppercase tracking-wider hover:bg-white/15 transition-all">
+                        📞 ${B.phone}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>`;
+};
+
+// ================================================================
+// FINANCIAL PARTNERS
+// ================================================================
+const FinancialPartnersSection = () => {
+    const C = window.SITE_CONFIG.finance;
+    const logos = [{src:"https://i.ibb.co/Fr39J2T/singer-finance.png",alt:"Singer Finance"},{src:"https://i.ibb.co/kVwWJ0hx/softlogic.png",alt:"Softlogic"},{src:"https://i.ibb.co/5xBGHM8j/orient-finance.jpg",alt:"Orient Finance"},{src:"https://i.ibb.co/m1chTKT/lcb.jpg",alt:"LCB"},{src:"https://i.ibb.co/hJV1c2RC/ub.png",alt:"Union Bank"},{src:"https://i.ibb.co/5hr3bDK2/cdb.jpg",alt:"CDB"},{src:"https://i.ibb.co/6cd44wZ3/hnb.jpg",alt:"HNB"},{src:"https://i.ibb.co/ymNGCVP3/mi.jpg",alt:"MI"},{src:"https://i.ibb.co/bgL2c9kc/vallibel.png",alt:"Vallibel"},{src:"https://i.ibb.co/bgyKqN6t/ss.png",alt:"SS"},{src:"https://i.ibb.co/CsVLvDbz/sld.png",alt:"SLD"},{src:"https://i.ibb.co/XkJg4ShG/amw.jpg",alt:"AMW"},{src:"https://i.ibb.co/9mpxKkcn/cm.png",alt:"CM"},{src:"https://i.ibb.co/tw2y4W9z/lolc.jpg",alt:"LOLC"},{src:"https://i.ibb.co/238ffq8m/plc.png",alt:"PLC"},{src:"https://i.ibb.co/YF2B8MQR/cfc.png",alt:"CFC"},{src:"https://i.ibb.co/6cXNcxn6/lb-finance.png",alt:"LB Finance"}];
+    const logoItems = logos.map(l=>`<div class="flex-shrink-0 flex items-center justify-center px-4 py-2"><img src="${l.src}" alt="${l.alt}" class="h-9 md:h-11 max-w-[100px] object-contain opacity-90 hover:opacity-100 hover:scale-105 transition-all duration-300 drop-shadow-sm" title="${l.alt}"></div>`).join('');
+    return `
+<section class="py-12 md:py-16 bg-white border-t border-slate-100">
+    <div class="max-w-6xl mx-auto px-5 md:px-12 mb-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
+            <div class="flex-shrink-0">
+                <p class="text-[9px] font-bold uppercase tracking-ultra text-blue-500 mb-1">${C.sectionLabel}</p>
+                <h3 class="font-heading font-bold text-xl md:text-2xl text-lux-900">${C.heading}</h3>
+            </div>
+            <div class="hidden sm:flex items-center gap-3 pl-6 border-l border-slate-200">
+                <div class="w-12 h-12 rounded-full gold-bg flex flex-col items-center justify-center shadow-md flex-shrink-0"><span class="text-lg">🏦</span><span class="text-[7px] font-bold text-amber-900 uppercase">${C.partnersCount}</span></div>
+                <p class="text-[10px] text-slate-400 leading-relaxed max-w-[200px]">${C.hoverHint}</p>
+            </div>
+        </div>
+    </div>
+    <div class="fin-wrap"><div class="fin-track">${logoItems}${logoItems}</div></div>
+</section>`;
+};
+
+// ================================================================
+// WEDDING
+// ================================================================
+const WeddingSection = () => {
+    const C = window.SITE_CONFIG.wedding;
+    const WA = window.SITE_CONFIG.brand.whatsapp;
+    const falling = Array.from({length:15}).map(()=>{const l=Math.floor(Math.random()*100),d=Math.floor(Math.random()*15)+10,dl=Math.floor(Math.random()*10),sz=Math.floor(Math.random()*12)+8;return `<img src="https://cdn-icons-png.flaticon.com/512/210/210545.png" class="absolute top-[-50px] animate-fall opacity-25 select-none pointer-events-none" style="left:${l}%;animation-duration:${d}s;animation-delay:-${dl}s;width:${sz}px;height:${sz}px;">`;}).join('');
+    return `
+<style>@keyframes fall{0%{transform:translateY(-10vh) rotate(0deg);opacity:0;}10%{opacity:.6;}100%{transform:translateY(110vh) rotate(360deg);opacity:0;}}.animate-fall{animation:fall linear infinite;}</style>
+<section class="py-16 md:py-24 bg-rose-50 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">${falling}</div>
+    <div class="max-w-6xl mx-auto px-5 md:px-12 text-center relative z-10">
+        <span class="text-rose-400 font-bold text-[9px] uppercase tracking-ultra mb-3 block">${C.sectionLabel}</span>
+        <h2 class="font-heading font-black text-rose-900 mb-5 leading-tight" style="font-size:clamp(2.2rem,9vw,4.5rem);">${C.heading1} <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">${C.heading2}</span></h2>
+        <p class="text-slate-600 max-w-xl mx-auto mb-10 text-sm md:text-base leading-relaxed">${C.body}</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            ${DB.weddingFleet.map(car=>`
+            <div class="bg-white p-5 rounded-[1.75rem] shadow-xl border border-rose-100 hover:-translate-y-2 transition-transform duration-500">
+                <div class="aspect-[4/3] rounded-2xl overflow-hidden mb-4"><img src="${car.image}" class="w-full h-full object-cover"></div>
+                <h3 class="font-heading font-bold text-lg text-rose-900 mb-1">${car.name}</h3>
+                <p class="text-xs text-slate-500 mb-4 leading-relaxed">${car.description}</p>
+                <a href="https://wa.me/${WA}?text=${encodeURIComponent(`💒 Hi Solo So Auto!\n\nI'd like to book the *${car.name}* for my wedding 🌸\n\nPlease share availability & pricing. Thank you!`)}" target="_blank" class="wa-btn flex items-center justify-center gap-2 py-3 text-white font-bold text-[10px] uppercase tracking-widest w-full">
+                    <svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    ${C.bookCTA}
+                </a>
+            </div>`).join('')}
+        </div>
+    </div>
+</section>`;
+};
+
+// ================================================================
+// FOOTER
+// ================================================================
+const FooterSection = () => {
+    const C = window.SITE_CONFIG.footer;
+    const B = window.SITE_CONFIG.brand;
+    const A = window.SITE_CONFIG.anniversary;
+    return `
+<footer class="relative bg-[#080d1a] overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-px gold-bg"></div>
+    <div class="absolute -left-20 top-1/2 w-64 h-64 bg-orange-500/8 blur-[100px] rounded-full"></div>
+    <div class="absolute -right-20 top-1/2 w-64 h-64 bg-blue-500/8 blur-[100px] rounded-full"></div>
+    <div class="max-w-6xl mx-auto px-5 md:px-12 py-10 relative z-10">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center sm:text-left">
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+                <img src="${B.logoSrc}" alt="${C.brandName}" class="h-12 w-auto flex-shrink-0"/>
+                <div>
+                    <p class="text-white font-heading font-bold tracking-wide text-sm">${C.brandName}</p>
+                    <p class="text-slate-500 text-[10px] tracking-widest uppercase mb-2">${C.tagline}</p>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full gold-bg"><span class="text-[8px] font-black text-amber-900 uppercase tracking-wider">${A.range} · ${A.years} Yrs</span></div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center gap-1.5">
+                <p class="text-white font-semibold text-sm">${C.phone}</p>
+                <p class="text-slate-500 text-[10px] uppercase tracking-widest">${C.location}</p>
+                <p class="text-slate-600 text-[9px] uppercase tracking-widest">${B.addressShort}</p>
+                <a href="https://wa.me/${B.whatsapp}?text=${encodeURIComponent('Hi Solo So Auto! 👋')}" target="_blank" class="mt-2 wa-btn flex items-center gap-1.5 px-4 py-2 text-white font-bold text-[9px] uppercase tracking-wider">
+                    <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    Message Us
+                </a>
+            </div>
+            <div class="flex flex-col items-center sm:items-end gap-1.5">
+                <p class="text-slate-500 text-[10px] uppercase tracking-widest">${C.copyright}</p>
+                <p class="text-slate-600 text-[9px] uppercase tracking-widest">${C.credit}</p>
+            </div>
+        </div>
+        <div class="mt-8 pt-4 border-t border-white/5 text-center">
+            <p class="text-[8px] text-slate-700 tracking-widest uppercase">${C.bottomBar}</p>
+        </div>
+    </div>
+</footer>`;
+};
+
+// ================================================================
+// ROUTER
+// ================================================================
+const App = {
+    init: async () => {
+        const cfg = window.SITE_CONFIG;
+        document.title = cfg.brand.metaTitle;
+        const md = document.getElementById('meta-desc'); if(md) md.content = cfg.brand.metaDescription;
+        document.getElementById('pl-est').textContent = cfg.brand.established;
+        document.getElementById('pl-loc').textContent = cfg.brand.location;
+        document.getElementById('pl-status-label').textContent = cfg.preloader.statusLabel;
+
+        const navRes = renderComponent(NavBar());
+        document.getElementById('nav-container').innerHTML = navRes.html;
+        navRes.scripts.forEach(s=>{ const n=document.createElement('script'); n.text=s.innerHTML; document.body.appendChild(n).parentNode.removeChild(n); });
+
+        document.getElementById('footer-container').innerHTML = FooterSection();
+        initFloatWA();
+
+        await loadData();
+        App.navigate('home');
+
+        // Loader
+        let progress = 0;
+        const bar = document.getElementById('loader-bar'), count = document.getElementById('loader-count'), text = document.getElementById('loader-text');
+        const states = cfg.preloader.states;
+        if(text) text.innerText = states[0];
+        const interval = setInterval(() => {
+            progress += Math.floor(Math.random()*3)+1;
+            if(progress>100) progress=100;
+            if(bar) bar.style.width=`${progress}%`;
+            if(count) count.innerText=progress.toString().padStart(2,'0');
+            if(text && progress%20===0 && progress<100) text.innerText=states[Math.floor(progress/25)]||states[0];
+            if(progress===100){
+                if(text) text.innerText=states[4];
+                clearInterval(interval);
+                setTimeout(()=>{ document.body.classList.remove('loading'); document.body.classList.add('loaded'); }, 800);
             }
-        };
+        }, 25);
+    },
 
-        // Start App
-        window.addEventListener('load', App.init);
+    navigate: (page) => {
+        window.scrollTo({top:0, behavior:'smooth'});
+        const app = document.getElementById('app');
+        let content = '';
+        if(page==='home'){
+            content = ShareFlyerScript()+HeroSection()+StatsSection()+CuratorSection()+LegacySection()+FeaturedInventory()+ProcessSection()+ConciergeSection()+NetworkSection()+LocationSection()+FinancialPartnersSection();
+        } else if(page==='stock'){
+            content = ShareFlyerScript()+FullInventory()+FinancialPartnersSection()+LocationSection()+NetworkSection();
+        } else if(page==='legacy'){
+            content = `<div class="pt-20 md:pt-24 bg-lux-900 text-center py-12"><h1 class="text-3xl font-heading font-bold text-white">Our Heritage</h1></div>`+LegacySection()+CuratorSection();
+        } else if(page==='wedding'){
+            content = WeddingSection()+LocationSection()+NetworkSection();
+        } else {
+            content = `<div class="pt-32 pb-20 text-center"><h1 class="text-3xl font-heading font-bold">Coming Soon</h1></div>`;
+        }
+        const processed = renderComponent(content);
+        app.style.opacity = '0';
+        app.style.transition = 'opacity .2s ease';
+        setTimeout(() => {
+            app.innerHTML = processed.html;
+            processed.scripts.forEach(s => { const n=document.createElement('script'); n.text=s.innerHTML; document.body.appendChild(n).parentNode.removeChild(n); });
+            app.style.opacity = '1';
+        }, 200);
+    }
+};
 
-    </script>
+window.addEventListener('load', App.init);
+</script>
 </body>
-
 </html>
