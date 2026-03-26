@@ -460,14 +460,48 @@ async function loadData() {
         const { data:wedding } = await supabaseClient.from('wedding_fleet').select('*');
         if(wedding) DB.weddingFleet=wedding;
     } catch(e){ console.error("Data error:",e); }
-    try {
-        const r = await fetch('images/manifest.json');
-        if(r.ok){ const files=await r.json(); DB.localCars=files.map(f=>({image:'images/'+f,local:true})); }
-    } catch(e){ console.warn("Local images manifest not found:",e); }
-    try {
-        const r = await fetch('images/clientimages/manifest.json');
-        if(r.ok){ const files=await r.json(); DB.clientImages=files.map(f=>'images/clientimages/'+f); }
-    } catch(e){ console.warn("Client images manifest not found:",e); }
+    DB.localCars = [
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_30_59%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_06%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_11%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_16%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_19%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_27%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_31%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_34%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_38%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_42%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_46%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_50%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_54%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_31_58%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_32_02%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_32_07%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_32_11%20AM.png",
+        "images/ChatGPT%20Image%20Mar%2026,%202026,%2008_32_15%20AM.png"
+    ].map(function(f){return {image:f,local:true};});
+    DB.clientImages = [
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.33%20PM.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.39%20PM%20%281%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.39%20PM%20%282%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.39%20PM.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.40%20PM.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.41%20PM%20%281%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.41%20PM.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.42%20PM%20%281%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.42%20PM.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.43%20PM%20%281%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.43%20PM%20%282%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.43%20PM.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.44%20PM%20%281%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.44%20PM%20%282%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.44%20PM.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.45%20PM%20%281%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.45%20PM%20%282%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.45%20PM.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.46%20PM%20%281%29.jpeg",
+        "images/clientimages/WhatsApp%20Image%202026-03-25%20at%204.46.46%20PM.jpeg"
+    ];
 }
 
 function renderComponent(html) {
@@ -973,6 +1007,7 @@ const CuratorSection = () => {
 // ================================================================
 const FeaturedInventory = () => {
     const C = window.SITE_CONFIG.inventory;
+    const WA = window.SITE_CONFIG.brand.whatsapp;
     const carCard = (car) => {
         return `
 <div class="car-card-snap car-card group rounded-[1.75rem] overflow-hidden shadow-md">
@@ -1022,6 +1057,7 @@ const FeaturedInventory = () => {
 // ================================================================
 const FullInventory = () => {
     const C = window.SITE_CONFIG.inventory;
+    const WA = window.SITE_CONFIG.brand.whatsapp;
     const carCard = (car) => {
         return `
 <div class="inventory-card car-card group rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-400" data-status="${car.status||''}" data-condition="${car.condition||''}" data-local="${car.local?'true':'false'}">
@@ -1068,12 +1104,7 @@ const FullInventory = () => {
         const as=document.querySelector('.filter-btn[data-group="status"].active').getAttribute('data-val');
         const ac=document.querySelector('.filter-btn[data-group="condition"].active').getAttribute('data-val');
         const cards=grid.querySelectorAll('.inventory-card');let vc=0;
-        cards.forEach(card=>{
-            if(card.getAttribute('data-local')==='true'){card.style.display='';vc++;return;}
-            const sm=as==='all'||card.getAttribute('data-status')===as;
-            const cm=ac==='all'||card.getAttribute('data-condition')===ac;
-            if(sm&&cm){card.style.display='';vc++;}else{card.style.display='none';}
-        });
+        cards.forEach(card=>{if(card.getAttribute('data-local')==='true'){card.style.display='';vc++;return;}const sm=as==='all'||card.getAttribute('data-status')===as;const cm=ac==='all'||card.getAttribute('data-condition')===ac;if(sm&&cm){card.style.display='';vc++;}else{card.style.display='none';}});
         if(noMsg)noMsg.style.display=vc===0?'block':'none';
     }
     btns.forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn[data-group="'+btn.getAttribute('data-group')+'"]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyFilters();}));
@@ -1369,9 +1400,9 @@ const OurClientsSection = () => {
             <span data-scroll="fade-down" class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">Happy Customers</span>
             <h2 data-scroll="fade-up" data-delay="100" class="font-heading font-bold text-lux-900" style="font-size:clamp(1.6rem,6vw,2.8rem);">Our Clients</h2>
         </div>
-        <div class="columns-2 md:columns-3 lg:columns-4 gap-3 md:gap-4">
+        <div style="columns:2;column-gap:0.75rem;" class="sm:columns-3 lg:columns-4">
             ${DB.clientImages.map(img=>`
-            <div class="mb-3 md:mb-4 break-inside-avoid">
+            <div style="margin-bottom:0.75rem;break-inside:avoid;">
                 <img src="${img}" class="w-full rounded-2xl object-cover shadow-sm hover:shadow-md transition-shadow duration-300" loading="lazy" onerror="this.parentElement.style.display='none'">
             </div>`).join('')}
         </div>
