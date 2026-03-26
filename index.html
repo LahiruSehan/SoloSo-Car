@@ -3,25 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">Solo So Auto | Sri Lanka's Premium Car Dealer</title>
+    <title id="meta-title">Solo So | Sri Lanka's Premium Car Dealer</title>
     <meta name="description" id="meta-desc" content="Sri Lanka's finest automotive experience. Lowest down payment, best monthly rates.">
     <meta property="og:image" content="https://i.ibb.co/NgmZPszW/Cover.png">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-
-    <!-- ⚙️ ALL TEXT EDITABLE IN config.js -->
     <script src="config.js"></script>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@200;300;400;500;700;800;900&family=Noto+Sans+Sinhala:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans:['Plus Jakarta Sans','sans-serif'], heading:['Outfit','sans-serif'] },
+                    fontFamily: { sans:['Plus Jakarta Sans','sans-serif'], heading:['Outfit','sans-serif'], sinhala:['Noto Sans Sinhala','sans-serif'] },
                     colors: { lux:{ 900:'#020617', 800:'#0f172a', 700:'#1e293b' } },
                     letterSpacing: { ultra:'0.35em', mega:'0.5em' }
                 }
@@ -37,8 +34,12 @@
         ::-webkit-scrollbar-track { background:#f1f5f9; }
         ::-webkit-scrollbar-thumb { background:#94a3b8; border-radius:2px; }
 
+        .sinhala { font-family:'Noto Sans Sinhala',sans-serif!important;font-weight:700;font-size:1.05em;line-height:1.5;letter-spacing:0.01em; }
+        .sinhala-sm { font-family:'Noto Sans Sinhala',sans-serif!important;font-weight:600;font-size:0.95em;letter-spacing:0.005em; }
+        .sinhala-lg { font-family:'Noto Sans Sinhala',sans-serif!important;font-weight:800;font-size:1.15em;line-height:1.5; }
+
         /* ── LOADER ── */
-        .loader-curtain { position:fixed; inset:0; z-index:9999; background:#020617; display:flex; align-items:center; justify-content:center; transition:transform 1.2s cubic-bezier(0.8,0,0.2,1); }
+        .loader-curtain { position:fixed;inset:0;z-index:9999;background:#020617;display:flex;align-items:center;justify-content:center;transition:transform 1.2s cubic-bezier(0.8,0,0.2,1); }
         .loader-content { transition:opacity 0.5s ease; }
         .loaded .loader-curtain { transform:translateY(-100%); }
         .loaded .loader-content { opacity:0; }
@@ -46,9 +47,9 @@
 
         /* ── GOLD ── */
         @keyframes goldShimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
-        .gold-text { background:linear-gradient(90deg,#d4a017,#f5c842,#b8860b,#f5c842,#d4a017); background-size:300% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:goldShimmer 3s linear infinite; }
-        .gold-bg  { background:linear-gradient(135deg,#d4a017,#f5c842); }
-        .gold-border { border-color:#d4a017 !important; }
+        .gold-text { background:linear-gradient(90deg,#d4a017,#f5c842,#b8860b,#f5c842,#d4a017);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:goldShimmer 3s linear infinite; }
+        .gold-bg { background:linear-gradient(135deg,#d4a017,#f5c842); }
+        .gold-border { border-color:#d4a017!important; }
 
         /* ── PROMO ── */
         @keyframes redPulse { 0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)} 50%{box-shadow:0 0 30px 8px rgba(239,68,68,.2)} }
@@ -56,89 +57,321 @@
         @keyframes flashBadge { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.85;transform:scale(1.04)} }
         .flash-badge { animation:flashBadge 1.8s ease-in-out infinite; }
         @keyframes gradientFlow { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
-        .gradient-flow-bg { background:linear-gradient(270deg,#dc2626,#ef4444,#b91c1c,#7f1d1d); background-size:400% 400%; animation:gradientFlow 3s ease infinite; }
+        .gradient-flow-bg { background:linear-gradient(270deg,#dc2626,#ef4444,#b91c1c,#7f1d1d);background-size:400% 400%;animation:gradientFlow 3s ease infinite; }
 
         /* ── HERO ── */
-        .hero-slide { position:absolute; inset:0; opacity:0; transition:opacity 1.5s ease-in-out; background-size:cover; background-repeat:no-repeat; background-position:center; }
+        .hero-slide { position:absolute;inset:0;opacity:0;transition:opacity 1.5s ease-in-out;background-size:cover;background-repeat:no-repeat;background-position:center; }
         .hero-slide.active { opacity:1; }
-        .desktop-hero { display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+        .desktop-hero { display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0; }
         @media(min-width:768px) { #hero-slides{display:none;} .desktop-hero{display:block;} }
-        .reveal-fade { opacity:0; transform:translateY(20px); transition:opacity .8s ease, transform .8s ease; }
-        .reveal-fade.active { opacity:1; transform:translateY(0); }
+        .reveal-fade { opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease; }
+        .reveal-fade.active { opacity:1;transform:translateY(0); }
         @keyframes float-subtle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
         .anim-float { animation:float-subtle 3s ease-in-out infinite; }
 
         /* ── HERO MARQUEE ── */
-        .marquee-wrapper { position:absolute; bottom:0; left:0; width:100%; background:#fff; padding:.75rem 0; z-index:50; overflow:hidden; white-space:nowrap; border-top:1px solid #e2e8f0; }
-        .marquee-content { display:inline-block; animation:marquee-roll 22s linear infinite; }
+        .marquee-wrapper { position:absolute;bottom:0;left:0;width:100%;background:#fff;padding:.75rem 0;z-index:50;overflow:hidden;white-space:nowrap;border-top:1px solid #e2e8f0; }
+        .marquee-content { display:inline-block;animation:marquee-roll 22s linear infinite; }
         @keyframes marquee-roll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
         /* ── SECTIONS ── */
         @keyframes slideUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-        .anim-entry { opacity:0; animation:slideUp .7s cubic-bezier(.16,1,.3,1) forwards; animation-play-state:paused; }
+        .anim-entry { opacity:0;animation:slideUp .7s cubic-bezier(.16,1,.3,1) forwards;animation-play-state:paused; }
 
         /* ── CURATOR ── */
         @keyframes slowFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
         .curator-img-float { animation:slowFloat 8s ease-in-out infinite; }
-        .curator-reveal { opacity:0; transform:translateY(32px); transition:all .9s cubic-bezier(.16,1,.3,1); }
-        .curator-active .curator-reveal { opacity:1; transform:translateY(0); }
+        .curator-reveal { opacity:0;transform:translateY(32px);transition:all .9s cubic-bezier(.16,1,.3,1); }
+        .curator-active .curator-reveal { opacity:1;transform:translateY(0); }
 
-        /* ── PROCESS CARD ── */
-        .process-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius:1.5rem; padding:2rem; transition:all .4s; position:relative; overflow:hidden; }
-        .process-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(59,130,246,.06),transparent); opacity:0; transition:opacity .4s; }
-        .process-card:hover { transform:translateY(-6px); border-color:rgba(59,130,246,.3); box-shadow:0 20px 40px -10px rgba(2,6,23,.6); }
+        /* ── PROCESS CARD — FIXED ── */
+        .process-card {
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(255,255,255,.07);
+            border-radius:1.5rem;
+            padding:1.75rem 1.5rem;
+            transition:all .4s;
+            position:relative;
+            overflow:hidden;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            text-align:center;
+            /* No min-width or fixed width — let grid control it */
+            width:100%;
+        }
+        .process-card::before { content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(59,130,246,.06),transparent);opacity:0;transition:opacity .4s; }
+        .process-card:hover { transform:translateY(-6px);border-color:rgba(59,130,246,.3);box-shadow:0 20px 40px -10px rgba(2,6,23,.6); }
         .process-card:hover::before { opacity:1; }
+        /* Process card body text — ALWAYS wrap */
+        .process-card-body {
+            font-size:0.75rem;
+            color:#94a3b8;
+            line-height:1.6;
+            text-align:center;
+            word-break:break-word;
+            white-space:normal;
+            overflow-wrap:break-word;
+            width:100%;
+        }
 
         /* ── FEATURE CARDS (dark) ── */
-        .feat-card { background:linear-gradient(180deg,rgba(30,41,59,.5),rgba(15,23,42,.8)); border:1px solid rgba(255,255,255,.05); border-radius:2rem; transition:all .5s cubic-bezier(.4,0,.2,1); position:relative; overflow:hidden; }
-        .feat-card::after { content:''; position:absolute; inset:0; background:radial-gradient(circle at top right,rgba(59,130,246,.12),transparent 60%); opacity:0; transition:opacity .5s; }
+        .feat-card { background:linear-gradient(180deg,rgba(30,41,59,.5),rgba(15,23,42,.8));border:1px solid rgba(255,255,255,.05);border-radius:2rem;transition:all .5s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden; }
+        .feat-card::after { content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(59,130,246,.12),transparent 60%);opacity:0;transition:opacity .5s; }
         .feat-card:hover::after { opacity:1; }
-        .feat-card:hover { transform:translateY(-6px); border-color:rgba(59,130,246,.3); box-shadow:0 20px 40px -15px rgba(2,6,23,.8); }
+        .feat-card:hover { transform:translateY(-6px);border-color:rgba(59,130,246,.3);box-shadow:0 20px 40px -15px rgba(2,6,23,.8); }
 
         /* ── CAR CARDS ── */
         .car-card { transition:all .4s cubic-bezier(.4,0,.2,1); }
-        .car-card:hover { transform:translateY(-4px); box-shadow:0 20px 40px -12px rgba(0,0,0,.15); }
-        .snap-scroll-container { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:1.25rem; padding-bottom:1rem; }
+        .car-card:hover { transform:translateY(-4px);box-shadow:0 20px 40px -12px rgba(0,0,0,.15); }
+        .snap-scroll-container { display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:1.25rem;padding-bottom:1rem; }
         .snap-scroll-container::-webkit-scrollbar { display:none; }
-        .car-card-snap { flex:0 0 82vw; scroll-snap-align:center; }
+        .car-card-snap { flex:0 0 82vw;scroll-snap-align:center; }
         @media(min-width:640px) { .car-card-snap { flex:0 0 340px; } }
         @media(min-width:768px) { .car-card-snap { flex:0 0 360px; } }
 
         /* ── WA BUTTON ── */
         @keyframes waPulse { 0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.5)} 60%{box-shadow:0 0 0 10px rgba(37,211,102,0)} }
-        .wa-btn { background:linear-gradient(135deg,#25d366,#128c7e); border-radius:1rem; transition:all .3s; animation:waPulse 2.5s ease-out infinite; }
-        .wa-btn:hover { transform:scale(1.03); box-shadow:0 8px 25px -5px rgba(37,211,102,.5); animation:none; }
+        .wa-btn { background:linear-gradient(135deg,#25d366,#128c7e);border-radius:1rem;transition:all .3s;animation:waPulse 2.5s ease-out infinite; }
+        .wa-btn:hover { transform:scale(1.03);box-shadow:0 8px 25px -5px rgba(37,211,102,.5);animation:none; }
         .wa-btn:active { transform:scale(.97); }
 
         /* ── FILTER PILLS ── */
-        .filter-btn { padding:.5rem 1.25rem; border-radius:9999px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; background:#fff; color:#475569; border:1px solid #e2e8f0; transition:all .25s; white-space:nowrap; }
-        .filter-btn.active, .filter-btn:hover { background:#020617; color:#fff; border-color:#020617; }
+        .filter-btn { padding:.5rem 1.25rem;border-radius:9999px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;background:#fff;color:#475569;border:1px solid #e2e8f0;transition:all .25s;white-space:nowrap; }
+        .filter-btn.active, .filter-btn:hover { background:#020617;color:#fff;border-color:#020617; }
 
         /* ── FINANCE MARQUEE ── */
         @keyframes fin-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-        .fin-track { display:flex; width:max-content; animation:fin-scroll 35s linear infinite; }
+        .fin-track { display:flex;width:max-content;animation:fin-scroll 35s linear infinite; }
         .fin-track:hover { animation-play-state:paused; }
-        .fin-wrap { overflow:hidden; position:relative; }
-        .fin-wrap::before, .fin-wrap::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; pointer-events:none; }
-        .fin-wrap::before { left:0; background:linear-gradient(to right,#fff,transparent); }
-        .fin-wrap::after  { right:0; background:linear-gradient(to left,#fff,transparent); }
+        .fin-wrap { overflow:hidden;position:relative; }
+        .fin-wrap::before, .fin-wrap::after { content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none; }
+        .fin-wrap::before { left:0;background:linear-gradient(to right,#fff,transparent); }
+        .fin-wrap::after { right:0;background:linear-gradient(to left,#fff,transparent); }
 
         /* ── CONCIERGE CARDS ── */
-        .concierge-card { background:linear-gradient(135deg,#f8fafc,#f1f5f9); border:1px solid #e2e8f0; border-radius:1.5rem; padding:2rem; position:relative; overflow:hidden; transition:all .4s; }
-        .concierge-card::before { content:''; position:absolute; top:-40px; right:-40px; width:100px; height:100px; border-radius:50%; opacity:.06; transition:all .4s; }
-        .concierge-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px -12px rgba(0,0,0,.1); border-color:#cbd5e1; }
+        .concierge-card { background:linear-gradient(135deg,#f8fafc,#f1f5f9);border:1px solid #e2e8f0;border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;transition:all .4s;display:flex;flex-direction:column;align-items:center;text-align:center; }
+        .concierge-card::before { content:'';position:absolute;top:-40px;right:-40px;width:100px;height:100px;border-radius:50%;opacity:.06;transition:all .4s; }
+        .concierge-card:hover { transform:translateY(-4px);box-shadow:0 16px 40px -12px rgba(0,0,0,.1);border-color:#cbd5e1; }
 
         /* ── LEGACY TIMELINE ── */
-        .timeline-item { position:relative; padding-left:3rem; }
-        .timeline-item::before { content:''; position:absolute; left:.9rem; top:2.5rem; bottom:-1rem; width:2px; background:linear-gradient(to bottom,#2563eb,transparent); }
+        .timeline-item { position:relative;padding-left:3rem; }
+        .timeline-item::before { content:'';position:absolute;left:.9rem;top:2.5rem;bottom:-1rem;width:2px;background:linear-gradient(to bottom,#2563eb,transparent); }
         .timeline-item:last-child::before { display:none; }
 
         /* ── NETWORK FLAGS ── */
-        .flag-item { display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+        .flags-row { display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:center;align-items:center;gap:clamp(8px,2vw,24px);width:100%;overflow:hidden; }
+        .flag-item { display:flex;flex-direction:column;align-items:center;gap:clamp(2px,0.5vw,6px);flex-shrink:1;min-width:0; }
+        .flag-img { width:clamp(28px,5vw,52px);height:clamp(28px,5vw,52px);border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.15);transition:all 0.3s;display:block; }
+        .flag-label { font-size:clamp(5px,1.1vw,9px);color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;text-align:center; }
 
         /* ── MOBILE NAV ── */
         #mobile-menu { display:none; }
         #mobile-menu.open { display:flex; }
+
+        /* ── WEDDING NAV ── */
+        @keyframes weddingBreath { 0%,100%{box-shadow:0 0 0 0 rgba(244,114,182,0),0 2px 8px rgba(190,24,93,0.3)} 50%{box-shadow:0 0 12px 3px rgba(244,114,182,0.25),0 2px 12px rgba(190,24,93,0.4)} }
+        .wedding-nav-btn { background:linear-gradient(135deg,#9f1239,#be185d,#db2777);border-radius:0.75rem;border:1px solid rgba(244,114,182,0.35);animation:weddingBreath 2.5s ease-in-out infinite;position:relative;overflow:hidden;transition:all 0.25s; }
+        .wedding-nav-btn::after { content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.14) 0%,transparent 60%);pointer-events:none; }
+        .wedding-nav-btn:hover { transform:scale(1.04);box-shadow:0 4px 16px rgba(190,24,93,0.5);animation:none; }
+
+        /* ── SERVICES ── */
+        .service-card-hover:hover { transform:translateY(-6px);box-shadow:0 20px 40px -10px rgba(0,0,0,.15); }
+
+        /* ── CERTIFIED ── */
+        @keyframes certRotate { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        @keyframes certPulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,160,23,.5)} 50%{box-shadow:0 0 40px 12px rgba(212,160,23,.15)} }
+        .cert-shield { animation:certPulse 3s ease-in-out infinite; }
+        @keyframes starSpin { 0%{transform:rotate(0deg) scale(1)} 50%{transform:rotate(180deg) scale(1.1)} 100%{transform:rotate(360deg) scale(1)} }
+        .star-anim { animation:starSpin 4s linear infinite; }
+
+        /* ── MAP ── */
+        .map-info-card { background:linear-gradient(135deg,rgba(15,23,42,0.98),rgba(2,6,23,0.95));border:1px solid rgba(212,160,23,0.3); }
+
+        /* ========================================================
+           SCROLL ANIMATION SYSTEM
+           ======================================================== */
+
+        /* Base hidden state */
+        [data-scroll] {
+            opacity: 0;
+            transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+            transition-property: opacity, transform, filter;
+            will-change: opacity, transform;
+        }
+        [data-scroll].in-view { opacity: 1 !important; transform: none !important; filter: none !important; }
+
+        /* Slide up (default) */
+        [data-scroll="fade-up"] { transform: translateY(40px); transition-duration: 0.7s; }
+        /* Slide from left */
+        [data-scroll="fade-left"] { transform: translateX(-60px); transition-duration: 0.8s; }
+        /* Slide from right */
+        [data-scroll="fade-right"] { transform: translateX(60px); transition-duration: 0.8s; }
+        /* Scale up */
+        [data-scroll="scale-up"] { transform: scale(0.85); transition-duration: 0.6s; }
+        /* Flip in from bottom */
+        [data-scroll="flip"] { transform: perspective(800px) rotateX(20deg) translateY(30px); transition-duration: 0.9s; }
+        /* Slide down from top */
+        [data-scroll="fade-down"] { transform: translateY(-40px); transition-duration: 0.7s; }
+        /* Zoom + blur */
+        [data-scroll="zoom-blur"] { transform: scale(0.9); filter: blur(8px); transition-duration: 0.8s; }
+        /* Rotate in */
+        [data-scroll="rotate-in"] { transform: rotate(-8deg) scale(0.9); transition-duration: 0.7s; }
+        /* Skew in */
+        [data-scroll="skew-in"] { transform: skewY(3deg) translateY(30px); transition-duration: 0.8s; }
+        /* Float (for badges/pills) */
+        [data-scroll="float"] { transform: translateY(20px) scale(0.95); transition-duration: 0.5s; }
+
+        /* Stagger delays */
+        [data-delay="100"] { transition-delay: 0.1s; }
+        [data-delay="150"] { transition-delay: 0.15s; }
+        [data-delay="200"] { transition-delay: 0.2s; }
+        [data-delay="250"] { transition-delay: 0.25s; }
+        [data-delay="300"] { transition-delay: 0.3s; }
+        [data-delay="350"] { transition-delay: 0.35s; }
+        [data-delay="400"] { transition-delay: 0.4s; }
+        [data-delay="500"] { transition-delay: 0.5s; }
+        [data-delay="600"] { transition-delay: 0.6s; }
+        [data-delay="700"] { transition-delay: 0.7s; }
+
+        /* ========================================================
+           ROAD ANIMATION — FULLY REDESIGNED
+           ======================================================== */
+        .road-section {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(180deg, #1a2332 0%, #0d1520 50%, #1a2332 100%);
+            overflow: hidden;
+        }
+        /* Road surface */
+        .road-surface {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            transform: translateY(-50%);
+            background: linear-gradient(180deg, #2d3748 0%, #1a202c 50%, #2d3748 100%);
+            border-top: 2px solid #4a5568;
+            border-bottom: 2px solid #4a5568;
+        }
+        /* Center dashed line */
+        .road-center-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 200%;
+            height: 3px;
+            transform: translateY(-50%);
+            background: repeating-linear-gradient(
+                90deg,
+                #f5c842 0px,
+                #f5c842 40px,
+                transparent 40px,
+                transparent 80px
+            );
+            animation: roadLineMove 0.8s linear infinite;
+        }
+        @keyframes roadLineMove {
+            from { transform: translateY(-50%) translateX(0); }
+            to   { transform: translateY(-50%) translateX(-80px); }
+        }
+        /* Edge lines */
+        .road-edge-top {
+            position: absolute;
+            top: calc(50% - 30px);
+            left: 0;
+            width: 200%;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(255,255,255,0.6) 0px,
+                rgba(255,255,255,0.6) 20px,
+                transparent 20px,
+                transparent 40px
+            );
+            animation: roadLineMove 0.6s linear infinite;
+        }
+        .road-edge-bottom {
+            position: absolute;
+            top: calc(50% + 28px);
+            left: 0;
+            width: 200%;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(255,255,255,0.6) 0px,
+                rgba(255,255,255,0.6) 20px,
+                transparent 20px,
+                transparent 40px
+            );
+            animation: roadLineMove 0.6s linear infinite;
+        }
+        /* Cars moving LEFT to RIGHT (correct direction) */
+        .road-car {
+            position: absolute;
+            top: 50%;
+            font-size: 26px;
+            line-height: 1;
+            animation: carDriveLTR linear infinite;
+            /* Cars face right naturally as emoji — correct direction */
+        }
+        /* Upper lane — cars go left to right */
+        .road-car.lane-top {
+            margin-top: -32px;
+        }
+        /* Lower lane — cars also go left to right, slightly offset */
+        .road-car.lane-bottom {
+            margin-top: 8px;
+        }
+        @keyframes carDriveLTR {
+            0%   { transform: translateX(-120px) scaleX(-1); opacity: 0; }
+            5%   { opacity: 1; }
+            95%  { opacity: 1; }
+            100% { transform: translateX(calc(100vw + 120px)) scaleX(-1); opacity: 0; }
+        }
+
+        /* Speed lines behind cars */
+        .road-speed-line {
+            position: absolute;
+            height: 2px;
+            border-radius: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: speedLineLTR linear infinite;
+            top: 50%;
+        }
+        @keyframes speedLineLTR {
+            from { transform: translateX(-100%); }
+            to   { transform: translateX(110vw); }
+        }
+
+        /* Ambient road glow */
+        .road-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(59,130,246,0.06), transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Ground under road */
+        .road-ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 22px;
+            background: linear-gradient(180deg, #111827 0%, #0d1520 100%);
+        }
+        .road-sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 22px;
+            background: linear-gradient(180deg, #0d1520 0%, #111827 100%);
+        }
     </style>
 </head>
 
@@ -169,22 +402,38 @@
 <main id="app" class="min-h-screen"></main>
 <footer id="footer-container"></footer>
 
-<!-- FLOATING WA BUTTON (always visible) -->
-<a id="float-wa" href="#" target="_blank" class="fixed bottom-5 right-5 z-[200] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl" style="background:linear-gradient(135deg,#25d366,#128c7e);animation:waPulse 2.5s ease-out infinite;" title="Chat on WhatsApp">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-</a>
-
 <script>
+// ================================================================
+// SCROLL ANIMATION ENGINE
+// ================================================================
+function initScrollAnimations() {
+    const elements = document.querySelectorAll('[data-scroll]');
+    if (!elements.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                // Don't unobserve — keeps animation if scrolled away and back
+            }
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    elements.forEach(el => observer.observe(el));
+}
+
+// Re-run after every navigation
+function runScrollAnimations() {
+    setTimeout(initScrollAnimations, 100);
+}
+
 // ================================================================
 // CONFIG INIT
 // ================================================================
-function initFloatWA() {
-    const wa = document.getElementById('float-wa');
-    if(wa && window.SITE_CONFIG) {
-        const msg = encodeURIComponent("Hi Solo So Auto! I'd like to inquire about your vehicles and financing options 🚗");
-        wa.href = `https://wa.me/${window.SITE_CONFIG.brand.whatsapp}?text=${msg}`;
-    }
-}
+function initFloatWA() { /* removed */ }
 
 // ================================================================
 // SUPABASE
@@ -196,6 +445,8 @@ const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 const DB = {
     inventory: { all:[], inStock:[], importable:[] },
     weddingFleet: [],
+    localCars: [],
+    clientImages: [],
     heroImages: [
         "https://i.ibb.co/zhWCY3t3/Best-Cars.png","https://i.ibb.co/gMwFSm5d/Best-Cars2.png",
         "https://i.ibb.co/gM0CFQbX/Best-Cars7.png","https://i.ibb.co/GfLm2Pv5/Best-Cars8.png"
@@ -209,6 +460,14 @@ async function loadData() {
         const { data:wedding } = await supabaseClient.from('wedding_fleet').select('*');
         if(wedding) DB.weddingFleet=wedding;
     } catch(e){ console.error("Data error:",e); }
+    try {
+        const r = await fetch('images/manifest.json');
+        if(r.ok){ const files=await r.json(); DB.localCars=files.map(f=>({image:'images/'+f,local:true})); }
+    } catch(e){ console.warn("Local images manifest not found:",e); }
+    try {
+        const r = await fetch('images/clientimages/manifest.json');
+        if(r.ok){ const files=await r.json(); DB.clientImages=files.map(f=>'images/clientimages/'+f); }
+    } catch(e){ console.warn("Client images manifest not found:",e); }
 }
 
 function renderComponent(html) {
@@ -219,12 +478,9 @@ function renderComponent(html) {
     return {html:d.innerHTML, scripts};
 }
 
-// ================================================================
-// WA MESSAGE BUILDER
-// ================================================================
 function buildWAMessage(car) {
     return encodeURIComponent(
-        `🚗 Hi Solo So Auto!\n\nI'm interested in the *${car.name}* (${car.year}).\n\n` +
+        `🚗 Hi Solo So!\n\nI'm interested in the *${car.name}* (${car.year}).\n\n` +
         `• Condition: ${car.condition || 'Unregistered'}\n` +
         `• Fuel: ${car.fuel_type || 'Petrol'}\n\n` +
         `Could you please share the price and available financing options? 🙏\n\n` +
@@ -242,10 +498,8 @@ window.shareCar = function(car) {
     modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;';
     modal.innerHTML = \`<div style="max-width:560px;width:100%;">
         <div id="flyer-canvas" style="width:100%;aspect-ratio:1/1;background:linear-gradient(135deg,#020617 0%,#0f172a 45%,#1e3a5f 100%);border-radius:20px;overflow:hidden;position:relative;display:flex;flex-direction:column;font-family:sans-serif;">
-            <div style="position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:rgba(37,99,235,.2);border-radius:50%;filter:blur(50px);"></div>
-            <div style="position:absolute;bottom:-50px;left:-50px;width:180px;height:180px;background:rgba(212,160,23,.18);border-radius:50%;filter:blur(50px);"></div>
             <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;position:relative;z-index:2;">
-                <div style="color:#fff;font-weight:900;font-size:15px;letter-spacing:-.02em;">SOLO<span style="color:#3b82f6;">SO</span> AUTO</div>
+                <div style="color:#fff;font-weight:900;font-size:15px;letter-spacing:-.02em;">SOLO<span style="color:#3b82f6;">SO</span></div>
                 <div style="background:linear-gradient(135deg,#d4a017,#f5c842);color:#1a0a00;font-size:7px;font-weight:900;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.1em;">AVAILABLE NOW</div>
             </div>
             <div style="flex:1;position:relative;overflow:hidden;min-height:0;">
@@ -269,7 +523,6 @@ window.shareCar = function(car) {
             </div>
         </div>
         <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-            <button id="flyer-share-fb" style="background:#1877f2;color:#fff;border:none;padding:10px 18px;border-radius:100px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;display:flex;align-items:center;gap:6px;"><svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook</button>
             <button id="flyer-share-wa" style="background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;padding:10px 18px;border-radius:100px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;">📱 WhatsApp</button>
             <button id="flyer-close" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.15);padding:10px 18px;border-radius:100px;font-size:11px;font-weight:800;cursor:pointer;">✕ Close</button>
         </div>
@@ -278,95 +531,50 @@ window.shareCar = function(car) {
     document.body.appendChild(modal);
     document.getElementById('flyer-close').onclick = () => modal.remove();
     modal.addEventListener('click', e => { if(e.target===modal) modal.remove(); });
-    const flyerText = '🚗 ' + car.name + ' (' + car.year + ')\\n⭐ ' + (car.condition||'Unregistered') + ' · ' + (car.fuel_type||'Petrol') + '\\n\\n🔥 Available Now at Solo So Auto\\n💬 Inquire for price — best rates in Sri Lanka!\\n📞 +94 77 530 0000\\n📍 Colombo-Puttalam Rd, Marawila\\n\\n🏆 Lowest Down Payment · Best Monthly Rates!';
-    document.getElementById('flyer-share-fb').onclick = () => window.open('https://www.facebook.com/sharer/sharer.php?u=https://solosoauto.com&quote='+encodeURIComponent(flyerText),'_blank','width=600,height=400');
+    const flyerText = '🚗 ' + car.name + ' (' + car.year + ')\\n⭐ ' + (car.condition||'Unregistered') + ' · ' + (car.fuel_type||'Petrol') + '\\n\\n🔥 Available Now at Solo So\\n💬 Inquire for price — best rates in Sri Lanka!\\n📞 +94 77 530 0000\\n📍 Colombo-Puttalam Rd, Marawila\\n\\n🏆 Lowest Down Payment · Best Monthly Rates!';
     document.getElementById('flyer-share-wa').onclick = () => window.open('https://wa.me/?text='+encodeURIComponent(flyerText),'_blank');
 };
 <\/script>`;
 
 // ================================================================
-// NAV BAR — MOBILE HAMBURGER + DESKTOP FULL
+// NAV BAR
 // ================================================================
 const NavBar = () => {
     const C = window.SITE_CONFIG;
     return `
 <header id="main-nav" class="fixed top-0 w-full z-[100] bg-white/95 backdrop-blur-lg border-b border-slate-200/80" style="height:64px;">
     <div class="w-full h-full px-3 md:px-8 flex items-center justify-between gap-2">
-        <!-- Logo -->
         <a href="#" onclick="App.navigate('home')" class="flex-shrink-0">
             <img src="${C.brand.logoSrc}" alt="${C.brand.nameShort}" class="h-7 w-auto object-contain">
         </a>
-
-        <!-- ALWAYS VISIBLE CORE NAV -->
-        <nav class="flex items-center gap-1 sm:gap-1.5 flex-1 justify-center">
-            <button onclick="App.navigate('home')" class="hidden sm:flex px-2.5 py-1.5 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-all whitespace-nowrap">${C.nav.home}</button>
-
-            <!-- Cars ALWAYS visible -->
-            <button onclick="App.navigate('stock')" class="flex items-center gap-1 px-3 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all whitespace-nowrap">
-                <svg class="h-3 w-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="m16 8 5 3v5h-5V8Z"/></svg>
-                ${C.nav.cars}
-            </button>
-
-            <!-- Wedding ALWAYS visible -->
-            <button onclick="App.navigate('wedding')" class="flex items-center gap-1 px-3 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white bg-gradient-to-r from-pink-500 to-rose-500 shadow-sm shadow-rose-400/30 hover:opacity-90 transition-all whitespace-nowrap">
-                <span class="animate-pulse">${C.nav.weddingIcon}</span>
-                <span class="hidden xs:inline">${C.nav.wedding}</span>
-                <span class="inline sm:hidden" aria-hidden="true">💒</span>
-            </button>
-
-            <!-- Gold anniversary — md+ only -->
-            <div class="hidden md:flex px-2.5 py-1.5 rounded-full gold-bg shadow-sm items-center gap-1 flex-shrink-0">
-                <span class="text-[8px] font-black text-amber-900 uppercase tracking-wider whitespace-nowrap">${C.anniversary.years} YRS · ${C.anniversary.range}</span>
+        <nav class="hidden md:flex items-center gap-2 flex-1 justify-start pl-6">
+            <button onclick="App.navigate('home')" class="px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-all whitespace-nowrap">${C.nav.home}</button>
+            <div class="flex px-3 py-1.5 rounded-full gold-bg shadow-sm items-center gap-1 flex-shrink-0">
+                <span class="text-[8px] font-black text-amber-900 uppercase tracking-wider whitespace-nowrap">🏆 ${C.anniversary.years} YRS · ${C.anniversary.range}</span>
             </div>
         </nav>
-
-        <!-- Right: WA + Burger -->
         <div class="flex items-center gap-1.5 flex-shrink-0">
-            <a href="https://wa.me/${C.brand.whatsapp}?text=${encodeURIComponent('Hi Solo So Auto! I would like to inquire about your vehicles 🚗')}" target="_blank"
+            <button onclick="App.navigate('stock')" class="flex items-center gap-1.5 px-3 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all whitespace-nowrap">
+                <svg class="h-3.5 w-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                ${C.nav.cars}
+            </button>
+            <button onclick="App.navigate('wedding')" class="wedding-nav-btn flex items-center gap-1.5 px-3 py-2 text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-white whitespace-nowrap">
+                <svg class="h-3.5 w-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+                <span>${C.nav.wedding}</span>
+            </button>
+            <div class="w-px h-6 bg-slate-200 hidden sm:block"></div>
+            <a href="https://wa.me/${C.brand.whatsapp}?text=${encodeURIComponent('Hi Solo So! I would like to inquire about your vehicles 🚗')}" target="_blank"
                class="wa-btn flex items-center gap-1.5 px-2.5 sm:px-3 py-2 text-white text-[9px] md:text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
                 <svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 <span class="hidden sm:inline">WhatsApp</span>
             </a>
-            <button id="burger-btn" class="w-8 h-8 rounded-lg bg-slate-100 flex flex-col items-center justify-center gap-1 flex-shrink-0" onclick="toggleMenu()">
-                <span class="w-4 h-0.5 bg-slate-700 rounded-full transition-all" id="b1"></span>
-                <span class="w-4 h-0.5 bg-slate-700 rounded-full transition-all" id="b2"></span>
-                <span class="w-4 h-0.5 bg-slate-700 rounded-full transition-all" id="b3"></span>
-            </button>
         </div>
     </div>
-</header>
-
-<!-- MOBILE MENU DROPDOWN -->
-<div id="mobile-menu" class="fixed top-16 left-0 right-0 z-[99] bg-white border-b border-slate-200 px-4 py-4 flex-col gap-2 shadow-xl">
-    <button onclick="App.navigate('home');toggleMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-2">
-        <span>🏠</span> ${C.nav.home}
-    </button>
-    <button onclick="App.navigate('stock');toggleMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 transition-all flex items-center gap-2">
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="m16 8 5 3v5h-5V8Z"/></svg>
-        ${C.nav.cars}
-    </button>
-    <button onclick="App.navigate('wedding');toggleMenu()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-pink-500 to-rose-500 transition-all flex items-center gap-2">
-        <span>${C.nav.weddingIcon}</span> ${C.nav.wedding}
-    </button>
-    <div class="px-4 py-2.5 rounded-xl gold-bg flex items-center gap-2">
-        <span class="text-sm">🏆</span>
-        <span class="text-[11px] font-black text-amber-900 uppercase tracking-wider">${C.anniversary.years} Years · ${C.anniversary.range} · ${C.anniversary.tagline}</span>
-    </div>
-</div>
-
-<script>
-function toggleMenu(){
-    const m=document.getElementById('mobile-menu');
-    const b1=document.getElementById('b1'),b2=document.getElementById('b2'),b3=document.getElementById('b3');
-    const open=m.classList.contains('open');
-    if(open){m.classList.remove('open');b1.style.transform='';b3.style.transform='';b2.style.opacity='1';}
-    else{m.classList.add('open');b1.style.transform='rotate(45deg) translate(3px,3px)';b3.style.transform='rotate(-45deg) translate(3px,-3px)';b2.style.opacity='0';}
-}
-<\/script>`;
+</header>`;
 };
 
 // ================================================================
-// HERO SECTION — FULLY MOBILE RESPONSIVE
+// HERO SECTION
 // ================================================================
 const HeroSection = () => {
     const C = window.SITE_CONFIG;
@@ -376,83 +584,50 @@ const HeroSection = () => {
 
     return `
 <section class="relative w-full overflow-hidden bg-lux-900" style="min-height:calc(100svh - 64px);margin-top:64px;">
-
-    <!-- BG Images -->
     <div id="hero-slides" class="absolute inset-0 z-0 md:hidden">
         ${(DB.heroImages||[]).map((img,i)=>`<div class="hero-slide ${i===0?'active':''}" style="background-image:url('${img}')"></div>`).join('')}
     </div>
     <img src="https://images.stockcake.com/public/4/c/a/4ca35e64-64cb-4395-b5ca-32b2b7ae3fef_large/sunset-beach-drive-stockcake.jpg" class="desktop-hero" alt="">
     <div class="absolute inset-0 bg-gradient-to-t from-lux-900 via-lux-900/60 to-lux-900/20 z-10"></div>
 
-    <!-- CONTENT WRAPPER -->
-    <div class="relative z-20 flex flex-col justify-end h-full px-5 md:px-12" style="padding-bottom:70px;min-height:calc(100svh - 64px);">
-
-        <!-- TOP ROW: Badge + Services (stacked on mobile) -->
-        <div class="flex flex-col gap-3 mb-6 mt-8">
-
-            <!-- Badge row -->
-            <div class="flex items-center gap-2 flex-wrap">
-                <span class="inline-flex items-center px-3 py-1.5 border border-white/25 rounded-full bg-white/8 backdrop-blur-md text-[9px] font-bold uppercase tracking-ultra text-white/90">
-                    ${H.badgeText}
-                </span>
-                <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full gold-bg text-[9px] font-black text-amber-900 uppercase tracking-wider shadow-md">
-                    🏆 ${C.anniversary.years} YRS · ${C.anniversary.range}
-                </span>
-            </div>
-
-            <!-- Services row — fully responsive pills -->
-            <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-[8px] font-bold uppercase tracking-ultra text-slate-400">${H.servicesLabel}:</span>
-                ${H.services.map(s=>`
-                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/12 backdrop-blur-sm border border-white/20 text-white">
-                    <span class="text-sm leading-none">${s.icon}</span>
-                    <span class="text-[9px] font-black uppercase tracking-wider">${s.text}</span>
-                </div>`).join('')}
+    <div class="relative z-20 flex flex-col items-center justify-end h-full px-5 md:px-12 text-center" style="padding-bottom:70px;min-height:calc(100svh - 64px);">
+        <div class="flex flex-col items-center gap-3 mb-6 mt-8">
+            <div class="flex items-center justify-center gap-2 flex-wrap">
+                <span class="inline-flex items-center px-3 py-1.5 border border-white/25 rounded-full bg-white/8 backdrop-blur-md text-[9px] font-bold uppercase tracking-ultra text-white/90">${H.badgeText}</span>
+                <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full gold-bg text-[9px] font-black text-amber-900 uppercase tracking-wider shadow-md">🏆 ${C.anniversary.years} YRS · ${C.anniversary.range}</span>
             </div>
         </div>
 
-        <!-- MAIN HEADLINE -->
-        <div class="mb-5">
-            <h1 class="font-heading font-black text-white leading-[0.88] tracking-tighter reveal-fade" style="font-size:clamp(2.8rem,12vw,7rem);">
-                ${H.heading1} <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-500">${H.heading2}</span><br>${H.heading3}
-            </h1>
-            <p class="text-slate-300 mt-3 font-light reveal-fade anim-float" style="font-size:clamp(.9rem,3vw,1.2rem);transition-delay:.1s;">
-                ${H.subheading} <span class="font-bold text-blue-400">${H.subHighlight1}</span> ${H.subMid} <span class="font-bold text-blue-400">${H.subHighlight2}</span>${H.subEnd}
-            </p>
-        </div>
-
-        <!-- PROMO BANNER — responsive, never hidden -->
-        <div class="mb-6 reveal-fade" style="transition-delay:.15s;">
-            <div class="gradient-flow-bg promo-pulse rounded-2xl p-4 border border-red-400/30 shadow-2xl shadow-red-900/30 max-w-lg">
-                <div class="flex items-start gap-3 flex-wrap">
-                    <div class="flex-1 min-w-0">
-                        <div class="flash-badge inline-flex items-center gap-1 mb-2 px-2.5 py-1 bg-yellow-400 text-red-900 rounded-full text-[8px] font-black uppercase tracking-widest">${H.promoBadge}</div>
-                        <div class="text-white/90 text-[10px] font-bold uppercase tracking-wider">${H.promoHeadline}</div>
-                        <div class="font-heading font-black text-yellow-300 leading-none my-1" style="font-size:clamp(1.6rem,7vw,2.5rem);">${H.promoPrice}</div>
-                        <div class="text-red-100/80 text-[9px] font-semibold uppercase tracking-wide">${H.promoSub}</div>
+        <div class="mb-6 reveal-fade w-full flex justify-center" style="transition-delay:.15s;">
+            <div class="gradient-flow-bg promo-pulse rounded-2xl p-4 border border-red-400/30 shadow-2xl shadow-red-900/30 w-full" style="max-width:420px;">
+                <div class="flash-badge inline-flex items-center gap-1 mb-2 px-2.5 py-1 bg-yellow-400 text-red-900 rounded-full text-[8px] font-black uppercase tracking-widest"><span class="sinhala-sm">${H.promoBadge}</span></div>
+                <div class="text-white/90 text-xs font-bold uppercase tracking-wider mb-1 sinhala-sm">${H.promoHeadline}</div>
+                <div class="font-heading font-black text-yellow-300 leading-none mb-3 sinhala" style="font-size:clamp(1.4rem,6vw,2rem);">${H.promoPrice}</div>
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center justify-center gap-2 bg-black/20 rounded-lg px-3 py-2">
+                        <span class="text-base leading-none flex-shrink-0">🏆</span>
+                        <span class="text-yellow-200 font-black uppercase tracking-wide text-xs leading-tight sinhala-sm">${H.downPaymentText.replace('🏆 ','')}</span>
                     </div>
-                    <div class="flex flex-col gap-1.5 flex-shrink-0">
-                        <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400 flex-shrink-0"></span><span class="text-yellow-200 text-[8px] font-bold uppercase tracking-wider">${H.downPaymentText}</span></div>
-                        <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-yellow-400 flex-shrink-0"></span><span class="text-yellow-200 text-[8px] font-bold uppercase tracking-wider">${H.monthlyRateText}</span></div>
+                    <div class="flex items-center justify-center gap-2 bg-black/20 rounded-lg px-3 py-2">
+                        <span class="text-base leading-none flex-shrink-0">🔥</span>
+                        <span class="text-yellow-200 font-black uppercase tracking-wide text-xs leading-tight sinhala-sm">${H.monthlyRateText}</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- CTA BUTTONS -->
-        <div class="flex gap-3 flex-wrap reveal-fade" style="transition-delay:.2s;">
-            <a href="https://wa.me/${C.brand.whatsapp}?text=${encodeURIComponent('Hi Solo So Auto! I would like to inquire about a vehicle 🚗')}" target="_blank"
+        <div class="flex gap-3 flex-wrap justify-center reveal-fade" style="transition-delay:.2s;">
+            <a href="https://wa.me/${C.brand.whatsapp}?text=${encodeURIComponent('Hi Solo So! I would like to inquire about a vehicle 🚗')}" target="_blank"
                class="wa-btn flex items-center gap-2 px-6 py-3.5 text-white font-bold text-[10px] uppercase tracking-widest">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 ${H.ctaWhatsapp}
             </a>
             <button onclick="App.navigate('stock')" class="flex items-center gap-2 px-6 py-3.5 rounded-2xl border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all backdrop-blur-sm">
-                ${H.ctaInventory} →
+                <span class="sinhala-sm">${H.ctaInventory}</span> →
             </button>
         </div>
     </div>
 
-    <!-- BRAND MARQUEE -->
     <div class="marquee-wrapper">
         <div class="marquee-content">${logoStrip+logoStrip}</div>
         <div class="absolute inset-0 pointer-events-none" style="-webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent);">
@@ -471,157 +646,311 @@ const HeroSection = () => {
 };
 
 // ================================================================
-// STATS / GLOBAL REACH SECTION
+// SERVICES SECTION
+// ================================================================
+const ServicesSection = () => {
+    const C = window.SITE_CONFIG;
+    const H = C.hero;
+    const serviceDetails = [
+        { icon:'💳', label:'LOANS', title:'ණය පහසුකම්', titleEn:'Vehicle Loans', body:'ශ්‍රී ලංකාවේ ප්‍රමුඛ බැංකු 17+ හා ණය ආයතන හරහා පහසුම ණය.', highlight:'අඩුම පොලිය', highlightEn:'Lowest Interest', color:'from-blue-600 to-blue-800', accent:'#3b82f6', border:'border-blue-500/30', glow:'rgba(59,130,246,0.2)' },
+        { icon:'📄', label:'DRAFTS', title:'ඩ්‍රාෆ්ට් සේවාව', titleEn:'Bank Drafts', body:'ඉක්මන් හා ආරක්ෂිත ඩ්‍රාෆ්ට් සේවාව. ගෙවීම් ඉතා පහසුවෙන්.', highlight:'ඉක්මනින්', highlightEn:'Fast Processing', color:'from-violet-600 to-violet-900', accent:'#7c3aed', border:'border-violet-500/30', glow:'rgba(124,58,237,0.2)' },
+        { icon:'🚗', label:'LEASING', title:'ලීසිං', titleEn:'Vehicle Leasing', body:'ඔබේ ගෙවීම් ධාරිතාවට ගැලපෙන ලීසිං ක්‍රම. ඉතා පහසු වාරික.', highlight:'පහසු වාරික', highlightEn:'Easy Installments', color:'from-emerald-600 to-emerald-900', accent:'#10b981', border:'border-emerald-500/30', glow:'rgba(16,185,129,0.2)' }
+    ];
+
+    return `
+<section class="py-14 md:py-20 bg-lux-900 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-px" style="background:linear-gradient(to right,transparent,#d4a017,transparent)"></div>
+        <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full blur-[120px] opacity-20" style="background:radial-gradient(circle,#3b82f6,transparent)"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px" style="background:linear-gradient(to right,transparent,rgba(255,255,255,0.1),transparent)"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-5 md:px-12 relative z-10">
+        <div class="text-center mb-10">
+            <div data-scroll="float" class="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span class="text-[9px] font-bold uppercase tracking-ultra text-slate-400">${H.servicesLabel}</span>
+            </div>
+            <h2 data-scroll="fade-up" data-delay="100" class="font-heading font-black text-white mb-3 leading-tight" style="font-size:clamp(1.8rem,6vw,3rem);">Finance Made <span class="gold-text">Simple</span></h2>
+            <p data-scroll="fade-up" data-delay="200" class="text-slate-400 text-sm max-w-md mx-auto sinhala-sm">${C.finance.heading}</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8">
+            ${serviceDetails.map((s,i)=>`
+            <div data-scroll="scale-up" data-delay="${100+i*150}" class="service-card-hover relative rounded-[1.75rem] overflow-hidden border ${s.border} transition-all duration-400 cursor-default" style="background:linear-gradient(160deg,rgba(15,23,42,0.9),rgba(2,6,23,0.95));">
+                <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(circle at top left,${s.glow},transparent 70%)"></div>
+                <div class="relative z-10 p-6 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-5 shadow-xl" style="background:linear-gradient(135deg,${s.accent}22,${s.accent}44);border:1px solid ${s.accent}44;">${s.icon}</div>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-3" style="background:${s.accent}22;border:1px solid ${s.accent}44;"><span class="text-[8px] font-black uppercase tracking-widest" style="color:${s.accent};">${s.label}</span></div>
+                    <h3 class="font-heading font-black text-white text-xl mb-1">${s.titleEn}</h3>
+                    <h4 class="sinhala text-base mb-3" style="color:${s.accent};">${s.title}</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-5 sinhala-sm">${s.body}</p>
+                    <div class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl" style="background:${s.accent}15;border:1px solid ${s.accent}30;">
+                        <span class="text-[9px] font-black uppercase tracking-wider" style="color:${s.accent};">✓ ${s.highlightEn}</span>
+                        <span class="w-1 h-1 rounded-full" style="background:${s.accent};opacity:0.5;"></span>
+                        <span class="text-[10px] font-bold sinhala-sm" style="color:${s.accent}cc;">${s.highlight}</span>
+                    </div>
+                </div>
+            </div>`).join('')}
+        </div>
+        <div data-scroll="fade-up" data-delay="200" class="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">
+            <div class="text-center sm:text-left">
+                <p class="text-white font-bold text-sm mb-0.5">${C.finance.partnersCount} Finance Partners Available</p>
+                <p class="text-slate-400 text-xs sinhala-sm">${C.finance.hoverHint.split('.')[0]}.</p>
+            </div>
+            <a href="https://wa.me/${C.brand.whatsapp}?text=${encodeURIComponent('Hi Solo So! I\'d like to know more about financing options 💳')}" target="_blank"
+               class="wa-btn flex items-center gap-2 px-6 py-3 text-white font-bold text-[10px] uppercase tracking-widest flex-shrink-0">
+                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                දැනගන්න / Inquire
+            </a>
+        </div>
+    </div>
+</section>`;
+};
+
+// ================================================================
+// STATS / GLOBAL REACH
 // ================================================================
 const StatsSection = () => {
     const C = window.SITE_CONFIG; const S = C.stats;
-    const flags = S.countries.map(c=>`<div class="flag-item"><img src="https://flagcdn.com/w80/${c.code}.png" alt="${c.name}" class="h-9 w-9 rounded-full object-cover border-2 border-white/15 hover:border-blue-400 hover:scale-110 transition-all duration-300 shadow-md"><span class="text-[7px] text-slate-500 uppercase tracking-wider text-center leading-tight">${c.name.split(' ')[0]}</span></div>`).join('');
+    const flags = S.countries.map(c=>`
+<div class="flag-item" data-scroll="scale-up" data-delay="${100}">
+    <img src="https://flagcdn.com/w80/${c.code}.png" alt="${c.name}" class="flag-img hover:border-blue-400 hover:scale-110 shadow-md">
+    <span class="flag-label">${c.name.split(' ')[0]}</span>
+</div>`).join('');
 
     return `
 <section id="stats-section" class="py-16 md:py-24 bg-lux-900 relative overflow-hidden">
     <div class="absolute top-0 right-0 w-80 h-80 bg-blue-600/8 rounded-full blur-[100px]"></div>
     <div class="absolute bottom-0 left-0 w-80 h-80 bg-indigo-600/5 rounded-full blur-[100px]"></div>
-    <div class="max-w-6xl mx-auto px-5 md:px-12 relative z-10">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <!-- Left -->
-            <div class="anim-entry">
-                <span class="text-blue-400 font-bold text-[9px] uppercase tracking-ultra mb-4 block">${S.sectionLabel}</span>
-                <h2 class="font-heading font-bold text-white mb-5 leading-tight" style="font-size:clamp(2rem,7vw,3.5rem);">
-                    ${S.heading1}<br><span class="text-slate-500">${S.heading2}</span>
-                </h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-6 max-w-md">${S.body}</p>
-                <!-- 10 Year badge -->
-                <div class="inline-flex items-center gap-3 mb-6 p-4 rounded-2xl border gold-border bg-amber-900/10 shadow-lg shadow-amber-900/10">
-                    <div class="text-center"><div class="font-heading font-black text-3xl gold-text">${C.anniversary.years}</div><div class="text-[8px] font-bold uppercase tracking-widest text-amber-400">${C.anniversary.label}</div></div>
-                    <div class="w-px h-8 bg-amber-700/40"></div>
-                    <div><div class="gold-text font-bold text-sm">${C.anniversary.range}</div><div class="text-amber-500/70 text-[9px] uppercase tracking-wider">${C.anniversary.tagline}</div></div>
-                </div>
-                <!-- Flags -->
-                <div class="flex flex-wrap gap-4">${flags}</div>
-            </div>
-            <!-- Right cards -->
-            <div class="grid grid-cols-2 gap-4">
-                <div class="feat-card p-5 md:p-7 flex flex-col justify-between min-h-[200px] group anim-entry col-span-1" style="animation-delay:.1s;">
-                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 mb-4"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-                    <div><div class="font-heading font-black text-white mb-1" style="font-size:clamp(2rem,6vw,3rem);">${S.card1Units}</div><p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">${S.card1Label}</p></div>
-                    <div class="pt-4 border-t border-white/5 mt-2"><span class="text-[8px] font-bold uppercase tracking-widest text-slate-600">${S.card1Since}</span></div>
-                </div>
-                <div class="feat-card p-5 md:p-7 flex flex-col justify-between min-h-[200px] group anim-entry" style="animation-delay:.2s;">
-                    <div class="flex flex-col gap-3 mb-3">
-                        <img src="https://www.sterling.lk/wp-content/uploads/2024/01/logo-14.png" alt="Sterling" class="h-6 w-auto object-contain opacity-80">
-                        <img src="https://i.ibb.co/8gGMjL87/Kobe.png" alt="KOBE" class="h-6 w-auto object-contain opacity-80">
-                    </div>
-                    <div><h3 class="text-base font-heading font-bold text-white mb-1">${S.card2Title}</h3><p class="text-[9px] text-slate-400 uppercase tracking-wider">${S.card2Badge}</p></div>
-                </div>
-                <div class="feat-card p-5 md:p-7 flex flex-col justify-between group anim-entry col-span-2" style="animation-delay:.3s;min-height:120px;">
-                    <div class="flex items-start justify-between gap-4">
-                        <div><h3 class="text-lg md:text-2xl font-heading font-bold text-white mb-1">${S.card3Title}</h3><p class="text-[9px] text-slate-400 uppercase tracking-wider">${S.card3Sub}</p></div>
-                        <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[8px] font-bold uppercase tracking-widest text-slate-400 flex-shrink-0">${S.card3Badge}</span>
-                    </div>
-                </div>
+    <div class="max-w-5xl mx-auto px-5 md:px-12 relative z-10 text-center">
+        <span data-scroll="fade-down" class="text-blue-400 font-bold text-[9px] uppercase tracking-ultra mb-4 block">${S.sectionLabel}</span>
+        <h2 data-scroll="fade-up" data-delay="100" class="font-heading font-bold text-white mb-4 leading-tight" style="font-size:clamp(2rem,7vw,3.5rem);">
+            <span class="sinhala">${S.heading1}</span><br><span class="text-slate-500 sinhala">${S.heading2}</span>
+        </h2>
+        <p data-scroll="fade-up" data-delay="200" class="text-slate-400 text-sm leading-relaxed mb-8 max-w-lg mx-auto sinhala-sm">${S.body}</p>
+        <div data-scroll="zoom-blur" data-delay="100" class="inline-flex items-center gap-3 mb-10 p-4 rounded-2xl border gold-border bg-amber-900/10 shadow-lg shadow-amber-900/10">
+            <div class="text-center"><div class="font-heading font-black text-3xl gold-text">${C.anniversary.years}</div><div class="text-[8px] font-bold uppercase tracking-widest text-amber-400">${C.anniversary.label}</div></div>
+            <div class="w-px h-8 bg-amber-700/40"></div>
+            <div class="text-left"><div class="gold-text font-bold text-sm">${C.anniversary.range}</div><div class="text-amber-500/70 text-[9px] uppercase tracking-wider sinhala-sm">${C.anniversary.tagline}</div></div>
+        </div>
+        <div class="flags-row justify-center">${flags}</div>
+    </div>
+</section>`;
+};
+
+// ================================================================
+// 500+ CARS SOLD — with redesigned road animation
+// ================================================================
+const CarsSoldSection = () => {
+    const C = window.SITE_CONFIG.stats;
+    return `
+<style>
+@keyframes countUp { from{opacity:0;transform:translateY(30px) scale(0.8)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes numberPop { 0%{transform:scale(0.3);opacity:0} 70%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
+.cars-sold-number { animation: numberPop 1s cubic-bezier(.16,1,.3,1) forwards; opacity:0; animation-play-state:paused; }
+@keyframes starBurst { 0%{transform:scale(0) rotate(0deg);opacity:0} 60%{opacity:1} 100%{transform:scale(1) rotate(360deg);opacity:0} }
+.star-particle { position:absolute; animation: starBurst 1.5s ease-out forwards; }
+</style>
+<section id="cars-sold-section" class="pb-0 relative overflow-hidden" style="background:linear-gradient(160deg,#0f172a 0%,#020617 50%,#0f172a 100%);">
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[150px] opacity-20" style="background:radial-gradient(circle,#3b82f6,transparent)"></div>
+        <div class="absolute top-0 right-1/4 w-64 h-64 rounded-full blur-[80px] opacity-15" style="background:radial-gradient(circle,#d4a017,transparent)"></div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-5 md:px-12 relative z-10 text-center pt-16 pb-12">
+        <span data-scroll="fade-down" class="text-blue-400 font-bold text-[9px] uppercase tracking-ultra mb-4 block">සතුටු පාරිභෝගිකයින් · Happy Customers</span>
+
+        <div class="relative inline-block mb-6">
+            <div id="star-container" class="absolute inset-0 pointer-events-none overflow-visible"></div>
+            <div class="cars-sold-number font-heading font-black leading-none text-white" style="font-size:clamp(5rem,20vw,10rem);text-shadow:0 0 80px rgba(59,130,246,0.4);">
+                <span class="text-transparent bg-clip-text" style="background:linear-gradient(135deg,#60a5fa,#fff,#60a5fa);-webkit-background-clip:text;background-clip:text;">500</span><span class="gold-text">+</span>
             </div>
         </div>
+
+        <h2 data-scroll="fade-up" class="font-heading font-black text-white mb-3" style="font-size:clamp(1.4rem,5vw,2.5rem);">
+            <span class="sinhala text-blue-300">${C.card1Label}</span>
+        </h2>
+        <p data-scroll="fade-up" data-delay="100" class="text-slate-400 text-sm mb-8 max-w-sm mx-auto">${C.card1Since} · Each one a trusted relationship</p>
+
+        <div data-scroll="fade-up" data-delay="200" style="display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:center;align-items:center;gap:clamp(6px,2vw,16px);width:100%;overflow:hidden;padding:0 4px;">
+            <div style="display:flex;align-items:center;gap:clamp(4px,1vw,8px);padding:clamp(8px,2vw,12px) clamp(10px,3vw,20px);border-radius:9999px;border:1px solid rgba(59,130,246,0.4);background:rgba(59,130,246,0.12);flex-shrink:1;min-width:0;">
+                <span style="font-size:clamp(14px,3vw,22px);flex-shrink:0;">🌍</span>
+                <span style="color:#93c5fd;font-weight:800;font-size:clamp(9px,2.2vw,15px);white-space:nowrap;">World-Wide Imports</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:clamp(4px,1vw,8px);padding:clamp(8px,2vw,12px) clamp(10px,3vw,20px);border-radius:9999px;border:1px solid rgba(212,160,23,0.4);background:rgba(212,160,23,0.12);flex-shrink:1;min-width:0;">
+                <span style="font-size:clamp(14px,3vw,22px);flex-shrink:0;">🏆</span>
+                <span style="color:#fcd34d;font-weight:800;font-size:clamp(9px,2.2vw,15px);white-space:nowrap;">10 Years</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:clamp(4px,1vw,8px);padding:clamp(8px,2vw,12px) clamp(10px,3vw,20px);border-radius:9999px;border:1px solid rgba(16,185,129,0.4);background:rgba(16,185,129,0.12);flex-shrink:1;min-width:0;">
+                <span style="font-size:clamp(14px,3vw,22px);flex-shrink:0;">✅</span>
+                <span style="color:#6ee7b7;font-weight:800;font-size:clamp(9px,2.2vw,15px);white-space:nowrap;">All Certified</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         REDESIGNED ROAD ANIMATION
+    ══════════════════════════════════════════════════════ -->
+    <div class="road-section">
+        <div class="road-sky"></div>
+        <div class="road-surface">
+            <div class="road-center-line"></div>
+            <div class="road-edge-top"></div>
+            <div class="road-edge-bottom"></div>
+        </div>
+        <div class="road-ground"></div>
+
+        <!-- Upper lane cars -->
+        <div class="road-car lane-top" style="animation-name:carDriveLTR;animation-duration:7s;animation-delay:0s;">🚗</div>
+        <div class="road-car lane-top" style="animation-name:carDriveLTR;animation-duration:9s;animation-delay:-3s;">🚙</div>
+        <div class="road-car lane-top" style="font-size:20px;animation-name:carDriveLTR;animation-duration:11s;animation-delay:-7s;">🏎️</div>
+
+        <!-- Lower lane cars -->
+        <div class="road-car lane-bottom" style="animation-name:carDriveLTR;animation-duration:8s;animation-delay:-1.5s;">🚕</div>
+        <div class="road-car lane-bottom" style="animation-name:carDriveLTR;animation-duration:10s;animation-delay:-5s;">🚐</div>
+        <div class="road-car lane-bottom" style="font-size:20px;animation-name:carDriveLTR;animation-duration:13s;animation-delay:-9s;">🚌</div>
+
+        <!-- Speed line accents -->
+        <div class="road-speed-line" style="width:80px;margin-top:-8px;animation-name:speedLineLTR;animation-duration:0.5s;animation-delay:-0.1s;"></div>
+        <div class="road-speed-line" style="width:120px;margin-top:6px;animation-name:speedLineLTR;animation-duration:0.7s;animation-delay:-0.3s;opacity:0.3;"></div>
     </div>
 </section>
 
 <script>
 (function(){
-    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.anim-entry').forEach(el=>el.style.animationPlayState='running');obs.unobserve(e.target);}});},{threshold:.15});
-    const sec=document.getElementById('stats-section');if(sec)obs.observe(sec);
+    const obs = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+            if(e.isIntersecting){
+                const num = e.target.querySelector('.cars-sold-number');
+                if(num) num.style.animationPlayState = 'running';
+                const container = document.getElementById('star-container');
+                if(container){
+                    for(let i=0;i<12;i++){
+                        setTimeout(()=>{
+                            const star = document.createElement('div');
+                            star.className = 'star-particle';
+                            star.textContent = ['⭐','✨','🌟','💫'][Math.floor(Math.random()*4)];
+                            star.style.cssText = 'font-size:'+Math.floor(Math.random()*20+12)+'px;left:'+Math.floor(Math.random()*120-10)+'%;top:'+Math.floor(Math.random()*120-10)+'%;animation-delay:'+Math.random()*0.5+'s;';
+                            container.appendChild(star);
+                            setTimeout(()=>star.remove(), 2000);
+                        }, i*150);
+                    }
+                }
+                obs.unobserve(e.target);
+            }
+        });
+    },{threshold:.3});
+    const sec = document.getElementById('cars-sold-section');
+    if(sec) obs.observe(sec);
 })();
 <\/script>`;
 };
 
 // ================================================================
-// CURATOR — BEAUTIFUL REDESIGN (COZY, MAGAZINE-STYLE, MOBILE-FIRST)
+// CERTIFIED QUALITY SECTION
+// ================================================================
+const CertifiedSection = () => {
+    const C = window.SITE_CONFIG.stats;
+    return `
+<section id="certified-section" class="py-16 md:py-20 relative overflow-hidden" style="background:linear-gradient(160deg,#020617 0%,#0d1929 40%,#020617 100%);">
+    <div class="absolute top-0 left-0 w-full h-0.5 gold-bg opacity-60"></div>
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-[120px]" style="background:radial-gradient(circle,rgba(212,160,23,0.12),transparent)"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-5 md:px-12 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+            <div data-scroll="fade-right" class="flex-shrink-0 flex flex-col items-center justify-center">
+                <div class="relative w-48 h-48 md:w-56 md:h-56 flex items-center justify-center">
+                    <div class="absolute inset-0 rounded-full border-2 gold-border opacity-30" style="animation:certRotate 20s linear infinite;background:conic-gradient(from 0deg,transparent 0%,#d4a017 30%,transparent 60%);"></div>
+                    <div class="absolute inset-4 rounded-full border gold-border opacity-20"></div>
+                    <div class="absolute inset-8 rounded-full gold-bg opacity-10 cert-shield"></div>
+                    <div class="relative w-28 h-28 rounded-full gold-bg flex flex-col items-center justify-center shadow-2xl cert-shield" style="box-shadow:0 0 60px rgba(212,160,23,0.4),inset 0 1px 0 rgba(255,255,255,0.3);">
+                        <svg class="w-10 h-10 text-amber-900" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <span class="text-[8px] font-black text-amber-900 uppercase tracking-widest mt-1">CERTIFIED</span>
+                    </div>
+                    <div class="absolute inset-0" style="animation:certRotate 8s linear infinite;"><div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-3 h-3 rounded-full gold-bg shadow-lg shadow-amber-400/50"></div></div>
+                    <div class="absolute inset-0" style="animation:certRotate 12s linear infinite reverse;"><div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1 w-2 h-2 rounded-full bg-amber-400 shadow-lg shadow-amber-400/50"></div></div>
+                </div>
+                <div class="mt-6 text-center">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border gold-border bg-amber-900/20"><span class="gold-text font-black text-sm uppercase tracking-widest">සුපිරිම තත්ත්වය</span></div>
+                    <p class="text-slate-500 text-[9px] uppercase tracking-widest mt-2">Every Vehicle Inspected</p>
+                </div>
+            </div>
+
+            <div data-scroll="fade-left" class="flex-1 text-center">
+                <span class="text-amber-400 font-bold text-[9px] uppercase tracking-ultra mb-3 block">Quality Assurance</span>
+                <h2 class="font-heading font-black leading-tight mb-5" style="font-size:clamp(2rem,6vw,3.2rem);">
+                    <span class="text-white">Certified </span><span class="gold-text">Excellence</span>
+                </h2>
+                <p class="sinhala text-amber-200 text-lg md:text-xl font-bold mb-4 leading-relaxed">${C.card3Title}</p>
+                <p class="text-slate-400 text-sm leading-relaxed mb-8 max-w-md sinhala-sm">${C.card3Sub}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 max-w-lg mx-auto">
+                    ${[{icon:'🔍',en:'Full Inspection',si:'සම්පූර්ණ පරීක්ෂාව'},{icon:'🛡️',en:'Warranty Cover',si:'වගකීම් ආවරණය'},{icon:'📋',en:'History Check',si:'ඉතිහාස පරීක්ෂාව'},{icon:'✨',en:'Detailing Done',si:'Detailing සම්පූර්ණයි'}].map(item=>`
+                    <div data-scroll="flip" class="flex items-center gap-3 p-3 rounded-xl border gold-border bg-amber-900/8">
+                        <span class="text-xl flex-shrink-0">${item.icon}</span>
+                        <div><div class="text-white font-bold text-xs">${item.en}</div><div class="text-amber-400 text-[10px] sinhala-sm">${item.si}</div></div>
+                        <svg class="h-4 w-4 text-amber-400 ml-auto flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    </div>`).join('')}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute bottom-0 left-0 w-full h-0.5 gold-bg opacity-60"></div>
+</section>`;
+};
+
+// ================================================================
+// CURATOR
 // ================================================================
 const CuratorSection = () => {
     const C = window.SITE_CONFIG.curator;
     return `
 <section id="curator-section" class="relative overflow-hidden" style="background:linear-gradient(160deg,#f8fafc 0%,#eef2ff 50%,#f0f9ff 100%);">
-
-    <!-- Decorative blobs -->
     <div class="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl opacity-60 pointer-events-none"></div>
     <div class="absolute bottom-0 left-0 w-48 h-48 bg-indigo-100 rounded-full translate-y-1/3 -translate-x-1/3 blur-3xl opacity-50 pointer-events-none"></div>
-
-    <!-- Section label bar -->
     <div class="relative z-10 border-b border-slate-200/60 py-3 px-5 md:px-12">
         <p class="text-[9px] font-bold uppercase tracking-ultra text-blue-500 flex items-center gap-2">
             <span class="w-4 h-px bg-blue-400 inline-block"></span>${C.sideLabel}<span class="w-4 h-px bg-blue-400 inline-block"></span>
         </p>
     </div>
-
     <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-12 py-16 md:py-24">
-
-        <!-- MOBILE: stacked. DESKTOP: split -->
         <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-
-            <!-- IMAGE CARD (left on desktop, top on mobile) -->
-            <div class="w-full lg:w-5/12 flex justify-center lg:justify-start flex-shrink-0">
+            <div data-scroll="fade-right" class="w-full lg:w-5/12 flex justify-center lg:justify-start flex-shrink-0">
                 <div class="relative curator-img-float max-w-[300px] md:max-w-[340px] w-full">
-
-                    <!-- Main portrait -->
                     <div class="rounded-[2.5rem] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.18)] aspect-[3/4] w-full">
                         <img src="${C.imageSrc}" class="w-full h-full object-cover">
                     </div>
-
-                    <!-- Quote card — repositioned for mobile -->
-                    <div class="absolute -bottom-6 left-0 right-0 mx-3 md:-right-8 md:left-auto md:mx-0 bg-white px-5 py-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.12)]" style="max-width:260px;">
-                        <div class="flex items-start gap-2 mb-2">
-                            <span class="text-blue-500 text-xl leading-none flex-shrink-0">"</span>
-                            <p class="font-heading font-bold text-lux-900 text-sm italic leading-snug">${C.quoteText.replace(/^"|"$/g,'')}"</p>
-                        </div>
-                        <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
-                            <div class="w-5 h-5 rounded-full gold-bg flex-shrink-0"></div>
-                            <p class="text-[9px] uppercase tracking-widest text-slate-400">${C.quoteAttr}</p>
+                    <div class="absolute -bottom-6 left-0 right-0 mx-3 md:-right-8 md:left-auto md:mx-0 bg-white px-5 py-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.12)]" style="max-width:240px;">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full gold-bg flex items-center justify-center text-lg flex-shrink-0 shadow-md">✍️</div>
+                            <div><p class="font-heading font-black text-lux-900 text-sm leading-tight">${C.directorName}</p><p class="text-[9px] uppercase tracking-widest text-slate-400">${C.directorTitle}</p></div>
                         </div>
                     </div>
-
-                    <!-- Year badge -->
                     <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full gold-bg flex flex-col items-center justify-center shadow-lg shadow-amber-500/30">
                         <span class="text-[9px] font-black text-amber-900 leading-none">EST.</span>
                         <span class="text-[11px] font-black text-amber-900">2016</span>
                     </div>
                 </div>
             </div>
-
-            <!-- TEXT (right on desktop, bottom on mobile) -->
-            <div class="w-full lg:w-7/12 pt-8 lg:pt-0 curator-reveal">
-
+            <div data-scroll="fade-left" class="w-full lg:w-7/12 pt-8 lg:pt-0 curator-reveal text-center">
                 <h2 class="font-heading font-black text-lux-900 leading-tight mb-5 curator-reveal" style="font-size:clamp(2rem,7vw,3.8rem);">
-                    ${C.heading1}
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500"> ${C.heading2}</span>
+                    ${C.heading1} <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">${C.heading2}</span>
                 </h2>
-
                 <div class="space-y-4 text-slate-600 leading-relaxed mb-8 curator-reveal" style="font-size:clamp(.95rem,2.5vw,1.1rem);">
-                    <p>${C.para1}</p>
-                    <p>${C.para2}</p>
+                    <p>${C.para1}</p><p>${C.para2}</p>
                 </div>
-
-                <!-- 3 value pills -->
+                <blockquote class="mb-8 p-4 rounded-2xl border-l-4 border-blue-500 bg-blue-50/70 text-left">
+                    <p class="sinhala text-blue-900 text-base md:text-lg font-bold leading-relaxed">${C.quoteText}</p>
+                    <footer class="mt-2 text-[9px] uppercase tracking-widest text-slate-400">${C.quoteAttr}</footer>
+                </blockquote>
                 <div class="grid grid-cols-3 gap-3 mb-8 curator-reveal">
-                    <div class="p-3 rounded-2xl bg-white border border-slate-200 text-center shadow-sm">
-                        <div class="font-heading font-black text-xl text-blue-600 mb-1">500+</div>
-                        <div class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Cars Sold</div>
-                    </div>
-                    <div class="p-3 rounded-2xl bg-white border border-slate-200 text-center shadow-sm">
-                        <div class="font-heading font-black text-xl gold-text mb-1">10</div>
-                        <div class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Years Active</div>
-                    </div>
-                    <div class="p-3 rounded-2xl bg-white border border-slate-200 text-center shadow-sm">
-                        <div class="font-heading font-black text-xl text-emerald-500 mb-1">17+</div>
-                        <div class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Finance Partners</div>
-                    </div>
+                    <div class="p-3 rounded-2xl bg-white border border-slate-200 text-center shadow-sm"><div class="font-heading font-black text-xl text-blue-600 mb-1">500+</div><div class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Cars Sold</div></div>
+                    <div class="p-3 rounded-2xl bg-white border border-slate-200 text-center shadow-sm"><div class="font-heading font-black text-xl gold-text mb-1">10</div><div class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Years Active</div></div>
+                    <div class="p-3 rounded-2xl bg-white border border-slate-200 text-center shadow-sm"><div class="font-heading font-black text-xl text-emerald-500 mb-1">17+</div><div class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Finance Partners</div></div>
                 </div>
-
-                <!-- Director signature -->
-                <div class="flex items-center gap-4 pt-6 border-t border-slate-200 curator-reveal">
-                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full gold-bg flex items-center justify-center text-lg shadow-md flex-shrink-0">✍️</div>
-                    <div>
-                        <h4 class="font-heading font-bold text-lux-900 text-base md:text-xl">${C.directorName}</h4>
-                        <p class="text-[10px] uppercase tracking-widest text-slate-400">${C.directorTitle}</p>
-                    </div>
-                    <div class="ml-auto hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100">
+                <div class="flex items-center justify-center gap-4 pt-6 border-t border-slate-200 curator-reveal">
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100">
                         <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
                         <span class="text-[9px] font-bold text-blue-600 uppercase tracking-wider">Available Now</span>
                     </div>
@@ -640,50 +969,34 @@ const CuratorSection = () => {
 };
 
 // ================================================================
-// FEATURED INVENTORY — NO PRICE, CUSTOM WA BUTTON
+// FEATURED INVENTORY
 // ================================================================
 const FeaturedInventory = () => {
     const C = window.SITE_CONFIG.inventory;
-    const WA = window.SITE_CONFIG.brand.whatsapp;
-
     const carCard = (car) => {
-        const msg = encodeURIComponent(`🚗 Hi Solo So Auto!\n\nI'm interested in the *${car.name}* (${car.year}).\n\n• Condition: ${car.condition || 'Unregistered'}\n• Fuel: ${car.fuel_type || 'Petrol'}\n\nCould you please share the price and financing options? 🙏`);
         return `
-<div class="car-card-snap car-card group bg-white rounded-[1.75rem] overflow-hidden border border-slate-100 shadow-md">
+<div class="car-card-snap car-card group rounded-[1.75rem] overflow-hidden shadow-md">
     <div class="relative aspect-[4/3] overflow-hidden">
         <img src="${car.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-        <div class="absolute top-3 left-3 px-2.5 py-1 bg-white/90 backdrop-blur-md rounded-full text-[8px] font-bold uppercase tracking-widest text-lux-900">${car.year}</div>
-        <div class="absolute top-3 right-3 px-2.5 py-1 ${car.status==='In Stock'?'bg-emerald-500':'bg-blue-500'} text-white rounded-full text-[8px] font-bold uppercase tracking-widest">${car.status}</div>
-        <button onclick="window.shareCar(${JSON.stringify(car).replace(/\"/g,'&quot;').replace(/'/g,'&#39;')})" class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-600 hover:bg-white hover:text-blue-600 transition-all shadow-md">
-            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-        </button>
-    </div>
-    <div class="p-4">
-        <h3 class="font-heading font-bold text-lux-900 mb-1 truncate" style="font-size:clamp(.9rem,3vw,1.1rem);">${car.name}</h3>
-        <p class="text-[10px] text-slate-400 font-medium uppercase tracking-wider mb-4">${car.condition||'Unregistered'} · ${car.fuel_type||'Petrol'}</p>
-        <a href="https://wa.me/${WA}?text=${msg}" target="_blank" class="wa-btn flex items-center justify-center gap-2 py-3 text-white font-bold text-[10px] uppercase tracking-widest w-full">
-            <svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-            Inquire on WhatsApp
-        </a>
     </div>
 </div>`;
     };
 
     return `
 <section class="py-14 md:py-20 bg-white">
-    <div class="max-w-6xl mx-auto px-5 md:px-12 mb-8 flex items-end justify-between">
-        <div><span class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">${C.sectionLabel}</span><h2 class="font-heading font-bold text-lux-900" style="font-size:clamp(1.6rem,6vw,2.8rem);">${C.heading}</h2></div>
-        <div class="hidden md:flex gap-2">
+    <div class="max-w-6xl mx-auto px-5 md:px-12 mb-8 text-center">
+        <span data-scroll="fade-down" class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">${C.sectionLabel}</span>
+        <h2 data-scroll="fade-up" data-delay="100" class="font-heading font-bold text-lux-900 sinhala mb-4" style="font-size:clamp(1.6rem,6vw,2.8rem);">${C.heading}</h2>
+        <div class="hidden md:flex gap-2 justify-center">
             <button onclick="scrollInventory(-1)" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-lux-900 hover:text-white transition-colors text-sm">←</button>
             <button onclick="scrollInventory(1)" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-lux-900 hover:text-white transition-colors text-sm">→</button>
         </div>
     </div>
     <div id="inv-scroll" class="snap-scroll-container px-5 md:px-12">
-        ${DB.inventory.all.slice(0,6).map(c=>carCard(c)).join('')}
+        ${[...DB.inventory.all, ...DB.localCars].map(c=>carCard(c)).join('')}
     </div>
     <div class="text-center mt-5 md:hidden"><p class="text-[8px] text-slate-400 uppercase tracking-widest animate-pulse">← Swipe to explore →</p></div>
-    <div class="text-center mt-8">
+    <div data-scroll="scale-up" class="text-center mt-8">
         <button onclick="App.navigate('stock')" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-lux-900 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-lux-800 transition-all shadow-lg">
             View All Cars →
         </button>
@@ -705,37 +1018,15 @@ const FeaturedInventory = () => {
 };
 
 // ================================================================
-// FULL INVENTORY — NO PRICE, CUSTOM WA
+// FULL INVENTORY
 // ================================================================
 const FullInventory = () => {
     const C = window.SITE_CONFIG.inventory;
-    const WA = window.SITE_CONFIG.brand.whatsapp;
-
     const carCard = (car) => {
-        const msg = encodeURIComponent(`🚗 Hi Solo So Auto!\n\nI'm interested in the *${car.name}* (${car.year}).\n\n• Status: ${car.status}\n• Condition: ${car.condition || 'Unregistered'}\n• Fuel: ${car.fuel_type || 'Petrol'}\n\nPlease share the price & financing options 🙏`);
         return `
-<div class="inventory-card car-card group bg-white rounded-[1.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-400" data-status="${car.status}" data-condition="${car.condition}" data-price="${car.price}">
+<div class="inventory-card car-card group rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-400" data-status="${car.status||''}" data-condition="${car.condition||''}" data-local="${car.local?'true':'false'}">
     <div class="relative aspect-[4/3] overflow-hidden">
         <img src="${car.image||'https://placehold.co/600x400/f1f5f9/94a3b8?text=No+Image'}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-        <div class="absolute top-2 left-2 px-2 py-0.5 bg-white/90 backdrop-blur-sm rounded-full text-[8px] font-bold uppercase tracking-widest text-lux-900">${car.year}</div>
-        <div class="absolute top-2 right-2 px-2 py-0.5 ${car.status==='In Stock'?'bg-emerald-500':'bg-blue-500'} text-white rounded-full text-[8px] font-bold uppercase tracking-widest">${car.status}</div>
-    </div>
-    <div class="p-3">
-        <h3 class="font-heading font-bold text-lux-900 text-sm truncate mb-0.5">${car.name}</h3>
-        <p class="text-[9px] text-slate-400 font-medium uppercase tracking-wider mb-3 flex items-center gap-1.5">
-            <span>${car.condition||'Unregistered'}</span><span class="w-1 h-1 rounded-full bg-slate-200"></span><span>${car.fuel_type||'Petrol'}</span>
-            ${car.is_negotiable?'<span class="ml-auto text-emerald-600 font-bold">Negotiable</span>':''}
-        </p>
-        <div class="flex gap-1.5">
-            <a href="https://wa.me/${WA}?text=${msg}" target="_blank" class="wa-btn flex-1 flex items-center justify-center gap-1.5 py-2.5 text-white font-bold text-[9px] uppercase tracking-wider">
-                <svg class="h-3.5 w-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                Inquire
-            </a>
-            <button onclick="window.shareCar(${JSON.stringify(car).replace(/\"/g,'&quot;').replace(/'/g,'&#39;')})" class="w-10 h-10 rounded-xl bg-slate-50 text-slate-500 flex items-center justify-center border border-slate-100 hover:bg-blue-50 hover:text-blue-500 transition-all flex-shrink-0">
-                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-            </button>
-        </div>
     </div>
 </div>`;
     };
@@ -744,15 +1035,13 @@ const FullInventory = () => {
 <section class="py-14 md:py-20 bg-slate-50 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 md:px-12">
         <div class="text-center mb-8">
-            <span class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">${C.fullLabel}</span>
-            <h2 class="font-heading font-bold text-lux-900 mb-3" style="font-size:clamp(1.8rem,6vw,3rem);">${C.fullHeading}</h2>
+            <span data-scroll="fade-down" class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">${C.fullLabel}</span>
+            <h2 data-scroll="fade-up" data-delay="100" class="font-heading font-bold text-lux-900 mb-3" style="font-size:clamp(1.8rem,6vw,3rem);">${C.fullHeading}</h2>
         </div>
-        <!-- Promo bar -->
-        <div class="mb-8 p-4 rounded-2xl gradient-flow-bg promo-pulse text-center shadow-xl">
-            <p class="text-yellow-300 font-black uppercase tracking-wider" style="font-size:clamp(.9rem,4vw,1.4rem);">🏆 ${window.SITE_CONFIG.hero.downPaymentText}</p>
-            <p class="text-white/85 font-semibold text-sm mt-1 tracking-wide">${window.SITE_CONFIG.hero.monthlyRateText}</p>
+        <div data-scroll="zoom-blur" class="mb-8 p-4 rounded-2xl gradient-flow-bg promo-pulse text-center shadow-xl">
+            <p class="text-yellow-300 font-black uppercase tracking-wider sinhala" style="font-size:clamp(.9rem,4vw,1.4rem);">🏆 ${window.SITE_CONFIG.hero.downPaymentText}</p>
+            <p class="text-white/85 font-semibold text-sm mt-1 tracking-wide sinhala-sm">${window.SITE_CONFIG.hero.monthlyRateText}</p>
         </div>
-        <!-- Filters -->
         <div id="filter-buttons" class="flex flex-wrap justify-center gap-3 mb-8 overflow-x-auto pb-1">
             <div class="flex gap-1.5 bg-white p-1 rounded-full border border-slate-200 shadow-sm flex-shrink-0">
                 <button class="filter-btn active" data-group="status" data-val="all">${C.filterAllStatus}</button>
@@ -766,7 +1055,7 @@ const FullInventory = () => {
             </div>
         </div>
         <div id="inventory-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
-            ${DB.inventory.all.map(c=>carCard(c)).join('')}
+            ${[...DB.inventory.all, ...DB.localCars].map(c=>carCard(c)).join('')}
             <div id="no-items-msg" class="hidden col-span-full text-center py-16 text-slate-400"><p class="text-sm uppercase tracking-widest">${C.noResults}</p></div>
         </div>
     </div>
@@ -779,7 +1068,12 @@ const FullInventory = () => {
         const as=document.querySelector('.filter-btn[data-group="status"].active').getAttribute('data-val');
         const ac=document.querySelector('.filter-btn[data-group="condition"].active').getAttribute('data-val');
         const cards=grid.querySelectorAll('.inventory-card');let vc=0;
-        cards.forEach(card=>{const sm=as==='all'||card.getAttribute('data-status')===as;const cm=ac==='all'||card.getAttribute('data-condition')===ac;if(sm&&cm){card.style.display='';vc++;}else{card.style.display='none';}});
+        cards.forEach(card=>{
+            if(card.getAttribute('data-local')==='true'){card.style.display='';vc++;return;}
+            const sm=as==='all'||card.getAttribute('data-status')===as;
+            const cm=ac==='all'||card.getAttribute('data-condition')===ac;
+            if(sm&&cm){card.style.display='';vc++;}else{card.style.display='none';}
+        });
         if(noMsg)noMsg.style.display=vc===0?'block':'none';
     }
     btns.forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn[data-group="'+btn.getAttribute('data-group')+'"]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyFilters();}));
@@ -788,40 +1082,51 @@ const FullInventory = () => {
 };
 
 // ================================================================
-// PROCESS — REDESIGNED: Numbered horizontal scroll on mobile
+// PROCESS — FIXED text wrapping + scroll animations
 // ================================================================
 const ProcessSection = () => {
     const C = window.SITE_CONFIG.process;
     const icons = ['🔍','🌏','✨','🎉'];
     const colors = ['from-blue-500/20 to-blue-600/5','from-purple-500/20 to-purple-600/5','from-emerald-500/20 to-emerald-600/5','from-amber-500/20 to-amber-600/5'];
     const borderColors = ['border-blue-500/20','border-purple-500/20','border-emerald-500/20','border-amber-500/20'];
+    const textColors = ['text-blue-400','text-purple-400','text-emerald-400','text-amber-400'];
     return `
 <section class="py-16 md:py-24 bg-lux-900 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none"><div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-blue-600/6 rounded-full blur-[100px]"></div></div>
     <div class="max-w-6xl mx-auto px-5 md:px-12">
         <div class="text-center mb-10 md:mb-14">
-            <span class="text-blue-400 font-bold text-[9px] uppercase tracking-ultra mb-3 block">${C.sectionLabel}</span>
-            <h2 class="font-heading font-bold text-white mb-3" style="font-size:clamp(1.8rem,6vw,3rem);">${C.heading}</h2>
-            <p class="text-slate-400 text-sm max-w-md mx-auto">${C.subtext}</p>
+            <span data-scroll="fade-down" class="text-blue-400 font-bold text-[9px] uppercase tracking-ultra mb-3 block">${C.sectionLabel}</span>
+            <h2 data-scroll="fade-up" data-delay="100" class="font-heading font-bold text-white mb-3" style="font-size:clamp(1.8rem,6vw,3rem);">${C.heading}</h2>
+            <p data-scroll="fade-up" data-delay="200" class="text-slate-400 text-sm max-w-md mx-auto sinhala-sm">${C.subtext}</p>
         </div>
-        <!-- Mobile: horizontal scroll. Desktop: grid -->
-        <div class="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto pb-4 md:pb-0 md:overflow-visible snap-x snap-mandatory" style="scrollbar-width:none;">
+
+        <!-- Desktop: 4-column grid (no horizontal scroll) -->
+        <div class="hidden md:grid md:grid-cols-4 gap-4">
             ${C.steps.map((s,i)=>`
-            <div class="process-card flex-shrink-0 snap-center" style="min-width:240px;animation-delay:${i*.1}s;">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${colors[i]} border ${borderColors[i]} flex items-center justify-center text-2xl mb-4">${icons[i]}</div>
+            <div data-scroll="flip" data-delay="${i*120}" class="process-card">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${colors[i]} border ${borderColors[i]} flex items-center justify-center text-3xl mb-4 flex-shrink-0">${icons[i]}</div>
                 <div class="text-[9px] font-black uppercase tracking-ultra text-slate-600 mb-2">${s.num}</div>
-                <h3 class="font-heading font-bold text-xl text-white mb-2 ${s.color}">${s.title}</h3>
-                <p class="text-xs text-slate-400 leading-relaxed">${s.body}</p>
-                ${i<C.steps.length-1?`<div class="hidden md:block absolute top-1/2 -right-2 w-4 h-px bg-white/10"></div>`:''}
+                <h3 class="font-heading font-bold text-lg text-white mb-3 sinhala ${textColors[i]}">${s.title}</h3>
+                <p class="process-card-body sinhala-sm">${s.body}</p>
             </div>`).join('')}
         </div>
-        <div class="text-center mt-4 md:hidden"><p class="text-[8px] text-slate-600 uppercase tracking-widest">← Swipe →</p></div>
+
+        <!-- Mobile: single column stack (no horizontal scroll, no overflow) -->
+        <div class="flex flex-col gap-4 md:hidden">
+            ${C.steps.map((s,i)=>`
+            <div data-scroll="fade-up" data-delay="${i*80}" class="process-card" style="min-width:0;">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${colors[i]} border ${borderColors[i]} flex items-center justify-center text-2xl mb-3 flex-shrink-0">${icons[i]}</div>
+                <div class="text-[9px] font-black uppercase tracking-ultra text-slate-600 mb-1">${s.num}</div>
+                <h3 class="font-heading font-bold text-base text-white mb-2 sinhala ${textColors[i]}">${s.title}</h3>
+                <p class="process-card-body sinhala-sm">${s.body}</p>
+            </div>`).join('')}
+        </div>
     </div>
 </section>`;
 };
 
 // ================================================================
-// CONCIERGE — REDESIGNED: Dark editorial card grid
+// CONCIERGE
 // ================================================================
 const ConciergeSection = () => {
     const C = window.SITE_CONFIG.concierge;
@@ -831,21 +1136,18 @@ const ConciergeSection = () => {
 <section class="py-16 md:py-24 bg-white relative overflow-hidden">
     <div class="absolute top-0 right-0 w-48 h-48 bg-blue-50 rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
     <div class="max-w-6xl mx-auto px-5 md:px-12">
-        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-            <div>
-                <span class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">${C.sectionLabel}</span>
-                <h2 class="font-heading font-bold text-lux-900 leading-tight" style="font-size:clamp(1.8rem,6vw,3rem);">${C.heading1}<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">${C.heading2}</span></h2>
-            </div>
-            <p class="text-slate-500 text-sm leading-relaxed max-w-xs">${C.body}</p>
+        <div class="text-center mb-10">
+            <span data-scroll="fade-down" class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">${C.sectionLabel}</span>
+            <h2 data-scroll="fade-up" data-delay="100" class="font-heading font-bold text-lux-900 leading-tight" style="font-size:clamp(1.8rem,6vw,3rem);">${C.heading1}<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">${C.heading2}</span></h2>
+            <p data-scroll="fade-up" data-delay="200" class="text-slate-500 text-sm leading-relaxed max-w-xs mx-auto mt-3">${C.body}</p>
         </div>
         <div class="grid md:grid-cols-3 gap-4 md:gap-6">
             ${C.services.map((s,i)=>`
-            <div class="concierge-card">
-                <div class="concierge-card::before" style="background:${accentColors[i]};"></div>
-                <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-5 shadow-sm" style="background:${accentColors[i]}18;border:1px solid ${accentColors[i]}30;">${icons[i]}</div>
-                <h3 class="font-heading font-bold text-lux-900 text-lg mb-2">${s.title}</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">${s.body}</p>
-                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center gap-2">
+            <div data-scroll="scale-up" data-delay="${i*150}" class="concierge-card">
+                <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl mb-5 mx-auto shadow-sm" style="background:${accentColors[i]}18;border:1px solid ${accentColors[i]}30;">${icons[i]}</div>
+                <h3 class="font-heading font-bold text-lux-900 text-lg mb-2 text-center">${s.title}</h3>
+                <p class="text-slate-500 text-sm leading-relaxed text-center">${s.body}</p>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-center gap-2">
                     <div class="w-2 h-2 rounded-full" style="background:${accentColors[i]};"></div>
                     <span class="text-[8px] font-bold uppercase tracking-wider text-slate-400">Included with every vehicle</span>
                 </div>
@@ -856,7 +1158,7 @@ const ConciergeSection = () => {
 };
 
 // ================================================================
-// LEGACY SECTION — REDESIGNED
+// LEGACY SECTION
 // ================================================================
 const LegacySection = () => {
     const C = window.SITE_CONFIG.legacy;
@@ -865,26 +1167,26 @@ const LegacySection = () => {
     <div class="max-w-6xl mx-auto px-5 md:px-12">
         <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div>
-                <span class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-4 block">${C.sectionLabel}</span>
-                <h2 class="font-heading font-bold text-lux-900 mb-8" style="font-size:clamp(1.8rem,6vw,2.8rem);">Our Story,<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">Decade by Decade</span></h2>
+                <span data-scroll="fade-down" class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-4 block">${C.sectionLabel}</span>
+                <h2 data-scroll="fade-right" data-delay="100" class="font-heading font-bold text-lux-900 mb-8" style="font-size:clamp(1.8rem,6vw,2.8rem);">Our Story,<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">Decade by Decade</span></h2>
                 <div class="space-y-0">
                     ${C.timeline.map((t,i)=>`
-                    <div class="timeline-item pb-6">
+                    <div data-scroll="fade-right" data-delay="${i*100}" class="timeline-item pb-6">
                         <div class="absolute left-0 top-0 w-7 h-7 rounded-full ${i===C.timeline.length-1?'gold-bg shadow-lg shadow-amber-400/30':'bg-white border-2 border-blue-200'} flex items-center justify-center z-10">
                             ${i===C.timeline.length-1?`<span class="text-[8px] font-black text-amber-900">★</span>`:`<span class="text-[8px] font-bold text-blue-500">${t.year.slice(-2)}</span>`}
                         </div>
                         <div class="pl-2">
                             <div class="flex items-center gap-2 mb-1">
-                                <span class="font-heading font-black text-base text-lux-900">${t.title}</span>
+                                <span class="font-heading font-black text-base text-lux-900 sinhala">${t.title}</span>
                                 <span class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">${t.year}</span>
                                 ${i===C.timeline.length-1?`<span class="px-2 py-0.5 rounded-full gold-bg text-[7px] font-black text-amber-900 uppercase tracking-wider">New!</span>`:''}
                             </div>
-                            <p class="text-sm text-slate-500 leading-relaxed">${t.body}</p>
+                            <p class="text-sm text-slate-500 leading-relaxed sinhala-sm">${t.body}</p>
                         </div>
                     </div>`).join('')}
                 </div>
             </div>
-            <div class="rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[3/4] md:aspect-auto md:h-[560px]">
+            <div data-scroll="fade-left" class="rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[3/4] md:aspect-auto md:h-[560px]">
                 <img src="https://i.ibb.co/KjHqS4qr/Heritage.png" alt="Heritage" class="w-full h-full object-cover">
             </div>
         </div>
@@ -893,94 +1195,137 @@ const LegacySection = () => {
 };
 
 // ================================================================
-// NETWORK — REDESIGNED: Dark with animated flags
+// NETWORK
 // ================================================================
 const NetworkSection = () => {
     const C = window.SITE_CONFIG;
     const flags = C.stats.countries.map(c=>`
-    <div class="flex flex-col items-center gap-2 group">
-        <div class="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white/10 group-hover:border-blue-400 group-hover:scale-110 transition-all duration-300 shadow-lg">
-            <img src="https://flagcdn.com/w80/${c.code}.png" alt="${c.name}" class="w-full h-full object-cover">
-        </div>
-        <span class="text-[8px] text-slate-500 uppercase tracking-wider">${c.name.split(' ')[0]}</span>
-    </div>`).join('');
+<div class="flag-item" data-scroll="float">
+    <img src="https://flagcdn.com/w80/${c.code}.png" alt="${c.name}" class="flag-img hover:border-blue-400 hover:scale-110">
+    <span class="flag-label">${c.name.split(' ')[0]}</span>
+</div>`).join('');
 
     return `
 <section class="py-16 md:py-20 bg-lux-900 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-white/3"></div><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-white/5"></div></div>
     <div class="max-w-5xl mx-auto px-5 md:px-12 text-center relative z-10">
-        <p class="text-[9px] font-bold uppercase tracking-ultra text-slate-500 mb-3">${C.network.label}</p>
-        <!-- Anniversary gold pill -->
-        <div class="inline-flex items-center gap-3 mb-10 px-5 py-2.5 rounded-full border gold-border bg-amber-900/15 shadow-lg shadow-amber-900/10">
+        <p data-scroll="fade-down" class="text-[9px] font-bold uppercase tracking-ultra text-slate-500 mb-3">${C.network.label}</p>
+        <div data-scroll="zoom-blur" data-delay="100" class="inline-flex items-center gap-3 mb-10 px-5 py-2.5 rounded-full border gold-border bg-amber-900/15 shadow-lg shadow-amber-900/10">
             <span class="gold-text font-black text-xl">${C.anniversary.years}</span>
             <div class="w-px h-5 bg-amber-700/40"></div>
             <span class="text-amber-300 font-semibold text-sm">${C.anniversary.range}</span>
             <div class="w-px h-5 bg-amber-700/40"></div>
-            <span class="text-amber-500/70 text-xs">${C.anniversary.tagline}</span>
+            <span class="text-amber-500/70 text-xs sinhala-sm">${C.anniversary.tagline}</span>
         </div>
-        <div class="flex flex-wrap justify-center gap-6 md:gap-10">${flags}</div>
+        <div class="flags-row justify-center">${flags}</div>
     </div>
 </section>`;
 };
 
 // ================================================================
-// LOCATION SECTION — MOBILE-FIRST REDESIGN
+// LOCATION SECTION
 // ================================================================
 const LocationSection = () => {
     const C = window.SITE_CONFIG.location;
     const B = window.SITE_CONFIG.brand;
     const H = window.SITE_CONFIG.hero;
     return `
-<section class="bg-lux-900 relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-full h-1 gold-bg"></div>
-    <!-- MOBILE: stacked. DESKTOP: side by side -->
-    <div class="flex flex-col md:grid md:grid-cols-2" style="min-height:500px;">
-        <!-- Map first on mobile for visual appeal -->
-        <div class="relative order-first md:order-last" style="min-height:280px;md:min-height:auto;">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63296.62!2d79.7437!3d7.6057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2eda9fb6e3a2f%3A0xa8e3a7bbce1c9a64!2sMarawila!5e0!3m2!1sen!2slk!4v1700000000000!5m2!1sen!2slk"
-                class="w-full h-full absolute inset-0 border-0" allowfullscreen="" loading="lazy" style="min-height:280px;filter:saturate(.9) contrast(1.1);"></iframe>
-            <div class="absolute top-3 left-3 z-10 pointer-events-none">
-                <div class="gold-bg px-3 py-1.5 rounded-xl shadow-xl">
-                    <div class="text-[8px] font-black text-amber-900 uppercase tracking-widest">SOLO SO AUTO</div>
-                    <div class="text-[7px] text-amber-800 uppercase tracking-wider">${C.roadHighlight}</div>
+<section class="relative overflow-hidden" style="background:#020617;">
+    <div class="absolute top-0 left-0 w-full h-0.5 gold-bg opacity-70 z-10"></div>
+    <div class="flex flex-col md:flex-row" style="min-height:600px;">
+        <div data-scroll="fade-right" class="relative z-20 flex flex-col justify-center px-6 md:px-12 py-12 md:py-16 md:w-5/12 lg:w-2/5 order-last md:order-first map-info-card md:rounded-none">
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-0 left-0 w-64 h-64 rounded-full blur-[80px] opacity-60" style="background:radial-gradient(circle,rgba(59,130,246,0.15),transparent)"></div>
+            </div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-6 h-px bg-amber-400"></div>
+                    <span class="text-amber-400 font-bold text-[9px] uppercase tracking-ultra">${C.sectionLabel}</span>
+                </div>
+                <h2 class="font-heading font-black text-white leading-tight mb-2" style="font-size:clamp(1.6rem,5vw,2.5rem);">
+                    <span class="sinhala">${C.heading}</span>
+                </h2>
+                <div class="flex items-center gap-3 mb-6 p-3.5 rounded-2xl" style="background:linear-gradient(135deg,rgba(212,160,23,0.15),rgba(212,160,23,0.05));border:1px solid rgba(212,160,23,0.3);">
+                    <div class="w-10 h-10 rounded-xl gold-bg flex items-center justify-center flex-shrink-0 shadow-lg">
+                        <svg class="h-5 w-5 text-amber-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <div>
+                        <div class="text-[8px] font-bold text-amber-500 uppercase tracking-wider mb-0.5">Main Road</div>
+                        <div class="font-heading font-black text-amber-200 text-sm">${C.roadHighlight}</div>
+                        <div class="text-[10px] text-slate-400">${C.address}</div>
+                    </div>
+                </div>
+                <ul class="space-y-2 mb-6">
+                    ${C.landmarks.map(l=>`<li class="flex items-start gap-2.5"><div class="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0 mt-1.5"></div><span class="text-slate-300 text-sm sinhala-sm">${l}</span></li>`).join('')}
+                </ul>
+                <div class="grid grid-cols-1 gap-2 mb-6">
+                    <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);">
+                        <span class="text-2xl flex-shrink-0">🏆</span>
+                        <div class="text-red-400 font-black text-[11px] uppercase tracking-wide leading-tight sinhala-sm">${H.downPaymentText.replace('🏆 ','').replace(' 🏆','')}</div>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(245,197,67,0.08);border:1px solid rgba(245,197,67,0.2);">
+                        <span class="text-2xl flex-shrink-0">🔥</span>
+                        <div class="text-yellow-300 font-black text-[11px] leading-tight sinhala-sm">${H.monthlyRateText}</div>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <a href="${C.mapShareLink}" target="_blank" class="flex items-center justify-center gap-2 px-5 py-3 rounded-xl gold-bg text-amber-900 font-bold text-[10px] uppercase tracking-wider shadow-lg hover:opacity-90 transition-all">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                        <span class="sinhala-sm">${C.directions}</span>
+                    </a>
+                    <a href="tel:${B.phone}" class="flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-white font-bold text-[10px] uppercase tracking-wider transition-all" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        ${B.phone}
+                    </a>
                 </div>
             </div>
         </div>
-        <!-- Info -->
-        <div class="flex flex-col justify-center px-6 md:px-12 py-10 md:py-16 relative order-last md:order-first">
-            <div class="absolute inset-0 pointer-events-none"><div class="absolute top-0 left-0 w-64 h-64 bg-blue-600/8 rounded-full blur-[80px]"></div></div>
-            <div class="relative z-10">
-                <span class="text-blue-400 font-bold text-[9px] uppercase tracking-ultra mb-3 block">${C.sectionLabel}</span>
-                <h2 class="font-heading font-black text-white leading-tight mb-4" style="font-size:clamp(1.6rem,6vw,2.8rem);">${C.heading}</h2>
-                <!-- Road badge -->
-                <div class="inline-flex items-center gap-2 mb-4 px-4 py-2.5 rounded-xl gold-bg shadow-lg shadow-amber-600/20 max-w-full">
-                    <svg class="h-4 w-4 text-amber-900 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    <div class="min-w-0"><div class="text-[8px] font-bold uppercase tracking-wider text-amber-800">On</div><div class="font-heading font-black text-amber-900 text-xs md:text-sm truncate">${C.roadHighlight}</div></div>
+        <div data-scroll="fade-left" class="relative flex-1 order-first md:order-last" style="min-height:320px;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63296.62!2d79.7437!3d7.6057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2eda9fb6e3a2f%3A0xa8e3a7bbce1c9a64!2sMarawila!5e0!3m2!1sen!2slk!4v1700000000000!5m2!1sen!2slk" class="w-full h-full absolute inset-0 border-0" allowfullscreen="" loading="lazy" style="filter:saturate(0.8) contrast(1.1) brightness(0.9);min-height:320px;"></iframe>
+            <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(to right,rgba(2,6,23,0.4) 0%,transparent 30%);"></div>
+            <div class="absolute bottom-4 right-4 z-10 pointer-events-none">
+                <div class="px-4 py-3 rounded-2xl shadow-2xl border gold-border" style="background:rgba(2,6,23,0.92);backdrop-filter:blur(12px);">
+                    <div class="flex items-center gap-2 mb-1"><div class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0"></div><span class="text-white font-heading font-black text-sm tracking-tight">SOLO SO</span></div>
+                    <div class="gold-text font-bold text-[9px] uppercase tracking-widest">Marawila · Sri Lanka</div>
+                    <div class="text-slate-500 text-[8px] mt-1 uppercase tracking-wider">Colombo–Puttalam Rd</div>
                 </div>
-                <!-- Finance highlights -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
-                    <div class="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/15">
-                        <span class="text-xl flex-shrink-0">🏆</span>
-                        <div class="min-w-0"><div class="text-red-400 font-black text-[10px] uppercase tracking-wide leading-tight">${H.downPaymentText}</div></div>
-                    </div>
-                    <div class="flex items-center gap-2 p-3 rounded-xl bg-yellow-500/10 border border-yellow-500/15">
-                        <span class="text-xl flex-shrink-0">🔥</span>
-                        <div class="min-w-0"><div class="text-yellow-300 font-black text-[10px] leading-tight">${H.promoHeadline} <span class="text-yellow-400">${H.promoPrice}</span></div></div>
-                    </div>
+            </div>
+            <div class="absolute top-4 left-4 z-10 pointer-events-none">
+                <div class="px-3 py-2 rounded-xl shadow-xl" style="background:rgba(2,6,23,0.88);border:1px solid rgba(212,160,23,0.3);backdrop-filter:blur(8px);">
+                    <div class="text-[8px] font-bold text-amber-400 uppercase tracking-widest mb-0.5">Open Now</div>
+                    <div class="text-white font-bold text-[10px]">📞 ${B.phone}</div>
                 </div>
-                <!-- Landmarks -->
-                <ul class="space-y-1.5 mb-6">
-                    ${C.landmarks.map(l=>`<li class="flex items-start gap-2 text-slate-400 text-xs"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0 mt-1.5"></span>${l}</li>`).join('')}
-                </ul>
-                <div class="flex flex-wrap gap-2">
-                    <a href="${C.mapShareLink}" target="_blank" class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl gold-bg text-amber-900 font-bold text-[10px] uppercase tracking-wider shadow-md hover:opacity-90 transition-all">
-                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
-                        ${C.directions}
-                    </a>
-                    <a href="tel:${B.phone}" class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/8 border border-white/15 text-white font-bold text-[10px] uppercase tracking-wider hover:bg-white/15 transition-all">
-                        📞 ${B.phone}
-                    </a>
-                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute bottom-0 left-0 w-full h-0.5 gold-bg opacity-70"></div>
+</section>`;
+};
+
+// ================================================================
+// SERVICE PARTNERS
+// ================================================================
+const ServicePartnersSection = () => {
+    return `
+<section class="py-12 md:py-16 bg-white border-t border-b border-slate-100">
+    <div class="max-w-6xl mx-auto px-5 md:px-12 text-center">
+        <p data-scroll="fade-down" class="text-[9px] font-bold uppercase tracking-ultra text-blue-500 mb-2">Service Partners</p>
+        <h3 data-scroll="fade-up" data-delay="100" class="font-heading font-bold text-xl md:text-2xl text-lux-900 mb-8">Trusted Partners for Vehicle Care</h3>
+        <div class="flex items-center justify-center gap-5 md:gap-10 flex-wrap">
+            <div data-scroll="scale-up" data-delay="100" class="flex flex-col items-center gap-3 p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all bg-slate-50" style="min-width:130px;">
+                <img src="https://www.sterling.lk/wp-content/uploads/2024/01/logo-14.png" alt="Sterling" class="h-12 w-auto object-contain">
+                <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400">Sterling Auto</p>
+                <p class="text-[8px] text-slate-400 text-center">Warranty &amp; Servicing</p>
+            </div>
+            <div data-scroll="scale-up" data-delay="200" class="flex flex-col items-center gap-3 p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all bg-slate-50" style="min-width:130px;">
+                <img src="https://i.ibb.co/8gGMjL87/Kobe.png" alt="KOBE Auto" class="h-12 w-auto object-contain">
+                <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400">KOBE Auto</p>
+                <p class="text-[8px] text-slate-400 text-center">Quality Certification</p>
+            </div>
+            <div data-scroll="scale-up" data-delay="300" class="flex flex-col items-center gap-3 p-6 rounded-2xl border border-amber-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all" style="min-width:130px;background:linear-gradient(135deg,#fffbeb,#fef3c7);">
+                <img src="https://i.ibb.co/VcB9rJBX/pngfind-com-japan-png-366.png" alt="Japan Import" class="h-12 w-auto object-contain">
+                <p class="text-[9px] font-bold uppercase tracking-wider text-amber-700">Japan Auctions</p>
+                <p class="text-[8px] text-amber-600 text-center">Direct Import Source</p>
             </div>
         </div>
     </div>
@@ -999,8 +1344,8 @@ const FinancialPartnersSection = () => {
     <div class="max-w-6xl mx-auto px-5 md:px-12 mb-6">
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
             <div class="flex-shrink-0">
-                <p class="text-[9px] font-bold uppercase tracking-ultra text-blue-500 mb-1">${C.sectionLabel}</p>
-                <h3 class="font-heading font-bold text-xl md:text-2xl text-lux-900">${C.heading}</h3>
+                <p data-scroll="fade-down" class="text-[9px] font-bold uppercase tracking-ultra text-blue-500 mb-1">${C.sectionLabel}</p>
+                <h3 data-scroll="fade-up" data-delay="100" class="font-heading font-bold text-xl md:text-2xl text-lux-900 sinhala">${C.heading}</h3>
             </div>
             <div class="hidden sm:flex items-center gap-3 pl-6 border-l border-slate-200">
                 <div class="w-12 h-12 rounded-full gold-bg flex flex-col items-center justify-center shadow-md flex-shrink-0"><span class="text-lg">🏦</span><span class="text-[7px] font-bold text-amber-900 uppercase">${C.partnersCount}</span></div>
@@ -1009,6 +1354,28 @@ const FinancialPartnersSection = () => {
         </div>
     </div>
     <div class="fin-wrap"><div class="fin-track">${logoItems}${logoItems}</div></div>
+</section>`;
+};
+
+// ================================================================
+// OUR CLIENTS
+// ================================================================
+const OurClientsSection = () => {
+    if(!DB.clientImages.length) return '';
+    return `
+<section class="py-14 md:py-20 bg-slate-50">
+    <div class="max-w-6xl mx-auto px-5 md:px-12">
+        <div class="text-center mb-10">
+            <span data-scroll="fade-down" class="text-blue-500 font-bold text-[9px] uppercase tracking-ultra mb-2 block">Happy Customers</span>
+            <h2 data-scroll="fade-up" data-delay="100" class="font-heading font-bold text-lux-900" style="font-size:clamp(1.6rem,6vw,2.8rem);">Our Clients</h2>
+        </div>
+        <div class="columns-2 md:columns-3 lg:columns-4 gap-3 md:gap-4">
+            ${DB.clientImages.map(img=>`
+            <div class="mb-3 md:mb-4 break-inside-avoid">
+                <img src="${img}" class="w-full rounded-2xl object-cover shadow-sm hover:shadow-md transition-shadow duration-300" loading="lazy" onerror="this.parentElement.style.display='none'">
+            </div>`).join('')}
+        </div>
+    </div>
 </section>`;
 };
 
@@ -1024,18 +1391,16 @@ const WeddingSection = () => {
 <section class="py-16 md:py-24 bg-rose-50 relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none overflow-hidden">${falling}</div>
     <div class="max-w-6xl mx-auto px-5 md:px-12 text-center relative z-10">
-        <span class="text-rose-400 font-bold text-[9px] uppercase tracking-ultra mb-3 block">${C.sectionLabel}</span>
-        <h2 class="font-heading font-black text-rose-900 mb-5 leading-tight" style="font-size:clamp(2.2rem,9vw,4.5rem);">${C.heading1} <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">${C.heading2}</span></h2>
-        <p class="text-slate-600 max-w-xl mx-auto mb-10 text-sm md:text-base leading-relaxed">${C.body}</p>
+        <span data-scroll="fade-down" class="text-rose-400 font-bold text-[9px] uppercase tracking-ultra mb-3 block">${C.sectionLabel}</span>
+        <h2 data-scroll="fade-up" data-delay="100" class="font-heading font-black text-rose-900 mb-5 leading-tight sinhala" style="font-size:clamp(2.2rem,9vw,4.5rem);">${C.heading1} <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500">${C.heading2}</span></h2>
+        <p data-scroll="fade-up" data-delay="200" class="text-slate-600 max-w-xl mx-auto mb-10 text-sm md:text-base leading-relaxed sinhala">${C.body}</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-            ${DB.weddingFleet.map(car=>`
-            <div class="bg-white p-5 rounded-[1.75rem] shadow-xl border border-rose-100 hover:-translate-y-2 transition-transform duration-500">
+            ${DB.weddingFleet.map((car,i)=>`
+            <div data-scroll="scale-up" data-delay="${i*100}" class="bg-white p-4 rounded-[1.75rem] shadow-xl border border-rose-100 hover:-translate-y-2 transition-transform duration-500">
                 <div class="aspect-[4/3] rounded-2xl overflow-hidden mb-4"><img src="${car.image}" class="w-full h-full object-cover"></div>
-                <h3 class="font-heading font-bold text-lg text-rose-900 mb-1">${car.name}</h3>
-                <p class="text-xs text-slate-500 mb-4 leading-relaxed">${car.description}</p>
-                <a href="https://wa.me/${WA}?text=${encodeURIComponent(`💒 Hi Solo So Auto!\n\nI'd like to book the *${car.name}* for my wedding 🌸\n\nPlease share availability & pricing. Thank you!`)}" target="_blank" class="wa-btn flex items-center justify-center gap-2 py-3 text-white font-bold text-[10px] uppercase tracking-widest w-full">
+                <a href="https://wa.me/${WA}?text=${encodeURIComponent(`💒 Hi Solo So!\n\nI'd like to book the *${car.name}* for my wedding 🌸\n\nPlease share availability & pricing. Thank you!`)}" target="_blank" class="wa-btn flex items-center justify-center gap-2 py-3 text-white font-bold text-[10px] uppercase tracking-widest w-full">
                     <svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                    ${C.bookCTA}
+                    <span class="sinhala-sm">${C.bookCTA}</span>
                 </a>
             </div>`).join('')}
         </div>
@@ -1069,7 +1434,7 @@ const FooterSection = () => {
                 <p class="text-white font-semibold text-sm">${C.phone}</p>
                 <p class="text-slate-500 text-[10px] uppercase tracking-widest">${C.location}</p>
                 <p class="text-slate-600 text-[9px] uppercase tracking-widest">${B.addressShort}</p>
-                <a href="https://wa.me/${B.whatsapp}?text=${encodeURIComponent('Hi Solo So Auto! 👋')}" target="_blank" class="mt-2 wa-btn flex items-center gap-1.5 px-4 py-2 text-white font-bold text-[9px] uppercase tracking-wider">
+                <a href="https://wa.me/${B.whatsapp}?text=${encodeURIComponent('Hi Solo So! 👋')}" target="_blank" class="mt-2 wa-btn flex items-center gap-1.5 px-4 py-2 text-white font-bold text-[9px] uppercase tracking-wider">
                     <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                     Message Us
                 </a>
@@ -1132,7 +1497,7 @@ const App = {
         const app = document.getElementById('app');
         let content = '';
         if(page==='home'){
-            content = ShareFlyerScript()+HeroSection()+StatsSection()+CuratorSection()+LegacySection()+FeaturedInventory()+ProcessSection()+ConciergeSection()+NetworkSection()+LocationSection()+FinancialPartnersSection();
+            content = ShareFlyerScript()+HeroSection()+ServicesSection()+StatsSection()+CarsSoldSection()+CertifiedSection()+CuratorSection()+ServicePartnersSection()+LegacySection()+FeaturedInventory()+ProcessSection()+ConciergeSection()+OurClientsSection()+NetworkSection()+LocationSection()+FinancialPartnersSection();
         } else if(page==='stock'){
             content = ShareFlyerScript()+FullInventory()+FinancialPartnersSection()+LocationSection()+NetworkSection();
         } else if(page==='legacy'){
@@ -1149,6 +1514,8 @@ const App = {
             app.innerHTML = processed.html;
             processed.scripts.forEach(s => { const n=document.createElement('script'); n.text=s.innerHTML; document.body.appendChild(n).parentNode.removeChild(n); });
             app.style.opacity = '1';
+            // Initialize scroll animations after content renders
+            runScrollAnimations();
         }, 200);
     }
 };
